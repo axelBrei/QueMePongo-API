@@ -2,6 +2,7 @@ package utn.frba.dds.que_me_pongo.Model;
 
 public class Prenda {
 
+    private String tipo;
     private Integer id;
     private String tipoDeTela;
     private String descripcion;
@@ -15,6 +16,10 @@ public class Prenda {
     }
     public void liberarDeGuardarropa(){
         estado = false;
+    }
+
+    public String getTipo(){
+        return tipo;
     }
 
     public boolean estaOcupado(){

@@ -26,5 +26,9 @@ public class Cliente {
         return  prendasMaestras;
     }
 
+    public List<Prenda> recibirSugerenciaDe(Guardarropa unGuardarropa){
+        return unGuardarropa.sugerirPrendas(this);
+    }
+
 }
 
