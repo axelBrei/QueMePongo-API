@@ -6,6 +6,8 @@ import java.util.List;
 public class Cliente {
     private List<Guardarropa> guardarropas;
 
+    public List<Prenda> prendasMaestras ;
+
     public Cliente() {
         this.guardarropas = new ArrayList<>();
     }
@@ -17,4 +19,12 @@ public class Cliente {
     public void setGuardarropas(List<Guardarropa> guardarropas) {
         this.guardarropas = guardarropas;
     }
+
+  //  public void cargarGuardarropas()
+
+    public List<Prenda> getPrendasMaestras(){
+        return  prendasMaestras;
+    }
+
 }
+

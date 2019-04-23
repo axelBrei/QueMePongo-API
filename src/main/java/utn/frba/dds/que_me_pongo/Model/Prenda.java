@@ -3,11 +3,23 @@ package utn.frba.dds.que_me_pongo.Model;
 public class Prenda {
 
     private Integer id;
-    private TipoDeTela tipoDeTela;
+    private String tipoDeTela;
     private String descripcion;
     private String colorP;
     private String colorS;
     private String parteQueOcupa;
+    private boolean estado = false;
+
+    public void ocuparEnGuardarropa(){
+        estado = true;
+    }
+    public void liberarDeGuardarropa(){
+        estado = false;
+    }
+
+    public boolean estaOcupado(){
+        return estado;
+    }
 
     public Integer getId() {
         return id;
@@ -17,11 +29,11 @@ public class Prenda {
         this.id = id;
     }
 
-    public TipoDeTela getTipoDeTela() {
+    public String getTipoDeTela() {
         return tipoDeTela;
     }
 
-    public void setTipoDeTela(TipoDeTela tipoDeTela) {
+    public void setTipoDeTela(String tipoDeTela) {
         this.tipoDeTela = tipoDeTela;
     }
 
@@ -57,3 +69,5 @@ public class Prenda {
         this.parteQueOcupa = parteQueOcupa;
     }
 }
+
+
