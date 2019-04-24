@@ -15,6 +15,10 @@ public class Guardarropa {
     private List<Prenda> prendas ;
     List<String> prendasAdmitidas = Arrays.asList("Accesorio,PrendaSuperior,PrendaInferior,Calzado");
 
+   public void setDescripcion(String unaDescripcion){
+        descripcion = unaDescripcion;
+    }
+
 
     public Guardarropa() {
         this.prendas = new ArrayList<>();
@@ -47,10 +51,10 @@ public class Guardarropa {
         liberarPrenda( unaPrenda.getTipo());
     }
 
-    void aniadirPrenda(Prenda unaPrenda) throws Exception {
+    public void aniadirPrenda(Prenda unaPrenda) {
             if ( seAdmitePrenda(unaPrenda) )  {
 
-            throw new Exception("Lugar Ocupado, Quitar o ingresar otro tipo de ropa");
+            //throw new Exception("Lugar Ocupado, Quitar o ingresar otro tipo de ropa");
             } else {
                 prendas.add(unaPrenda);
                 unaPrenda.ocuparEnGuardarropa();
