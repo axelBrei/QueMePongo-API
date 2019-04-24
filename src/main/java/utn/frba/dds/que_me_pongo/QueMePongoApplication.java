@@ -2,6 +2,7 @@ package utn.frba.dds.que_me_pongo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonParser;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
@@ -19,6 +20,10 @@ public class QueMePongoApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(QueMePongoApplication.class, args);
+
+        // FUNCION Q PARSEA EL JSON DE PRENDAS Y LO RETORNA
+        PrendasJsonParser.getJsonPrendasJson();
+
         PrendaSuperior remera = new PrendaSuperior();
         remera.setId(1);
         remera.setTipoDeTela("tela");
