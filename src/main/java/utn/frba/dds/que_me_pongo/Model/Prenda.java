@@ -8,23 +8,13 @@ public class Prenda {
     private String descripcion;
     private String colorP;
     private String colorS;
-    private String parteQueOcupa;
-    private boolean estado = false;
-
-    public void ocuparEnGuardarropa(){
-        estado = true;
-    }
-    public void liberarDeGuardarropa(){
-        estado = false;
-    }
+    // EG. Camprera Remera
+    private String tipoDePrenda;
 
     public String getTipo(){
         return tipo;
     }
 
-    public boolean estaOcupado(){
-        return estado;
-    }
 
     public Integer getId() {
         return id;
@@ -66,12 +56,12 @@ public class Prenda {
         this.colorS = colorS;
     }
 
-    public String getParteQueOcupa() {
-        return parteQueOcupa;
+    public String getTipoDePrenda() {
+        return tipoDePrenda;
     }
 
-    public void setParteQueOcupa(String parteQueOcupa) {
-        this.parteQueOcupa = parteQueOcupa;
+    public void setTipoDePrenda(String tipoDePrenda) {
+        this.tipoDePrenda = tipoDePrenda;
     }
 }
 

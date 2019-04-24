@@ -13,7 +13,6 @@ public class Guardarropa {
     private String descripcion;
     private int id;
     private List<Prenda> prendas ;
-    List<String> prendasAdmitidas = Arrays.asList("Accesorio,PrendaSuperior,PrendaInferior,Calzado");
 
    public void setDescripcion(String unaDescripcion){
         descripcion = unaDescripcion;
@@ -32,39 +31,18 @@ public class Guardarropa {
         this.prendas = prendas;
     }
 
-    boolean seAdmitePrenda(Prenda unaPrenda){
-        return( prendasAdmitidas.contains(  unaPrenda.getTipo() ));
-    }
-
-    public void ocuparPrenda(String unaCategoria){
-        prendasAdmitidas.remove(unaCategoria);
-    }
-
-    public void liberarPrenda(String unaCategoria){
-        prendasAdmitidas.add( unaCategoria);
-    }
-
     void eliminarPrenda(Prenda unaPrenda){
-
         prendas.remove(unaPrenda);
-        unaPrenda.liberarDeGuardarropa();
-        liberarPrenda( unaPrenda.getTipo());
     }
 
     public void aniadirPrenda(Prenda unaPrenda) {
-            if ( seAdmitePrenda(unaPrenda) )  {
-
-            //throw new Exception("Lugar Ocupado, Quitar o ingresar otro tipo de ropa");
-            } else {
-                prendas.add(unaPrenda);
-                unaPrenda.ocuparEnGuardarropa();
-                ocuparPrenda( unaPrenda.getTipo());
-            }
-
+            prendas.add(unaPrenda);
     }
 
-    List<Prenda> sugerirPrendas(Cliente unCliente){
-    return unCliente.getPrendasMaestras().stream().filter(prenda -> this.seAdmitePrenda(prenda) && !prenda.estaOcupado()).collect(Collectors.toList());
-    }
+    public Atuendo generarAtuendo(){
 
+       //ALGORITMO PARA GENERAR ATUENDO;
+        Atuendo atuendo = new Atuendo();
+        return atuendo;
+    }
 }

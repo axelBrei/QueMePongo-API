@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Cliente {
     private List<Guardarropa> guardarropas;
-    public List<Prenda> prendasMaestras ;
 
     public Cliente() {
         this.guardarropas = new ArrayList<>();
@@ -21,24 +20,12 @@ public class Cliente {
         this.guardarropas = guardarropas;
     }
 
-
-    public List<Prenda> getPrendasMaestras(){
-        return  prendasMaestras;
-    };
-
     public void addGuardarropa(Guardarropa g){
         guardarropas.add(g);
     }
 
-    // FUNCIONALIDAD PARA AGREGAR VARIAS PRENDAS DE UNA
-    //    public void setPrendasMaestras( Prenda unaPrenda) { prendasMaestras.add(unaPrenda); }
-
-    public List<Prenda> recibirSugerenciaDe(Guardarropa unGuardarropa){
-        return unGuardarropa.sugerirPrendas(this);
+    public void anadirPrendaAlGuardarropa(Prenda prenda, Guardarropa guardarropa){
+        guardarropas.get(guardarropas.indexOf(guardarropa)).aniadirPrenda(prenda);
     }
-
-
-
-
 }
 
