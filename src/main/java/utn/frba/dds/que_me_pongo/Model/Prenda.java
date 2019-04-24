@@ -2,14 +2,27 @@ package utn.frba.dds.que_me_pongo.Model;
 
 public class Prenda {
 
-    private String tipo;
+    private String tipo = "";
     private Integer id;
-    private String tipoDeTela;
-    private String descripcion;
-    private String colorP;
-    private String colorS;
+    private String tipoDeTela = "";
+    private String descripcion = "";
+    private String colorP = "";
+    private String colorS = "";
     // EG. Camprera Remera
-    private String tipoDePrenda;
+    private String tipoDePrenda = "";
+
+    public Prenda(String tipo, Integer id, String tipoDeTela, String descripcion, String colorP, String colorS, String tipoDePrenda) {
+        this.tipo = tipo != null ? tipo : "";
+        this.id = id;
+        this.tipoDeTela = tipoDeTela != null ? tipoDeTela : "";
+        this.descripcion = descripcion != null ? descripcion : "";
+        this.colorP = colorP != null ? colorP : "";
+        this.colorS = colorS != null ? colorS : "";
+        this.tipoDePrenda = tipoDePrenda != null ? tipoDePrenda: "";
+    }
+
+    public Prenda() {
+    }
 
     public String getTipo(){
         return tipo;
