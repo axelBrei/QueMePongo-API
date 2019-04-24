@@ -47,20 +47,20 @@ public class Guardarropa {
         liberarPrenda( unaPrenda.getTipo());
     }
 
-    void aniadirPrenda(Prenda unaPrenda){
-            try {
-                seAdmitePrenda(unaPrenda);
+    void aniadirPrenda(Prenda unaPrenda) throws Exception {
+            if ( seAdmitePrenda(unaPrenda) )  {
 
-            } catch (Exception e) {
-               System.out.println("Lugar Ocupado, Quitar o ingresar otro tipo de ropa");
+            throw new Exception("Lugar Ocupado, Quitar o ingresar otro tipo de ropa");
+            } else {
+                prendas.add(unaPrenda);
+                unaPrenda.ocuparEnGuardarropa();
+                ocuparPrenda( unaPrenda.getTipo());
             }
-            prendas.add(unaPrenda);
-            unaPrenda.ocuparEnGuardarropa();
-            ocuparPrenda( unaPrenda.getTipo());
+
     }
 
     List<Prenda> sugerirPrendas(Cliente unCliente){
-    return unCliente.getPrendasMaestras().stream().filter(prenda -> this.seAdmitePrenda(prenda) ).collect(Collectors.toList());
+    return unCliente.getPrendasMaestras().stream().filter(prenda -> this.seAdmitePrenda(prenda) && !prenda.estaOcupado()).collect(Collectors.toList());
     }
 
 }
