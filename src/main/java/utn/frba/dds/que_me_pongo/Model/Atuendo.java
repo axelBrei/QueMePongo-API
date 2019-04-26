@@ -15,6 +15,9 @@ public class Atuendo {
     public void anadirPrenda(Prenda p){
         prendas.add(p);
     }
+    public void anadirPrendas(List<Prenda> p){
+        prendas.addAll(p);
+    }
 
     public void eliminarPrenda(Prenda p){
         prendas.remove(p);

@@ -1,7 +1,9 @@
 package utn.frba.dds.que_me_pongo.Model;
 
 import ch.qos.logback.core.net.server.Client;
+import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonParser;
 import utn.frba.dds.que_me_pongo.QueMePongoApplication;
+import utn.frba.dds.que_me_pongo.Responses.ResponseObjects.PrendaResponseObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,37 +14,90 @@ public class Guardarropa {
 
     private String descripcion;
     private int id;
-    private List<Prenda> prendas ;
+    private List<Prenda> prendas = new ArrayList<Prenda>();
 
-   public void setDescripcion(String unaDescripcion){
-        descripcion = unaDescripcion;
+   public Guardarropa(String unaDescripcion){
+        this.descripcion = unaDescripcion;
+
     }
-
-
-    public Guardarropa() {
-        this.prendas = new ArrayList<>();
-    }
+    public void setId(int id){this.id = id;}
 
     public List<Prenda> getPrendas() {
-        return prendas;
+        return this.prendas;
     }
 
     public void setPrendas(List<Prenda> prendas) {
         this.prendas = prendas;
     }
 
-    void eliminarPrenda(Prenda unaPrenda){
-        prendas.remove(unaPrenda);
+    public void eliminarPrenda(Prenda unaPrenda){
+        this.prendas.remove(unaPrenda);
     }
+    public String getDescripcion(){return this.descripcion;}
+    public int getId(){return this.id;}
+    public String getDesc(){return this.descripcion;}
 
     public void aniadirPrenda(Prenda unaPrenda) {
-            prendas.add(unaPrenda);
+            this.prendas.add(unaPrenda);
+    }
+    public void aniadirPrendas(List<Prenda> prendas) {
+        this.prendas.addAll(prendas);
     }
 
-    public Atuendo generarAtuendo(){
+    public List<Atuendo> allAtuendos(){
+       String clas = "utn.frba.dds.que_me_pongo.Model.TiposPrenda.";
+        //List<Prenda> prendas = PrendasJsonParser.getJsonPrendasJson();
+       List<Prenda> superiores = (List<Prenda>) prendas.stream().filter(p -> p.getClass().getName().equals(clas+"PrendaSuperior")).collect(Collectors.toList());
+        List<Prenda> inferior = (List<Prenda>) prendas.stream().filter(p -> p.getClass().getName().equals(clas+"PrendaInferior")).collect(Collectors.toList());
+        List<Prenda> calzado = (List<Prenda>) prendas.stream().filter(p -> p.getClass().getName().equals(clas+"Calzado")).collect(Collectors.toList());
+        List<Prenda> accesorios = (List<Prenda>) prendas.stream().filter(p -> p.getClass().getName().equals(clas+"Accesorios")).collect(Collectors.toList());
 
-       //ALGORITMO PARA GENERAR ATUENDO;
-        Atuendo atuendo = new Atuendo();
-        return atuendo;
+
+        List<Atuendo> atuendoList = new ArrayList<>();
+
+        for (Prenda s: superiores){
+            for (Prenda i: inferior) {
+                for (Prenda c: calzado ) {
+                    List<Prenda> prendasAtuendo = new ArrayList<>();
+                    prendasAtuendo.add(s);
+                    prendasAtuendo.add(i);
+                    prendasAtuendo.add(c);
+                    atuendoList.add(new Atuendo(prendasAtuendo));
+                }
+            }
+        }
+
+        List<Atuendo> atuendoListConAcc = new ArrayList<>();
+        for (Atuendo atuendo: atuendoList) {
+            for (Prenda a: accesorios) {
+                List<Prenda> prendasAtuendo = new ArrayList<>();
+                prendasAtuendo.addAll(atuendo.getPrendas());
+                prendasAtuendo.add(a);
+                atuendoListConAcc.add(new Atuendo(prendasAtuendo));
+            }
+        }
+
+
+        List<Atuendo> todos = new ArrayList<Atuendo>(atuendoList);
+        todos.addAll(atuendoListConAcc);
+        return todos;
+    }
+
+    public  void addPrenda(Prenda prenda){
+        prendas.add(prenda);
+    }
+
+
+    public  void  deletePrenda(int idPrenda){
+        int index=-1;
+        for (Prenda p: prendas) {
+            if (p.getId() == idPrenda) {
+                index =  prendas.indexOf(p);
+                break;
+            }
+        }
+        if(index!=-1)
+            prendas.remove(index);
+
     }
 }

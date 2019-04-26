@@ -62,7 +62,7 @@ public class PrendasJsonParser implements JsonDeserializer<PrendasContainer>{
         }
         return null;
     }
-
+/*
     public static List<Prenda> sendJsonPrenda(String prendas)  {
         try{
             File file = new File("src/main/resources/data.json");
@@ -89,5 +89,31 @@ public class PrendasJsonParser implements JsonDeserializer<PrendasContainer>{
         }
         return null;
     }
+*/
+    public static Prenda JsonPrendaObject(String prenda)  {
+
+         Gson gson = new GsonBuilder().registerTypeAdapter(PrendasContainer.class, new PrendasJsonParser()).create();
+            PrendasContainer nuevasPrendasContainer = gson.fromJson(prenda, PrendasContainer.class);
+
+
+
+            List<Prenda> p = nuevasPrendasContainer.getPrendaslist();
+            return  p.get(0);
+
+    }
+
+
+
+    public static List<Prenda> JsonArrayPrendaListObject(String prendas)  {
+
+        Gson gson = new GsonBuilder().registerTypeAdapter(PrendasContainer.class, new PrendasJsonParser()).create();
+        PrendasContainer nuevasPrendasContainer = gson.fromJson(prendas, PrendasContainer.class);
+
+
+        return nuevasPrendasContainer.getPrendaslist();
+
+    }
+
+
 
 }

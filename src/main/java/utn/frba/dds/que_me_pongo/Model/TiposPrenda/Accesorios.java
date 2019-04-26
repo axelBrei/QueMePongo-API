@@ -11,4 +11,6 @@ public class Accesorios extends Prenda {
     public Accesorios(String tipo, Integer id, String tipoDeTela, String descripcion, String colorP, String colorS, String tipoDePrenda) {
         super(tipo, id, tipoDeTela, descripcion, colorP, colorS, tipoDePrenda);
     }
+
+
 }

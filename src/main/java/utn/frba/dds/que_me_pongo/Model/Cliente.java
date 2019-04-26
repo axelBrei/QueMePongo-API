@@ -1,19 +1,33 @@
 package utn.frba.dds.que_me_pongo.Model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.GuardarropasContainer;
+import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonParser;
 import utn.frba.dds.que_me_pongo.Model.TiposPrenda.PrendaSuperior;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Cliente {
-    private List<Guardarropa> guardarropas;
+    private String userName;
+    private String nombre;
 
-    public Cliente() {
-        this.guardarropas = new ArrayList<>();
+
+    private List<Guardarropa> guardarropas = new ArrayList<Guardarropa>();
+
+    public Cliente(String userName, String nombre)  {
+        this.nombre=nombre;
+        this.userName=userName;
+
+
     }
 
+
+
     public List<Guardarropa> getGuardarropas() {
-        return guardarropas;
+        return this.guardarropas;
     }
 
     public void setGuardarropas(List<Guardarropa> guardarropas) {
@@ -21,11 +35,57 @@ public class Cliente {
     }
 
     public void addGuardarropa(Guardarropa g){
-        guardarropas.add(g);
+        this.guardarropas.add(g);
     }
 
-    public void anadirPrendaAlGuardarropa(Prenda prenda, Guardarropa guardarropa){
-        guardarropas.get(guardarropas.indexOf(guardarropa)).aniadirPrenda(prenda);
+    public void anadirPrendaAlGuardarropa(Prenda prenda, int id){
+        for (Guardarropa g: guardarropas) {
+            if (g.getId() == id) {
+                prenda.setId((int)(Math.random()*999 )+1);
+                g.addPrenda(prenda);
+                break;
+            }
+        }
     }
+
+    public Guardarropa getGuardarropa(int id){
+
+        for (Guardarropa g: guardarropas) {
+            if (g.getId() == id) {
+                return g;
+            }
+        }
+
+        return null;
+    }
+
+    public void deleteGuardarropa(int id){
+        int index=-1;
+        for (Guardarropa g: guardarropas) {
+            if (g.getId() == id) {
+                index =  guardarropas.indexOf(g);
+                break;
+            }
+        }
+        if(index!=-1)
+            guardarropas.remove(index);
+
+    }
+
+    public void deletePrendaDelGuardarropa(int idPrenda,int id){
+        for (Guardarropa g: guardarropas) {
+            if (g.getId() == id) {
+                g.deletePrenda(idPrenda);
+
+            }
+        }
+    }
+
+    public String getUser(){return this.userName;}
+    public String getName(){return this.nombre;}
+
+
+
+
 }
 
