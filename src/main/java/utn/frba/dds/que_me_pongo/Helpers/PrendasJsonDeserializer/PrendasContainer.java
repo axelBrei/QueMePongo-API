@@ -22,4 +22,8 @@ public class PrendasContainer {
     public void setPrendaslist(List<Prenda> prendaslist) {
         this.prendaslist = prendaslist;
     }
+    public void addPrendaslist(List<Prenda> prendaslist) {
+        this.prendaslist.addAll(prendaslist);
+    }
+
 }

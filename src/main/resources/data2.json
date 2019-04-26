@@ -1,0 +1,68 @@
+{
+    "prendas":[
+        {
+            "id":1,
+            "tipoDeTela": "Algodon",
+            "descripcion": "Remera de manga corta",
+            "colorP":"Verde",
+            "colorS":"Rojo",
+            "parteQueOcupa":"PrendaSuperior"
+        },
+        {
+            "id":2,
+            "tipoDeTela": "Cuero",
+            "descripcion":"Campera",
+            "colorP":"Negro",
+            "colorS":"",
+            "parteQueOcupa":"PrendaSuperior"
+        },
+        {
+            "id":3,
+            "tipoDeTela": "Jean",
+            "descripcion":"Pantalón",
+            "colorP":"Azul",
+            "colorS":"",
+            "parteQueOcupa":"PrendaInferior"
+        },
+        {
+            "id":4,
+            "tipoDeTela": "Gamuza",
+            "descripcion":"Zapatilla",
+            "colorP":"Negro",
+            "colorS":"Blanco",
+            "parteQueOcupa":"Calzado"
+        },
+        {
+            "id":5,
+            "tipoDeTela": "",
+            "descripcion":"Collar",
+            "colorP":"Dorado",
+            "colorS":"",
+            "parteQueOcupa":"Accesorios"
+        },
+        {
+            "id":6,
+            "tipoDeTela": "Algodón",
+            "descripcion":"Bufanda",
+            "colorP":"Celeste",
+            "colorS":"",
+            "parteQueOcupa":"Accesorios"
+        },
+        {
+            "id":7,
+            "tipoDeTela": "Cuero",
+            "descripcion":"Zapato",
+            "colorP":"Negro",
+            "colorS":"",
+            "parteQueOcupa":"Calzado"
+        },
+        {
+            "id":8,
+            "tipoDeTela": "Algodón",
+            "descripcion":"Chomba",
+            "colorP":"Azul",
+            "colorS":"",
+            "parteQueOcupa":"PrendaSuperior"
+        }
+    ]
+}

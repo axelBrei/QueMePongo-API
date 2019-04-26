@@ -12,9 +12,11 @@ import com.google.gson.JsonParseException;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.reflect.TypeToken;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.PrendasContainer;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.SinglePrendaDeserializer;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
@@ -60,4 +62,32 @@ public class PrendasJsonParser implements JsonDeserializer<PrendasContainer>{
         }
         return null;
     }
+
+    public static List<Prenda> sendJsonPrenda(String prendas)  {
+        try{
+            File file = new File("src/main/resources/data.json");
+            InputStream stream = new FileInputStream(file);
+
+            int size = stream.available();
+            byte[] buffer = new byte[size];
+            stream.read(buffer);
+            Gson gson = new GsonBuilder().registerTypeAdapter(PrendasContainer.class, new PrendasJsonParser()).create();
+            String json = new String(buffer);
+            PrendasContainer prendasContainer = gson.fromJson(json, PrendasContainer.class);
+            PrendasContainer nuevasPrendasContainer = gson.fromJson(prendas, PrendasContainer.class);
+            stream.close();
+            prendasContainer.addPrendaslist(nuevasPrendasContainer.getPrendaslist());
+
+
+
+            return prendasContainer.getPrendaslist();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
