@@ -1,5 +1,7 @@
 package utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer;
 
+import org.springframework.http.HttpStatus;
+import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 
@@ -24,15 +26,12 @@ public class ClienteContainer {
 
 
 
-    public GuardarropasContainer getGuardarropa(int id){
-
-        for (GuardarropasContainer g: guardarropas) {
-            if (g.getId() == id) {
-                return g;
-            }
-        }
-
-        return null;
+    public GuardarropasContainer getGuardarropa(int id) throws GuardarropaNotFoundException {
+        return guardarropas
+                .stream()
+                .filter( guardarropasContainer -> guardarropasContainer.getId() == id)
+                .findFirst()
+                .orElseThrow( () -> new GuardarropaNotFoundException(HttpStatus.NOT_FOUND,id));
     }
 
     public String getUserName(){return  this.userName;}

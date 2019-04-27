@@ -2,6 +2,7 @@ package utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonParser;
@@ -31,16 +32,10 @@ public class GuardarropasContainer {
 
 
     public List<Prenda> getPrendas(){
-        GetPrendasResponse response = new GetPrendasResponse();
-        for (PrendaResponseObject p :prendas) {
-            response.addPrenda(p);
-        }
-
-        ResponseEntity res = new ResponseEntity<>(response, HttpStatus.OK);
-        Gson gson = new GsonBuilder().registerTypeAdapter(res.getBody().getClass(), new PrendasJsonParser()).create();
-        String json = gson.toJson(res.getBody());
-        List<Prenda> prendas = PrendasJsonParser.JsonArrayPrendaListObject(json);
-        return prendas;
+        Gson gson = new GsonBuilder().registerTypeAdapter(Prenda.class, new PrendasJsonParser()).create();
+        String json = "{prendas: " + gson.toJson(prendas) + "}";
+        List<Prenda> prendasRet = PrendasJsonParser.JsonArrayPrendaListObject(json);
+        return prendasRet;
     }
     public int getId(){return this.id;}
     public String getDesc(){return this.descripcion;}

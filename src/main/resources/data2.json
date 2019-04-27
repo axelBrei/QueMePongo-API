@@ -1,12 +1,12 @@
 {
-    "prendas":[
+    "s":[
         {
             "id":1,
             "tipoDeTela": "Algodon",
             "descripcion": "Remera de manga corta",
             "colorP":"Verde",
             "colorS":"Rojo",
-            "parteQueOcupa":"PrendaSuperior"
+            "parteQueOcupa":"Superior"
         },
         {
             "id":2,
@@ -14,7 +14,7 @@
             "descripcion":"Campera",
             "colorP":"Negro",
             "colorS":"",
-            "parteQueOcupa":"PrendaSuperior"
+            "parteQueOcupa":"Superior"
         },
         {
             "id":3,
@@ -22,7 +22,7 @@
             "descripcion":"Pantalón",
             "colorP":"Azul",
             "colorS":"",
-            "parteQueOcupa":"PrendaInferior"
+            "parteQueOcupa":"Inferior"
         },
         {
             "id":4,
@@ -62,7 +62,7 @@
             "descripcion":"Chomba",
             "colorP":"Azul",
             "colorS":"",
-            "parteQueOcupa":"PrendaSuperior"
+            "parteQueOcupa":"Superior"
         }
     ]
 }

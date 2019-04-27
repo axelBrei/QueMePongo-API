@@ -2,8 +2,12 @@ package utn.frba.dds.que_me_pongo.Model;
 
 
 
+import org.springframework.http.HttpStatus;
+import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Cliente {
     private String userName;
@@ -33,47 +37,35 @@ public class Cliente {
         this.guardarropas.add(g);
     }
 
-    public void anadirPrendaAlGuardarropa(Prenda prenda, int id){
-        for (Guardarropa g: guardarropas) {
-            if (g.getId() == id) {
-                prenda.setId((int)(Math.random()*999 )+1);
-                g.addPrenda(prenda);
-                break;
-            }
-        }
+    public void anadirPrendaAlGuardarropa(Prenda prenda, int id) throws GuardarropaNotFoundException {
+        Optional<Guardarropa> guardarropaOptional = guardarropas.stream().filter( guardarropa -> guardarropa.getId() == id).findFirst();
+        Guardarropa g = guardarropaOptional.orElseThrow( () ->
+                new GuardarropaNotFoundException(HttpStatus.NOT_FOUND,id)
+        );
+        g.addPrenda(prenda);
     }
 
-    public Guardarropa getGuardarropa(int id){
-
-        for (Guardarropa g: guardarropas) {
-            if (g.getId() == id) {
-                return g;
-            }
-        }
-
-        return null;
+    public Guardarropa getGuardarropa(int id) throws GuardarropaNotFoundException {
+        Optional<Guardarropa> guardarropaOptional = guardarropas.stream().filter( guardarropa -> guardarropa.getId() == id).findFirst();
+        return guardarropaOptional.orElseThrow( () ->
+            new GuardarropaNotFoundException(HttpStatus.NOT_FOUND,id)
+        );
     }
 
-    public void deleteGuardarropa(int id){
-        int index=-1;
-        for (Guardarropa g: guardarropas) {
-            if (g.getId() == id) {
-                index =  guardarropas.indexOf(g);
-                break;
-            }
-        }
-        if(index!=-1)
-            guardarropas.remove(index);
-
+    public void deleteGuardarropa(int id) throws GuardarropaNotFoundException {
+        Optional<Guardarropa> guardarropaOptional = guardarropas.stream().filter( guardarropa -> guardarropa.getId() == id).findFirst();
+        Guardarropa g = guardarropaOptional.orElseThrow( () ->
+                new GuardarropaNotFoundException(HttpStatus.NOT_FOUND,id)
+        );
+        guardarropas.remove(g);
     }
 
-    public void deletePrendaDelGuardarropa(int idPrenda,int id){
-        for (Guardarropa g: guardarropas) {
-            if (g.getId() == id) {
-                g.deletePrenda(idPrenda);
-
-            }
-        }
+    public void deletePrendaDelGuardarropa(int idPrenda,int id) throws GuardarropaNotFoundException {
+        Optional<Guardarropa> guardarropaOptional = guardarropas.stream().filter(guardarropa -> guardarropa.getId() == id).findFirst();
+        Guardarropa g = guardarropaOptional.orElseThrow( () ->
+                new GuardarropaNotFoundException(HttpStatus.NOT_FOUND,id)
+        );
+        g.deletePrenda(idPrenda);
     }
 
     public String getUser(){return this.userName;}

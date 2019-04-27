@@ -17,7 +17,6 @@ public class ClienteJsonParser {
         stream.read(buffer);
         String json = new String(buffer);
         Gson gson = new Gson();
-        System.out.println(json);
         return gson.fromJson(json,ClienteContainer.class);
     }
 
