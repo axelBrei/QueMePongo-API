@@ -1,12 +1,7 @@
 package utn.frba.dds.que_me_pongo.Model;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.GuardarropasContainer;
-import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonParser;
-import utn.frba.dds.que_me_pongo.Model.TiposPrenda.PrendaSuperior;
 
-import java.io.*;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,12 +1,6 @@
 package utn.frba.dds.que_me_pongo.Model;
 
-import ch.qos.logback.core.net.server.Client;
-import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonParser;
-import utn.frba.dds.que_me_pongo.QueMePongoApplication;
-import utn.frba.dds.que_me_pongo.Responses.ResponseObjects.PrendaResponseObject;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -2,8 +2,6 @@ package utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer;
 
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
-import utn.frba.dds.que_me_pongo.Model.Prenda;
-import utn.frba.dds.que_me_pongo.Responses.ResponseObjects.PrendaResponseObject;
 
 import java.util.ArrayList;
 import java.util.List;

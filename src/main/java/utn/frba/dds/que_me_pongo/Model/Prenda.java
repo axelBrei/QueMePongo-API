@@ -1,5 +1,9 @@
 package utn.frba.dds.que_me_pongo.Model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import utn.frba.dds.que_me_pongo.Helpers.Deserializer.PrendaRequestDeserializer;
+
+@JsonDeserialize( using = PrendaRequestDeserializer.class)
 public class Prenda {
 
     private String tipo = "";

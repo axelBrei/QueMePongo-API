@@ -9,10 +9,8 @@ import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Accesorios;
 import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Calzado;
-import utn.frba.dds.que_me_pongo.Model.TiposPrenda.PrendaInferior;
-import utn.frba.dds.que_me_pongo.Model.TiposPrenda.PrendaSuperior;
-
-import java.util.List;
+import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Inferior;
+import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Superior;
 
 @SpringBootApplication
 public class QueMePongoApplication {

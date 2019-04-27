@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonParser;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
-import utn.frba.dds.que_me_pongo.Responses.GetPrendasResponse;
-import utn.frba.dds.que_me_pongo.Responses.ResponseObjects.PrendaResponseObject;
+import utn.frba.dds.que_me_pongo.WebServices.Responses.GetPrendasResponse;
+import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.PrendaResponseObject;
 
 import java.util.ArrayList;
 import java.util.List;

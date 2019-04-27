@@ -1,31 +1,26 @@
 package utn.frba.dds.que_me_pongo.Controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.ClienteContainer;
-import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.PrendasContainer;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonParser;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
-import utn.frba.dds.que_me_pongo.Responses.GetPrendasResponse;
-import utn.frba.dds.que_me_pongo.Responses.ResponseObjects.PrendaResponseObject;
+import utn.frba.dds.que_me_pongo.WebServices.Request.NuevaPrendaRequest;
+import utn.frba.dds.que_me_pongo.WebServices.Responses.GetPrendasResponse;
+import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.PrendaResponseObject;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/prendas")
 public class PrendasController {
 
+    private List<Prenda> prendas = PrendasJsonParser.getJsonPrendasJson();
 
     // TODO: crear metodo que devuela las prendas desde un JSOn
     @RequestMapping(value = "getPrendas", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
@@ -63,19 +58,17 @@ public class PrendasController {
     }
 
     @RequestMapping(value = "addPrenda" ,  method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity addPrendaToGuardarropa(@RequestParam("userName") String userName,@RequestParam("idGuardarropa") int id,@RequestBody String prenda) throws IOException {
+    public ResponseEntity addPrendaToGuardarropa(@RequestBody NuevaPrendaRequest request) throws IOException {
 
-        ClienteContainer clienteC = ClienteJsonParser.getCliente(userName);
+        ClienteContainer clienteC = ClienteJsonParser.getCliente(request.getUsername());
         Cliente cliente = clienteC.getCliente();
 
-        Prenda prendaNueva = PrendasJsonParser.JsonPrendaObject(prenda);
-        cliente.anadirPrendaAlGuardarropa(prendaNueva,id);
+        cliente.anadirPrendaAlGuardarropa(request.getPrenda(), Integer.parseInt(request.getIdGuardarropa()));
         ClienteJsonParser.modifyNew(new ClienteContainer(cliente));
-
-
 
         return new ResponseEntity<>("", HttpStatus.OK);
     }
+
     @RequestMapping(value = "deletePrenda" ,  method = RequestMethod.POST)
     public ResponseEntity deletePrenda(@RequestParam("userName") String userName,@RequestParam("idGuardarropa") int id,@RequestParam("idPrenda") int idPrenda) throws IOException {
 
@@ -89,7 +82,6 @@ public class PrendasController {
 
         return new ResponseEntity<>("", HttpStatus.OK);
     }
-
 
 
 }
