@@ -23,7 +23,7 @@ public class SinglePrendaDeserializer implements JsonDeserializer<Prenda> {
             Prenda prenda = (Prenda) prendaClass.newInstance();
 
             // SE ASIGNAN LOS ATRIBUTOS CORRESPONDIENTES
-            prenda.setId(jsonObject.get("id").getAsInt());
+            if(jsonObject.has("id")) prenda.setId(jsonObject.get("id").getAsInt());
             prenda.setDescripcion(jsonObject.get("descripcion").getAsString());
             prenda.setColorP(jsonObject.get("colorP").getAsString());
             prenda.setColorS(jsonObject.get("colorS").getAsString());

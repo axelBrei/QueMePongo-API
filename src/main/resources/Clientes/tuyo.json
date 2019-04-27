@@ -1,0 +1,69 @@
+{
+  "ui": "gfg356345634653v6",
+  "mail": "asdf@gmail.com",
+  "nombre": "Soy yo",
+  "guardarropas": [
+    {
+      "descripcion": "miPrimero",
+      "id": 0,
+      "prendas": [
+        {
+          "parteQueOcupa": "Superior",
+          "tipo": "",
+          "id": 2,
+          "tipoDeTela": "Algodon",
+          "descripcion": "Remera de manga corta",
+          "colorP": "Verde",
+          "colorS": "Rojo",
+          "tipoDe": ""
+        },
+        {
+          "parteQueOcupa": "Superior",
+          "tipo": "",
+          "id": 237,
+          "tipoDeTela": "Algodon",
+          "descripcion": "Remera de manga corta",
+          "colorP": "turc",
+          "colorS": "Rojo",
+          "tipoDe": ""
+        }
+      ]
+    },
+    {
+      "descripcion": "misegundo",
+      "id": 0,
+      "s": [
+        {
+          "parteQueOcupa": "Superior",
+          "tipo": "",
+          "id": 2,
+          "tipoDeTela": "Algodon",
+          "descripcion": "Remera de manga corta",
+          "colorP": "Verde",
+          "colorS": "Rojo",
+          "tipoDe": ""
+        },
+        {
+          "parteQueOcupa": "Superior",
+          "tipo": "",
+          "id": 2,
+          "tipoDeTela": "Algodon",
+          "descripcion": "Remera de manga corta",
+          "colorP": "Verde",
+          "colorS": "Rojo",
+          "tipoDe": ""
+        },
+        {
+          "parteQueOcupa": "Superior",
+          "tipo": "",
+          "id": 806,
+          "tipoDeTela": "Algodon",
+          "descripcion": "Remera de manga corta",
+          "colorP": "turc",
+          "colorS": "Rojo",
+          "tipoDe": ""
+        }
+      ]
+    }
+  ]
+}

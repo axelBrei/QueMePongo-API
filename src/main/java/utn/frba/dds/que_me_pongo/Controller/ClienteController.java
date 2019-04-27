@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.ClienteContainer;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
-import utn.frba.dds.que_me_pongo.Model.Prenda;
+import utn.frba.dds.que_me_pongo.WebServices.Request.Cliente.NuevoClienteRequestBody;
 
 import java.io.IOException;
 
@@ -15,15 +15,11 @@ import java.io.IOException;
 @RequestMapping("/cliente")
 public class ClienteController {
 
-    /*
-        METODO PARA AL Q SE ACCEDE CON url/login/loginAs
-        TIENE COMO BODY UNA PRENDA, LA CUAL SE ENCARGA SPRING DE TRANSFORMARLA A LA CLASE CORRESPONDIENTE
-        consume un Json y responde un Json y es un HTTP POST
-     */
     @RequestMapping(value = "/nuevo",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity loginAs(@RequestParam("userName") String userName,@RequestParam("name") String name) throws IOException {
-        ClienteContainer cliente = new ClienteContainer(new Cliente(userName,name));
-        ClienteJsonParser.newJsonCliente(cliente);
+    public ResponseEntity registrarCliente(@RequestBody NuevoClienteRequestBody body) throws IOException {
+        Cliente c = new Cliente(body.getUid(), body.getMail(), body.getName());
+        ClienteContainer container = new ClienteContainer(c);
+        ClienteJsonParser.newJsonCliente(container);
         return new ResponseEntity(HttpStatus.OK);
     }
 

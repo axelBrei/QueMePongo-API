@@ -10,20 +10,23 @@ import java.util.List;
 import java.util.Optional;
 
 public class Cliente {
-    private String userName;
-    private String nombre;
+    private String uid;
+    private String mail;
+    private String name;
 
 
-    private List<Guardarropa> guardarropas = new ArrayList<Guardarropa>();
+    private List<Guardarropa> guardarropas = new ArrayList<>();
 
-    public Cliente(String userName, String nombre)  {
-        this.nombre=nombre;
-        this.userName=userName;
-
-
+    public Cliente(String uid, String mail, String name) {
+        this.uid = uid;
+        this.mail = mail;
+        this.name = name;
     }
 
-
+    public Cliente(String mail, String name) {
+        this.mail = mail;
+        this.name = name;
+    }
 
     public List<Guardarropa> getGuardarropas() {
         return this.guardarropas;
@@ -68,11 +71,28 @@ public class Cliente {
         g.deletePrenda(idPrenda);
     }
 
-    public String getUser(){return this.userName;}
-    public String getName(){return this.nombre;}
+    public String getUid() {
+        return uid;
+    }
 
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
+    public String getMail() {
+        return mail;
+    }
 
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
 

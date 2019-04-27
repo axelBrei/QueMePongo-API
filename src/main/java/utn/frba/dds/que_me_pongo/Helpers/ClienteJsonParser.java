@@ -7,9 +7,9 @@ import utn.frba.dds.que_me_pongo.Model.Cliente;
 import java.io.*;
 
 public class ClienteJsonParser {
-    public static ClienteContainer  getCliente(String userName) throws IOException {
+    public static ClienteContainer  getCliente(String userId) throws IOException {
         //Se agrega el cliente en un nuevo json
-        File file = new File("src/main/resources/"+userName+".json");
+        File file = new File("src/main/resources/Clientes/"+userId+".json");
         InputStream stream = new FileInputStream(file);
 
         int size = stream.available();
@@ -22,7 +22,7 @@ public class ClienteJsonParser {
 
     public static void newJsonCliente(ClienteContainer cliente) throws IOException {
         //Se agrega el cliente en un nuevo json
-        FileWriter writeFile = new FileWriter("src/main/resources/"+cliente.getUserName()+".json");
+        FileWriter writeFile = new FileWriter("src/main/resources/Clientes/"+cliente.getUid()+".json");
         Gson gson = new Gson();
         writeFile.write(gson.toJson(cliente));
         writeFile.close();
@@ -30,7 +30,7 @@ public class ClienteJsonParser {
 
     public static void modifyNew(ClienteContainer cliente) throws IOException {
         //Se agrega el cliente en un nuevo json
-        FileWriter writeFile = new FileWriter("src/main/resources/"+cliente.getUserName()+".json");
+        FileWriter writeFile = new FileWriter("src/main/resources/Clientes/"+cliente.getUid()+".json");
         Gson gson = new Gson();
         writeFile.write(gson.toJson(cliente));
         writeFile.close();

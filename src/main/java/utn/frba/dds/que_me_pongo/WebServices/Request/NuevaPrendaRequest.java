@@ -5,7 +5,7 @@ import utn.frba.dds.que_me_pongo.Helpers.Deserializer.PrendaRequestDeserializer;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
 
 public class NuevaPrendaRequest {
-    private String username;
+    private String uid;
     private String idGuardarropa;
 
     @JsonDeserialize(using = PrendaRequestDeserializer.class)
@@ -14,12 +14,12 @@ public class NuevaPrendaRequest {
     public NuevaPrendaRequest() {
     }
 
-    public String getUsername() {
-        return username;
+    public String getUid() {
+        return uid;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getIdGuardarropa() {

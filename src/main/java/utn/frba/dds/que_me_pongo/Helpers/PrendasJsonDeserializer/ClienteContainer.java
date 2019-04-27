@@ -9,15 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteContainer {
-    private String userName;
+    private String uid;
+    private String mail;
     private String nombre;
 
 
     private List<GuardarropasContainer> guardarropas = new ArrayList<GuardarropasContainer>();
 
     public ClienteContainer(Cliente cliente){
-        this.userName=cliente.getUser();
+        this.uid=cliente.getUid();
         this.nombre=cliente.getName();
+        this.mail = cliente.getMail();
         for (Guardarropa g : cliente.getGuardarropas()) {
             guardarropas.add(new GuardarropasContainer(g));
         }
@@ -34,10 +36,8 @@ public class ClienteContainer {
                 .orElseThrow( () -> new GuardarropaNotFoundException(HttpStatus.NOT_FOUND,id));
     }
 
-    public String getUserName(){return  this.userName;}
-
     public Cliente getCliente(){
-        Cliente cliente = new Cliente(this.userName,this.nombre);
+        Cliente cliente = new Cliente(this.uid,this.mail,this.nombre);
         for(GuardarropasContainer g : guardarropas){
             Guardarropa guardarropa = new Guardarropa(g.getDesc());
             guardarropa.setId(g.getId());
@@ -48,4 +48,35 @@ public class ClienteContainer {
         return cliente;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public List<GuardarropasContainer> getGuardarropas() {
+        return guardarropas;
+    }
+
+    public void setGuardarropas(List<GuardarropasContainer> guardarropas) {
+        this.guardarropas = guardarropas;
+    }
 }
