@@ -15,11 +15,11 @@ public class GetPrendasRequest {
         this.uid = uid;
     }
 
-    public Integer getId() {
+    public int getIdGuardarropa() {
         return idGuardarropa;
     }
 
-    public void setId(Integer idGuardarropa) {
+    public void setIdGuardarropa(int idGuardarropa) {
         this.idGuardarropa = idGuardarropa;
     }
 }

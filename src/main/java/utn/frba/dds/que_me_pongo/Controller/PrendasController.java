@@ -27,7 +27,7 @@ public class PrendasController {
     @RequestMapping(value = "getPrendas", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity getPrendasGuardarropas(@RequestBody GetPrendasRequest body) throws IOException {
         Cliente cliente = ClienteJsonParser.getCliente(body.getUid()).getCliente();
-        List<Prenda> prendas = cliente.getGuardarropa(body.getId()).getPrendas();
+        List<Prenda> prendas = cliente.getGuardarropa(body.getIdGuardarropa()).getPrendas();
 
         GetPrendasResponse response = new GetPrendasResponse();
         response.setPrendas(

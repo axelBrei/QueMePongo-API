@@ -8,9 +8,15 @@ import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.ClienteContainer;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
-import utn.frba.dds.que_me_pongo.Model.Prenda;
+import utn.frba.dds.que_me_pongo.WebServices.Request.GetGuardarropaRequest;
+import utn.frba.dds.que_me_pongo.WebServices.Responses.GetCantidadGuardarropasResponse;
+import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.CantidadGuardarropaResponseObject;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/guardaropa")
@@ -37,5 +43,15 @@ public class GuardaropaController {
         ClienteJsonParser.modifyNew(new ClienteContainer(cliente));
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping( value = "getCantidad", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getcantidadDeGuardarropas(@RequestBody HashMap<String,String> body) throws IOException {
+        ClienteContainer container = ClienteJsonParser.getCliente(body.get("uid"));
+        Cliente cliente = container.getCliente();
+        List<CantidadGuardarropaResponseObject> responseList = cliente.getGuardarropas().stream().map(guardarropa ->
+                new CantidadGuardarropaResponseObject(guardarropa.getId(), guardarropa.getDesc())
+        ).collect(Collectors.toList());
+        return new ResponseEntity<GetCantidadGuardarropasResponse>(new GetCantidadGuardarropasResponse(responseList), HttpStatus.OK);
     }
 }
