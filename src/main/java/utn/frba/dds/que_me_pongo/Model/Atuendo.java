@@ -1,5 +1,6 @@
 package utn.frba.dds.que_me_pongo.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Atuendo {
@@ -10,6 +11,7 @@ public class Atuendo {
     }
 
     public Atuendo() {
+        prendas = new ArrayList<>();
     }
 
     public void anadirPrenda(Prenda p){
