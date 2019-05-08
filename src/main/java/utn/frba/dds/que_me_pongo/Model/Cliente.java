@@ -4,6 +4,7 @@ package utn.frba.dds.que_me_pongo.Model;
 
 import org.springframework.http.HttpStatus;
 import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
+import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,12 +64,13 @@ public class Cliente {
         guardarropas.remove(g);
     }
 
-    public void deletePrendaDelGuardarropa(int idPrenda,int id) throws GuardarropaNotFoundException {
+    public void deletePrendaDelGuardarropa(Prenda prenda,int id) throws GuardarropaNotFoundException, PrendaNotFoundException{
         Optional<Guardarropa> guardarropaOptional = guardarropas.stream().filter(guardarropa -> guardarropa.getId() == id).findFirst();
         Guardarropa g = guardarropaOptional.orElseThrow( () ->
                 new GuardarropaNotFoundException(HttpStatus.NOT_FOUND,id)
         );
-        g.deletePrenda(idPrenda);
+        if(!g.deletePrenda(prenda))
+            throw new PrendaNotFoundException(HttpStatus.NOT_FOUND);
     }
 
     public String getUid() {

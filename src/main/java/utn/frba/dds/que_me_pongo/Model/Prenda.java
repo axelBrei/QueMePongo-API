@@ -80,6 +80,12 @@ public class Prenda {
     public void setTipoDePrenda(String tipoDePrenda) {
         this.tipoDePrenda = tipoDePrenda;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Prenda p = (Prenda)obj;
+        return p.getId() != null && this.id.equals(p.getId());
+    }
 }
 
 

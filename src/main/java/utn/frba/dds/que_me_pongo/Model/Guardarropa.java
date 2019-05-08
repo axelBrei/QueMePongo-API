@@ -1,7 +1,13 @@
 package utn.frba.dds.que_me_pongo.Model;
 
+import org.springframework.http.HttpStatus;
+import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
+import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Guardarropa {
@@ -82,16 +88,7 @@ public class Guardarropa {
     }
 
 
-    public  void  deletePrenda(int idPrenda){
-        int index=-1;
-        for (Prenda p: prendas) {
-            if (p.getId() == idPrenda) {
-                index =  prendas.indexOf(p);
-                break;
-            }
-        }
-        if(index!=-1)
-            prendas.remove(index);
-
+    public  boolean  deletePrenda(Prenda prenda){
+       return prendas.remove(prenda);
     }
 }

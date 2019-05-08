@@ -15,7 +15,9 @@ import utn.frba.dds.que_me_pongo.WebServices.Responses.GetPrendasResponse;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.PrendaResponseObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @RestController
@@ -44,11 +46,18 @@ public class PrendasController {
 
         ClienteContainer clienteC = ClienteJsonParser.getCliente(request.getUid());
         Cliente cliente = clienteC.getCliente();
-
+        if(request.getPrenda().getId() == null){
+            Random r = new Random();
+            request.getPrenda().setId( r.nextInt( 1000000 - 1) + 1);
+        }
         cliente.anadirPrendaAlGuardarropa(request.getPrenda(), Integer.parseInt(request.getIdGuardarropa()));
         ClienteJsonParser.modifyNew(new ClienteContainer(cliente));
 
-        return new ResponseEntity<>("Prenda añadida con exito", HttpStatus.OK);
+        HashMap<String, Object> resp = new HashMap<>();
+        resp.put("message", "Se ha añadido la prenda con exito");
+        resp.put("idPrenda", request.getPrenda().getId());
+
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
     @RequestMapping(value = "deletePrenda" ,  method = RequestMethod.POST)
@@ -56,7 +65,7 @@ public class PrendasController {
 
         ClienteContainer clienteC = ClienteJsonParser.getCliente(body.getUid());
         Cliente cliente = clienteC.getCliente();
-        cliente.deletePrendaDelGuardarropa(body.getPrenda().getId(), Integer.parseInt(body.getIdGuardarropa()));
+        cliente.deletePrendaDelGuardarropa(body.getPrenda(), Integer.parseInt(body.getIdGuardarropa()));
 
         ClienteJsonParser.modifyNew(new ClienteContainer(cliente));
 

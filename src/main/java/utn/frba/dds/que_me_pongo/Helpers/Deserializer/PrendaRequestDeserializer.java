@@ -32,7 +32,14 @@ public class PrendaRequestDeserializer extends StdDeserializer<Prenda> {
                     if(node.has(f.getName())) {
                         f.setAccessible(true);
                         JsonNode auxNode = node.get(f.getName());
-                        f.set(p, node.get(f.getName()).isInt() ?  auxNode.asInt(0) : auxNode.asText(""));
+                        if(auxNode.isInt()){
+                            Integer num = auxNode.asInt();
+                            f.set(p, num == 0 ? null : num);
+                        }
+                        if(auxNode.isTextual()){
+                            String val = auxNode.asText();
+                            f.set(p, val);
+                        }
                     }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
