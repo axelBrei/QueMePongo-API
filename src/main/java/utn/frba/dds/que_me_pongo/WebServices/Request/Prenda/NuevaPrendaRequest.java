@@ -1,4 +1,4 @@
-package utn.frba.dds.que_me_pongo.WebServices.Request;
+package utn.frba.dds.que_me_pongo.WebServices.Request.Prenda;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import utn.frba.dds.que_me_pongo.Helpers.Deserializer.PrendaRequestDeserializer;

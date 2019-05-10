@@ -1,4 +1,4 @@
-package utn.frba.dds.que_me_pongo.WebServices.Request;
+package utn.frba.dds.que_me_pongo.WebServices.Request.Guardarropa;
 
 public class GetGuardarropaRequest {
     private String uid;

@@ -8,14 +8,12 @@ import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.ClienteContainer;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
-import utn.frba.dds.que_me_pongo.WebServices.Request.GetGuardarropaRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.GetCantidadGuardarropasResponse;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.CantidadGuardarropaResponseObject;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController

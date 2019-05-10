@@ -9,8 +9,8 @@ import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.ClienteContaine
 import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonParser;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
-import utn.frba.dds.que_me_pongo.WebServices.Request.GetPrendasRequest;
-import utn.frba.dds.que_me_pongo.WebServices.Request.NuevaPrendaRequest;
+import utn.frba.dds.que_me_pongo.WebServices.Request.Guardarropa.GetPrendasRequest;
+import utn.frba.dds.que_me_pongo.WebServices.Request.Prenda.NuevaPrendaRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.GetPrendasResponse;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.PrendaResponseObject;
 
