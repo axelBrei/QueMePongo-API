@@ -14,6 +14,7 @@ import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.CantidadG
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,10 +28,12 @@ public class GuardaropaController {
         Cliente cliente = clienteC.getCliente();
 
         Guardarropa guardarropa = new Guardarropa(desc);
+        Random r = new Random();
+        guardarropa.setId( r.nextInt( 1000000 - 1) + 1 );
         cliente.addGuardarropa(guardarropa);
         ClienteJsonParser.modifyNew(new ClienteContainer(cliente));
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(guardarropa.getId(),HttpStatus.OK);
     }
     @RequestMapping(value = "/delete",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity nuevoGuardarropa(@RequestParam("userName") String userName,@RequestParam("id") int id) throws IOException {

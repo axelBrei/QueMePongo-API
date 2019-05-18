@@ -44,8 +44,11 @@ public class AtuendosRecomendationHelper {
                 .filter(accesoriosFilterCondition())
                 .map(convertirAPrenda())
                 .findFirst();
-        atuendo.anadirPrenda(prenda.orElse(null));
-
+        try {
+            atuendo.anadirPrenda(prenda.orElseThrow( () -> new Exception("Error")));
+        }catch (Exception e){
+            // no me importa el handleo de la excepcion porque lo estoy tirando a proposito para que no se agrege a la lista como null
+        }
         return atuendo;
     }
 
