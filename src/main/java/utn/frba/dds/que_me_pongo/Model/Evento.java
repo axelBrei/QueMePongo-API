@@ -12,11 +12,14 @@ public class Evento {
     private List<Atuendo> sugeridos = new ArrayList<Atuendo>();
     private Atuendo seleccionado;
 
-    public Evento (String nombre,Date fecha, int hora, Ubicacion ubicacion){
+    public Evento (String nombre,Date fecha, Ubicacion ubicacion){
         this.nombre = nombre;
         this.fecha = fecha;
-        this.hora = hora;
         this.ubicacion = ubicacion;
+    }
+
+    public Ubicacion getUbicacion(){
+        return this.ubicacion;
     }
 
     public void obtenerAtuendos(){

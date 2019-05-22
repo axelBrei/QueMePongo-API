@@ -1,13 +1,29 @@
 package utn.frba.dds.que_me_pongo.Model;
 
 public class Ubicacion {
-    private double latitud;
-    private double longitud;
+    private float latitud;
+    private float longitud;
+    private float radio;
 
-    public Ubicacion(double latitud , double longitud){
-        this.latitud= latitud;
-        this.longitud = longitud;
+
+    public Ubicacion(double latitud, double longitud) {
+        this.latitud= (float) latitud;
+        this.longitud = (float)longitud;
+        this.radio = (float)5.0;
     }
 
     public Ubicacion getUbicacion(){return this;}
+
+    public float getLatitud() {
+        return this.latitud;
+    }
+
+    public float getLongitud(){
+        return this.longitud;
+    }
+
+    public  float getRadio(){
+        return  this.radio;
+    }
+
 }
