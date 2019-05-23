@@ -3,7 +3,8 @@ package utn.frba.dds.que_me_pongo.WebServices.ClimaRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import utn.frba.dds.que_me_pongo.Helpers.ClimaJsonDeserializer.ResponseWeather;
+
+import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.ResponseWeather;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.net.URL;
 
 public class RequestOpenWeather {
 
-    private static String urlDay = "https://api.openweathermap.org/data/2.5/weather?";
+    private static String urlDay = "https://api.openweathermap.org/data/2.5/forecast?";
     private static String KEY = "24eeb3e4dd9b09325402534ed3462006";
 
 

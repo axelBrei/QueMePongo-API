@@ -26,6 +26,10 @@ public class Evento {
 
     }
 
+    public Date getDate(){
+        return this.fecha;
+    }
+
     public  void rechazar(Atuendo atuendo){
         sugeridos.remove(atuendo);
     }

@@ -1,4 +1,4 @@
-package utn.frba.dds.que_me_pongo.Helpers.ClimaJsonDeserializer;
+package utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather;
 
 public class Clouds {
     private float all;

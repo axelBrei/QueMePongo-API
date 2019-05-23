@@ -1,9 +1,8 @@
-package utn.frba.dds.que_me_pongo.Helpers.ClimaJsonDeserializer;
+package utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather;
 
 public class Wind {
     private float speed;
     private float deg;
-    private float gust;
 
 
     // Getter Methods
@@ -16,10 +15,6 @@ public class Wind {
         return deg;
     }
 
-    public float getGust() {
-        return gust;
-    }
-
     // Setter Methods
 
     public void setSpeed(float speed) {
@@ -28,9 +23,5 @@ public class Wind {
 
     public void setDeg(float deg) {
         this.deg = deg;
-    }
-
-    public void setGust(float gust) {
-        this.gust = gust;
     }
 }
