@@ -2,10 +2,8 @@ package utn.frba.dds.que_me_pongo.WebServices.ClimaRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-
+import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassDarkSkyWeather.DarkSkyResponse;
 import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.ResponseWeather;
-import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.Sys;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,21 +12,22 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class RequestOpenWeather {
+public class RequestDarkSkyWeather {
 
-    private static String urlDay = "https://api.openweathermap.org/data/2.5/forecast?";
-    private static String KEY = "24eeb3e4dd9b09325402534ed3462006";
+    private static String urlDay = "https://api.darksky.net/forecast/";
+    private static String KEY = "3c5c3769a79e1c7961dda13bd3af9a6f";
 
 
     //weather?lat=35&lon=139&appid=b6907d289e10d714a6e88b30761fae22
-    public static ResponseWeather getWeather(String lat, String lon) {
+    public static DarkSkyResponse getWeather(String lat, String lon) {
         Gson gson= new GsonBuilder().setPrettyPrinting().create();
-        ResponseWeather response = new ResponseWeather();
+        DarkSkyResponse response = new DarkSkyResponse();
 
         try {
 
-            URL url = new URL(urlDay+"lat="+lat+"&lon="+lon+"&appid="+KEY);
-            System.out.println(url);
+            URL url = new URL(urlDay+KEY+"/"+lat+","+lon);
+
+
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -43,15 +42,16 @@ public class RequestOpenWeather {
 
             String output;
             String respuesta = "";
-            
+
             while ((output = br.readLine()) != null) {
                 respuesta+=output;
             }
 
             conn.disconnect();
 
+            //System.out.println(respuesta);
 
-            return gson.fromJson(respuesta.trim() , ResponseWeather.class);
+            return gson.fromJson(respuesta.trim() , DarkSkyResponse.class);
 
         } catch (MalformedURLException e) {
 

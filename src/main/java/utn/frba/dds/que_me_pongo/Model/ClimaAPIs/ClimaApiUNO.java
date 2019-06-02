@@ -1,7 +1,7 @@
 package utn.frba.dds.que_me_pongo.Model.ClimaAPIs;
 
 import com.google.gson.Gson;
-import com.sun.tools.javac.util.List;
+
 import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,9 +35,9 @@ public class ClimaApiUNO implements ClimaService {
         ResponseWeather response = openWeather.getWeather(latitud,longitud);
 
         //response.getClimaList().get(0).getMain().getTemp();
-        getClimaDate(response,evento.getDate());
 
-        return (float) kelvinToC(response.getClimaList().get(0).getMain().getTemp());
+
+        return (float) kelvinToC( getClimaDate(response,evento.getDate()).getMain().getTemp());
     }
 
     private float kelvinToC(float kelvin){
@@ -47,7 +47,10 @@ public class ClimaApiUNO implements ClimaService {
 
     private Clima getClimaDate(ResponseWeather responseWeather, Date date){
 
-        responseWeather.getClimaList().removeIf(w -> Math.abs(w.getDate().getTime()-date.getTime())/1000 > 60*60*1.5 ) ;
+        //responseWeather.getClimaList().forEach(w->System.out.println(w.getDate()));
+
+        responseWeather.getClimaList().removeIf(w -> Math.abs(w.getDate().getTime()-date.getTime()-(60*60*1.5*1000))/1000 > 60*60*1.5 ) ;
+
 
         return responseWeather.getClimaList().get(0);
     }

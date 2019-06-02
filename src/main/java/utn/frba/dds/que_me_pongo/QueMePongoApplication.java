@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonParser;
 import utn.frba.dds.que_me_pongo.Model.*;
+import utn.frba.dds.que_me_pongo.Model.ClimaAPIs.ClimaApiDOS;
 import utn.frba.dds.que_me_pongo.Model.ClimaAPIs.ClimaApiUNO;
 import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Accesorios;
 import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Calzado;
@@ -28,8 +29,8 @@ public class QueMePongoApplication {
         SpringApplication.run(QueMePongoApplication.class, args);
 
         Ubicacion ubicacion = new Ubicacion(-34.603, -58.424);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.US);
-        String fecha = "2019-05-25 08:30:00";
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        String fecha = "2019-06-05 15:10:00";
         Date d = new Date();
         try {
             //return format.parse(this.dt_txt);
@@ -44,6 +45,8 @@ public class QueMePongoApplication {
         ClimaApiUNO uno = new ClimaApiUNO();
         System.out.println(Float.toString(uno.getTemperatura(evento)));
 
+        ClimaApiDOS dos = new ClimaApiDOS();
+        System.out.println(Float.toString(dos.getTemperatura(evento)));
 
 
 

@@ -44,7 +44,7 @@ public class Clima {
 
     public Date getDate() {
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss",Locale.US);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
         try {
             //return format.parse(this.dt_txt);
             Date d = format.parse(this.dt_txt);
