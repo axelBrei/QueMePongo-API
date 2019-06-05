@@ -21,13 +21,19 @@ public class AtuendoController {
     @Autowired
     private AtuendosRecomendationHelper atuendosHelper;
 
-    // TODO: crear metodo que devuela las prendas desde un JSOn
     @RequestMapping(value = "getRecomendadosDesdeGuardaropa", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Atuendo> getPrendas(@RequestBody GetAtuendoRecomendadoRequest body) throws IOException {
 
         ClienteContainer clienteC = new ClienteJsonParser().getCliente(body.getUsername());
         Cliente cliente = clienteC.getCliente();
-        Atuendo atuendo = atuendosHelper.generarAtuendoRecomendado(cliente.getGuardarropa(body.getIdGuardarropa()).getPrendas());
+
+        Atuendo atuendo = atuendosHelper.generarAtuendoRecomendado(
+                cliente.getGuardarropa(body.getIdGuardarropa()).getPrendas(),
+                // COndicion para filtrar prendas
+                (prenda -> {return true;}),
+                //Condicion para filtrar el accesorio
+                (prenda -> {return true;})
+        );
         return new ResponseEntity<>(atuendo, HttpStatus.OK);
     }
 

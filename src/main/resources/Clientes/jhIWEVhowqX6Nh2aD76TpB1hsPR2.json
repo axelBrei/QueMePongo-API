@@ -1,1 +1,97 @@
-{"uid":"jhIWEVhowqX6Nh2aD76TpB1hsPR2","mail":"axel@gmail.com","nombre":"axel","guardarropas":[{"descripcion":"nuevoGuardsrropa","id":0,"prendas":[{"parteQueOcupa":"Superior","tipo":"","id":7,"tipoDeTela":"Algodon","descripcion":"Remera","colorP":"Azul","colorS":"Verde","tipoDePrenda":""},{"parteQueOcupa":"Superior","tipo":"","id":8,"tipoDeTela":"Algodon","descripcion":"Remera 1","colorP":"Verde","colorS":"Azul","tipoDePrenda":""},{"parteQueOcupa":"Inferior","tipo":"","id":919335,"tipoDeTela":"Cuero","descripcion":"Pantalon facu","colorP":"Azul","colorS":"Violeta","tipoDePrenda":""},{"parteQueOcupa":"Superior","tipo":"","id":548457,"tipoDeTela":"Algodon","descripcion":"remera tenis","colorP":"Negro","colorS":"Blanco","tipoDePrenda":""}]},{"descripcion":"nuevoGuardsrropa1","id":1,"prendas":[{"parteQueOcupa":"Calzado","tipo":"","tipoDeTela":"Otro","descripcion":"Zapatos de salir","colorP":"Verde","colorS":"Naranja","tipoDePrenda":""},{"parteQueOcupa":"Calzado","tipo":"","tipoDeTela":"Jean","descripcion":"Calzado para salir","colorP":"Azul","colorS":"Naranja","tipoDePrenda":""}]}]}
+{
+  "uid":"jhIWEVhowqX6Nh2aD76TpB1hsPR2",
+  "mail":"axel@gmail.com",
+  "nombre":"axel",
+  "guardarropas":[
+    {
+      "descripcion":"nuevoGuardsrropa",
+      "id":0,
+      "prendas":[
+        {
+          "parteQueOcupa":"Superior",
+          "tipo":"",
+          "id":7,
+          "tipoDeTela":"Algodon",
+          "descripcion":"Remera",
+          "colorP":"Azul",
+          "colorS":"Verde",
+          "tipoDePrenda":""
+        },
+        {
+          "parteQueOcupa":"Superior",
+          "tipo":"",
+          "id":8,
+          "tipoDeTela":"Algodon",
+          "descripcion":"Remera 1",
+          "colorP":"Verde",
+          "colorS":"Azul",
+          "tipoDePrenda":""
+        },
+        {
+          "parteQueOcupa":"Inferior",
+          "tipo":"",
+          "id":919335,
+          "tipoDeTela":"Cuero",
+          "descripcion":"Pantalon facu",
+          "colorP":"Azul",
+          "colorS":"Violeta",
+          "tipoDePrenda":""
+        },
+        {
+          "parteQueOcupa":"Superior",
+          "tipo":"",
+          "id":548457,
+          "tipoDeTela":"Algodon",
+          "descripcion":"remera tenis",
+          "colorP":"Negro",
+          "colorS":"Blanco",
+          "tipoDePrenda":""
+        },
+        {
+          "parteQueOcupa":"Calzado",
+          "tipo":"",
+          "id":309087,
+          "tipoDeTela":"Jean",
+          "descripcion":"Zapatos de vestir",
+          "colorP":"Azul",
+          "colorS":"Violeta",
+          "tipoDePrenda":""
+        },
+        {
+          "parteQueOcupa":"Accesorios",
+          "tipo":"",
+          "id":470169,
+          "tipoDeTela":"Otro",
+          "descripcion":"Colar",
+          "colorP":"Azul",
+          "colorS":"",
+          "tipoDePrenda":""
+        }
+      ]
+    },
+    {
+      "descripcion":"nuevoGuardsrropa1",
+      "id":1,
+      "prendas":[
+        {
+          "parteQueOcupa":"Calzado",
+          "tipo":"",
+          "tipoDeTela":"Otro",
+          "descripcion":"Zapatos de salir",
+          "colorP":"Verde",
+          "colorS":"Naranja",
+          "tipoDePrenda":""
+        },
+        {
+          "parteQueOcupa":"Calzado",
+          "tipo":"",
+          "tipoDeTela":"Jean",
+          "descripcion":"Calzado para salir",
+          "colorP":"Azul",
+          "colorS":"Naranja",
+          "tipoDePrenda":""
+        }
+      ]
+    }
+  ]
+}

@@ -22,7 +22,7 @@ public class RequestOpenWeather {
     public static ResponseWeather getWeather(String lat, String lon) {
         Gson gson= new GsonBuilder().setPrettyPrinting().create();
         ResponseWeather response = new ResponseWeather();
-        
+
         try {
 
             URL url = new URL(urlDay+"lat="+lat+"&lon="+lon+"&appid="+KEY);

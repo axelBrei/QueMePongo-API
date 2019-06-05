@@ -22,7 +22,7 @@ public class AtuendosRecomendationHelper {
     private List<Class<? extends Prenda>> tiposPrendaObligatorio = Arrays.asList(Superior.class, Inferior.class, Calzado.class);
 
 
-    public Atuendo generarAtuendoRecomendado(List<Prenda> prendas) throws AtuendoIncompletoException{
+    public Atuendo generarAtuendoRecomendado(List<Prenda> prendas, Predicate<? super Prenda> condicionPrendas, Predicate<? super  Prenda> condicionAccesorio) throws AtuendoIncompletoException{
         Atuendo atuendo = new Atuendo();
 
 
@@ -30,7 +30,7 @@ public class AtuendosRecomendationHelper {
             Optional<PrendaResponseObject> prendaOptional = prendas
                     .stream()
                     .filter(p -> p.getClass().equals(type))
-                    .filter(prendaObligatoriaFilterCondition())
+                    .filter(condicionPrendas)
                     .map(convertirAPrenda())
                     .findFirst();
             atuendo.anadirPrenda(
@@ -41,7 +41,7 @@ public class AtuendosRecomendationHelper {
         Optional<PrendaResponseObject> prenda = prendas
                 .stream()
                 .filter( p -> p.getClass().equals(Accesorios.class))
-                .filter(accesoriosFilterCondition())
+                .filter(condicionAccesorio)
                 .map(convertirAPrenda())
                 .findFirst();
         try {
