@@ -25,7 +25,6 @@ public class RequestDarkSkyWeather {
 
             URL url = new URL(urlDay+KEY+"/"+lat+","+lon);
 
-
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");

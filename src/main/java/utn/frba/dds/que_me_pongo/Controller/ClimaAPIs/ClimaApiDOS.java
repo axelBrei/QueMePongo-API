@@ -6,6 +6,8 @@ import utn.frba.dds.que_me_pongo.Model.ClimaService;
 import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.WebServices.Request.ClimaRequest.RequestDarkSkyWeather;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -16,10 +18,11 @@ public class ClimaApiDOS implements ClimaService {
 
         RequestDarkSkyWeather openWeather = new RequestDarkSkyWeather();
 
-        String latitud = String.format ("% .2f", evento.getUbicacion().getLatitud());
-        String longitud = String.format ("% .2f", evento.getUbicacion().getLongitud());
-
-        DarkSkyResponse response = openWeather.getWeather(latitud,longitud);
+        DecimalFormatSymbols symbol = new DecimalFormatSymbols();
+        symbol.setDecimalSeparator('.');
+        DecimalFormat decimalFormat = new DecimalFormat("#.00",symbol);
+        DarkSkyResponse response = openWeather.getWeather(decimalFormat.format(evento.getUbicacion().getLatitud()),
+                                                        decimalFormat.format(evento.getUbicacion().getLongitud()));
 
         getClimaDate(response,evento.getDate());
 

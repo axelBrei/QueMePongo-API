@@ -22,7 +22,7 @@ public class QueMePongoApplication {
 
         Ubicacion ubicacion = new Ubicacion(-34.603, -58.424);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-        String fecha = "2019-06-05 15:10:00";
+        String fecha = "2019-06-06 15:10:00";
         Date d = new Date();
         try {
             //return format.parse(this.dt_txt);
