@@ -1,11 +1,14 @@
 package utn.frba.dds.que_me_pongo.Controller.ClimaAPIs;
 
+import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassDarkSkyWeather.DarkSkyResponse;
 import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.Clima;
 import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.ResponseWeather;
 import utn.frba.dds.que_me_pongo.Model.ClimaService;
 import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.WebServices.Request.ClimaRequest.RequestOpenWeather;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Date;
 
 
@@ -17,10 +20,11 @@ public class ClimaApiUNO implements ClimaService {
 
         RequestOpenWeather openWeather = new RequestOpenWeather();
 
-        String latitud = String.format ("% .2f", evento.getUbicacion().getLatitud());
-        String longitud = String.format ("% .2f", evento.getUbicacion().getLongitud());
-
-        ResponseWeather response = openWeather.getWeather(latitud,longitud);
+        DecimalFormatSymbols symbol = new DecimalFormatSymbols();
+        symbol.setDecimalSeparator('.');
+        DecimalFormat decimalFormat = new DecimalFormat("#.00",symbol);
+        ResponseWeather response = openWeather.getWeather(decimalFormat.format(evento.getUbicacion().getLatitud()),
+                decimalFormat.format(evento.getUbicacion().getLongitud()));
         return (float) kelvinToC( getClimaDate(response,evento.getDate()).getMain().getTemp());
     }
 
