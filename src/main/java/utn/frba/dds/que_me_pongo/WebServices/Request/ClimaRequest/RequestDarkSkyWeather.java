@@ -1,9 +1,8 @@
-package utn.frba.dds.que_me_pongo.WebServices.ClimaRequest;
+package utn.frba.dds.que_me_pongo.WebServices.Request.ClimaRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassDarkSkyWeather.DarkSkyResponse;
-import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.ResponseWeather;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +17,6 @@ public class RequestDarkSkyWeather {
     private static String KEY = "3c5c3769a79e1c7961dda13bd3af9a6f";
 
 
-    //weather?lat=35&lon=139&appid=b6907d289e10d714a6e88b30761fae22
     public static DarkSkyResponse getWeather(String lat, String lon) {
         Gson gson= new GsonBuilder().setPrettyPrinting().create();
         DarkSkyResponse response = new DarkSkyResponse();
@@ -48,8 +46,6 @@ public class RequestDarkSkyWeather {
             }
 
             conn.disconnect();
-
-            //System.out.println(respuesta);
 
             return gson.fromJson(respuesta.trim() , DarkSkyResponse.class);
 

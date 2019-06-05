@@ -1,24 +1,12 @@
-package utn.frba.dds.que_me_pongo.Model.ClimaAPIs;
+package utn.frba.dds.que_me_pongo.Controller.ClimaAPIs;
 
-import com.google.gson.Gson;
-
-import org.joda.time.DateTime;
-import org.json.JSONException;
-import org.json.JSONObject;
 import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.Clima;
 import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.ResponseWeather;
-import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.Sys;
 import utn.frba.dds.que_me_pongo.Model.ClimaService;
 import utn.frba.dds.que_me_pongo.Model.Evento;
-import utn.frba.dds.que_me_pongo.WebServices.ClimaRequest.RequestOpenWeather;
+import utn.frba.dds.que_me_pongo.WebServices.Request.ClimaRequest.RequestOpenWeather;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 
 public class ClimaApiUNO implements ClimaService {
@@ -33,10 +21,6 @@ public class ClimaApiUNO implements ClimaService {
         String longitud = String.format ("% .2f", evento.getUbicacion().getLongitud());
 
         ResponseWeather response = openWeather.getWeather(latitud,longitud);
-
-        //response.getClimaList().get(0).getMain().getTemp();
-
-
         return (float) kelvinToC( getClimaDate(response,evento.getDate()).getMain().getTemp());
     }
 
@@ -46,9 +30,6 @@ public class ClimaApiUNO implements ClimaService {
     }
 
     private Clima getClimaDate(ResponseWeather responseWeather, Date date){
-
-        //responseWeather.getClimaList().forEach(w->System.out.println(w.getDate()));
-
         responseWeather.getClimaList().removeIf(w -> Math.abs(w.getDate().getTime()-date.getTime()-(60*60*1.5*1000))/1000 > 60*60*1.5 ) ;
 
 

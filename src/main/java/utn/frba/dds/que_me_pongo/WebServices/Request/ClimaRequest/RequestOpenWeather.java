@@ -1,11 +1,9 @@
-package utn.frba.dds.que_me_pongo.WebServices.ClimaRequest;
+package utn.frba.dds.que_me_pongo.WebServices.Request.ClimaRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
 import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.ResponseWeather;
-import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.Sys;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,11 +22,10 @@ public class RequestOpenWeather {
     public static ResponseWeather getWeather(String lat, String lon) {
         Gson gson= new GsonBuilder().setPrettyPrinting().create();
         ResponseWeather response = new ResponseWeather();
-
+        
         try {
 
             URL url = new URL(urlDay+"lat="+lat+"&lon="+lon+"&appid="+KEY);
-            System.out.println(url);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");

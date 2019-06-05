@@ -1,16 +1,12 @@
-package utn.frba.dds.que_me_pongo.Model.ClimaAPIs;
+package utn.frba.dds.que_me_pongo.Controller.ClimaAPIs;
 
 import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassDarkSkyWeather.DarkSkyResponse;
 import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassDarkSkyWeather.Weather;
-import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.Clima;
-import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.ResponseWeather;
 import utn.frba.dds.que_me_pongo.Model.ClimaService;
 import utn.frba.dds.que_me_pongo.Model.Evento;
-import utn.frba.dds.que_me_pongo.WebServices.ClimaRequest.RequestDarkSkyWeather;
-import utn.frba.dds.que_me_pongo.WebServices.ClimaRequest.RequestOpenWeather;
+import utn.frba.dds.que_me_pongo.WebServices.Request.ClimaRequest.RequestDarkSkyWeather;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -25,8 +21,6 @@ public class ClimaApiDOS implements ClimaService {
 
         DarkSkyResponse response = openWeather.getWeather(latitud,longitud);
 
-
-        //response.getClimaList().get(0).getMain().getTemp();
         getClimaDate(response,evento.getDate());
 
         return (float) fahrenheitToC(getClimaDate(response,evento.getDate()).getTemperature());
@@ -46,10 +40,8 @@ public class ClimaApiDOS implements ClimaService {
         ArrayList<Weather> list = responseWeather.getClimaList();
 
         Iterator<Weather> iterator = list.iterator();
-        Weather masCercano = new Weather();
-        masCercano = list.get(0) ;
+        Weather masCercano = list.get(0) ;
         Weather uno ;
-
         while (iterator.hasNext()){
             uno = iterator.next();
             if(Math.abs(uno.getTime()-date.getTime()) <= Math.abs(masCercano.getTime()-date.getTime())){
@@ -57,11 +49,7 @@ public class ClimaApiDOS implements ClimaService {
             }
 
         }
-
-
-
         return masCercano;
-
     }
 
 

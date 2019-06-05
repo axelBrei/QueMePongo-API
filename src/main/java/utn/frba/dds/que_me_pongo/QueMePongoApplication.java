@@ -1,20 +1,12 @@
 package utn.frba.dds.que_me_pongo;
 
-import com.google.gson.Gson;
-import netscape.javascript.JSObject;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonParser;
 import utn.frba.dds.que_me_pongo.Model.*;
-import utn.frba.dds.que_me_pongo.Model.ClimaAPIs.ClimaApiDOS;
-import utn.frba.dds.que_me_pongo.Model.ClimaAPIs.ClimaApiUNO;
-import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Accesorios;
-import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Calzado;
-import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Inferior;
-import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Superior;
+import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS;
+import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
