@@ -49,13 +49,13 @@ public class QueMePongoApplication {
         System.out.println(json);
         */
 
-        /*
-        ClimaApiUNO uno = new ClimaApiUNO();
+
+        ClimaService uno = new ClimaApiUNO();
         System.out.println(Float.toString(uno.getTemperatura(evento)));
 
-        ClimaApiDOS dos = new ClimaApiDOS();
+        ClimaService dos = new ClimaApiDOS();
         System.out.println(Float.toString(dos.getTemperatura(evento)));
-        */
+
 
 
 

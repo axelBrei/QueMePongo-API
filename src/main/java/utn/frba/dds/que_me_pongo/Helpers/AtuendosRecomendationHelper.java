@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import utn.frba.dds.que_me_pongo.Exceptions.AtuendoIncompletoException;
 import utn.frba.dds.que_me_pongo.Model.Atuendo;
+import utn.frba.dds.que_me_pongo.Model.ClimaService;
 import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Accesorios;
@@ -53,7 +54,7 @@ public class AtuendosRecomendationHelper {
         return atuendo;
     }
 
-    public Atuendo generarAtuendoRecomendadoParaEvento(List<Prenda> prendas, Evento evento, Predicate<? super Prenda> condicionPrendas, Predicate<? super  Prenda> condicionAccesorio) throws AtuendoIncompletoException{
+    public Atuendo generarAtuendoRecomendadoParaEvento(List<Prenda> prendas, Evento evento, ClimaService climaService, Predicate<? super Prenda> condicionPrendas, Predicate<? super  Prenda> condicionAccesorio) throws AtuendoIncompletoException{
         Atuendo atuendo = new Atuendo();
 
 

@@ -7,13 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS;
+import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO;
 import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.ClienteContainer;
-import utn.frba.dds.que_me_pongo.Model.Atuendo;
-import utn.frba.dds.que_me_pongo.Model.Cliente;
-import utn.frba.dds.que_me_pongo.Model.Evento;
-import utn.frba.dds.que_me_pongo.Model.Guardarropa;
+import utn.frba.dds.que_me_pongo.Model.*;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoParaEventoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.GetCantidadGuardarropasResponse;
@@ -32,7 +31,8 @@ public class EventoController {
     {
 	"username":"Q7xKaH8qPiUW2tz7DF7eVqdQ7253",
 	"idGuardarropa":0,
-	"evento":{"nombre":"casamiento","fecha":"2019-06-08T15:10:00","hora":0,"ubicacion":{"latitud":-34.603,"longitud":-58.424,"radio":5.0},"sugeridos":[]}
+	"evento":{"nombre":"casamiento","fecha":"2019-06-08T15:10:00","hora":0,"ubicacion":{"latitud":-34.603,"longitud":-58.424,"radio":5.0},"sugeridos":[],}
+	"climaApi":0
     }
      */
 
@@ -44,12 +44,28 @@ public class EventoController {
         ClienteContainer clienteC = new ClienteJsonParser().getCliente(body.getUsername());
         Cliente cliente = clienteC.getCliente();
         Evento evento = body.getEvento();
+        int apiNumero = body.getClimaApi();
+        ClimaService climaService;
+
+        switch (apiNumero){
+            case 0:
+                climaService = new ClimaApiUNO();
+            break;
+            case 1:
+                climaService = new ClimaApiDOS();
+            break;
+            default:
+                climaService = new ClimaApiUNO();
+            break;
+        }
 
         //nuevo generar
         Atuendo atuendo = atuendosHelper.generarAtuendoRecomendadoParaEvento(
                 cliente.getGuardarropa(body.getIdGuardarropa()).getPrendas(),
                 // Evento ,para saber temp
                 evento,
+                // ApiElegida
+                climaService,
                 // COndicion para filtrar prendas
                 (prenda -> {return true;}),
                 //Condicion para filtrar el accesorio
