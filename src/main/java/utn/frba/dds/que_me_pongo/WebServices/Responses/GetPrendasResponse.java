@@ -1,23 +1,20 @@
 package utn.frba.dds.que_me_pongo.WebServices.Responses;
 
+import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.PrendaResponseObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GetPrendasResponse {
-    private List<PrendaResponseObject> prendas = new ArrayList<>();
+    private List<Prenda> prendas = new ArrayList<>();
 
-    public void setPrendas(List<PrendaResponseObject> prendas) {
+    public void setPrendas(List<Prenda> prendas) {
         this.prendas = prendas;
     }
 
-    public List<PrendaResponseObject> getPrendas() {
+    public List<Prenda> getPrendas() {
         return prendas;
-    }
-
-    public void addPrenda(PrendaResponseObject prenda){
-        prendas.add(prenda);
     }
 }
 

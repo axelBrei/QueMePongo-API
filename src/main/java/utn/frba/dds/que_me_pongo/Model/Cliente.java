@@ -2,6 +2,8 @@ package utn.frba.dds.que_me_pongo.Model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.springframework.http.HttpStatus;
 import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
 import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
@@ -13,9 +15,8 @@ import java.util.Optional;
 public class Cliente {
     private String uid;
     private String mail;
+    @JsonProperty("nombre")
     private String name;
-
-
     private List<Guardarropa> guardarropas = new ArrayList<>();
 
     public Cliente(String uid, String mail, String name) {
@@ -27,6 +28,9 @@ public class Cliente {
     public Cliente(String mail, String name) {
         this.mail = mail;
         this.name = name;
+    }
+
+    public Cliente() {
     }
 
     public List<Guardarropa> getGuardarropas() {
@@ -41,7 +45,7 @@ public class Cliente {
         this.guardarropas.add(g);
     }
 
-    public void anadirPrendaAlGuardarropa(Prenda prenda, int id) throws GuardarropaNotFoundException {
+    public <T extends Prenda> void anadirPrendaAlGuardarropa(T prenda, int id) throws GuardarropaNotFoundException {
         Optional<Guardarropa> guardarropaOptional = guardarropas.stream().filter( guardarropa -> guardarropa.getId() == id).findFirst();
         Guardarropa g = guardarropaOptional.orElseThrow( () ->
                 new GuardarropaNotFoundException(HttpStatus.NOT_FOUND,id)

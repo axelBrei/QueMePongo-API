@@ -1,5 +1,9 @@
 package utn.frba.dds.que_me_pongo.Model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import org.springframework.http.HttpStatus;
 import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
 import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
@@ -10,85 +14,54 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class Guardarropa {
-
+public class Guardarropa{
+    @JsonProperty("descripcion")
     private String descripcion;
     private int id;
-    private List<Prenda> prendas = new ArrayList<Prenda>();
+    private List<Prenda> prendas = new ArrayList<>();
 
-   public Guardarropa(String unaDescripcion){
-        this.descripcion = unaDescripcion;
 
+    public Guardarropa() {
     }
-    public void setId(int id){this.id = id;}
 
-    public List<Prenda> getPrendas() {
-        return this.prendas;
+    public Guardarropa(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public void setPrendas(List<Prenda> prendas) {
         this.prendas = prendas;
     }
-
-    public void eliminarPrenda(Prenda unaPrenda){
-        this.prendas.remove(unaPrenda);
-    }
-    public String getDescripcion(){return this.descripcion;}
-    public int getId(){return this.id;}
-    public String getDesc(){return this.descripcion;}
-
-    public void aniadirPrenda(Prenda unaPrenda) {
-            this.prendas.add(unaPrenda);
-    }
     public void aniadirPrendas(List<Prenda> prendas) {
         this.prendas.addAll(prendas);
     }
-
-    public List<Atuendo> allAtuendos(){
-       String clas = "utn.frba.dds.que_me_pongo.Model.TiposPrenda.";
-        //List<Prenda> prendas = PrendasJsonParser.getJsonPrendasJson();
-       List<Prenda> superiores = (List<Prenda>) prendas.stream().filter(p -> p.getClass().getName().equals(clas+"PrendaSuperior")).collect(Collectors.toList());
-        List<Prenda> inferior = (List<Prenda>) prendas.stream().filter(p -> p.getClass().getName().equals(clas+"PrendaInferior")).collect(Collectors.toList());
-        List<Prenda> calzado = (List<Prenda>) prendas.stream().filter(p -> p.getClass().getName().equals(clas+"Calzado")).collect(Collectors.toList());
-        List<Prenda> accesorios = (List<Prenda>) prendas.stream().filter(p -> p.getClass().getName().equals(clas+"Accesorios")).collect(Collectors.toList());
-
-
-        List<Atuendo> atuendoList = new ArrayList<>();
-
-        for (Prenda s: superiores){
-            for (Prenda i: inferior) {
-                for (Prenda c: calzado ) {
-                    List<Prenda> prendasAtuendo = new ArrayList<>();
-                    prendasAtuendo.add(s);
-                    prendasAtuendo.add(i);
-                    prendasAtuendo.add(c);
-                    atuendoList.add(new Atuendo(prendasAtuendo));
-                }
-            }
-        }
-
-        List<Atuendo> atuendoListConAcc = new ArrayList<>();
-        for (Atuendo atuendo: atuendoList) {
-            for (Prenda a: accesorios) {
-                List<Prenda> prendasAtuendo = new ArrayList<>();
-                prendasAtuendo.addAll(atuendo.getPrendas());
-                prendasAtuendo.add(a);
-                atuendoListConAcc.add(new Atuendo(prendasAtuendo));
-            }
-        }
-
-
-        List<Atuendo> todos = new ArrayList<Atuendo>(atuendoList);
-        todos.addAll(atuendoListConAcc);
-        return todos;
-    }
-
-    public  void addPrenda(Prenda prenda){
+    public void addPrenda(Prenda prenda){
         prendas.add(prenda);
     }
 
-
     public  boolean  deletePrenda(Prenda prenda){
        return prendas.remove(prenda);
+    }
+
+    // getter and setter
+
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<Prenda> getPrendas() {
+        return prendas;
     }
 }

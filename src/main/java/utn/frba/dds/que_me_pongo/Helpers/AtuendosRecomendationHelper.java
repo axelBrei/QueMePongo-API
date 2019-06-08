@@ -27,22 +27,20 @@ public class AtuendosRecomendationHelper {
 
 
         tiposPrendaObligatorio.forEach( type -> {
-            Optional<PrendaResponseObject> prendaOptional = prendas
+            Optional<Prenda> prendaOptional = prendas
                     .stream()
                     .filter(p -> p.getClass().equals(type))
                     .filter(condicionPrendas)
-                    .map(convertirAPrenda())
                     .findFirst();
             atuendo.anadirPrenda(
                     prendaOptional.orElseThrow( () -> new AtuendoIncompletoException(HttpStatus.NOT_FOUND, type.getSimpleName()))
             );
         });
 
-        Optional<PrendaResponseObject> prenda = prendas
+        Optional<Prenda> prenda = prendas
                 .stream()
                 .filter( p -> p.getClass().equals(Accesorios.class))
                 .filter(condicionAccesorio)
-                .map(convertirAPrenda())
                 .findFirst();
         try {
             atuendo.anadirPrenda(prenda.orElseThrow( () -> new Exception("Error")));

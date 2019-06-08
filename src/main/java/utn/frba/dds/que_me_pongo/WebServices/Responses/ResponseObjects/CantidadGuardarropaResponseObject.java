@@ -2,14 +2,14 @@ package utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects;
 
 public class CantidadGuardarropaResponseObject {
     private int id;
-    private String desc;
+    private String descripcion;
 
     public CantidadGuardarropaResponseObject() {
     }
 
-    public CantidadGuardarropaResponseObject(int id, String desc) {
+    public CantidadGuardarropaResponseObject(int id, String descripcion) {
         this.id = id;
-        this.desc = desc;
+        this.descripcion = descripcion;
     }
 
     public int getId() {
@@ -20,11 +20,11 @@ public class CantidadGuardarropaResponseObject {
         this.id = id;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }

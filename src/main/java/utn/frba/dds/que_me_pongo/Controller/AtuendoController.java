@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
-import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.ClienteContainer;
 import utn.frba.dds.que_me_pongo.Model.Atuendo;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
@@ -23,9 +22,7 @@ public class AtuendoController {
 
     @RequestMapping(value = "getRecomendadosDesdeGuardaropa", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Atuendo> getPrendas(@RequestBody GetAtuendoRecomendadoRequest body) throws IOException {
-
-        ClienteContainer clienteC = new ClienteJsonParser().getCliente(body.getUsername());
-        Cliente cliente = clienteC.getCliente();
+        Cliente cliente = ClienteJsonParser.getCliente(body.getUsername());
 
         Atuendo atuendo = atuendosHelper.generarAtuendoRecomendado(
                 cliente.getGuardarropa(body.getIdGuardarropa()).getPrendas(),

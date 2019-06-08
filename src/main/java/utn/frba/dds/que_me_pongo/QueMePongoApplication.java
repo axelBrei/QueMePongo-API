@@ -32,27 +32,13 @@ public class QueMePongoApplication {
             e.printStackTrace();
         }
 
-        Evento evento = new Evento("casamiento",d,ubicacion);
-
-        ClimaApiUNO uno = new ClimaApiUNO();
-        System.out.println(Float.toString(uno.getTemperatura(evento)));
-
-        ClimaApiDOS dos = new ClimaApiDOS();
-        System.out.println(Float.toString(dos.getTemperatura(evento)));
-
-
-
-        // FUNCION Q PARSEA EL JSON DE PRENDAS Y LO RETORNA
-        /*
-        Cliente cliente = new Cliente("peter","nombre");
-        cliente.addGuardarropa(new Guardarropa("minuevo"));
-        List<Prenda> prendaList  = PrendasJsonParser.getJsonPrendasJson();
-        cliente.anadirPrendaAlGuardarropa(prendaList.get(0),0);
-*/
-
-       // System.out.println(cliente.toString());
-        Guardarropa guardarropa = new Guardarropa("des");
-        guardarropa.allAtuendos();
+//        Evento evento = new Evento("casamiento",d,ubicacion);
+//
+//        ClimaApiUNO uno = new ClimaApiUNO();
+//        System.out.println(Float.toString(uno.getTemperatura(evento)));
+//
+//        ClimaApiDOS dos = new ClimaApiDOS();
+//        System.out.println(Float.toString(dos.getTemperatura(evento)));
 
     }
 
