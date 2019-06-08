@@ -7,6 +7,7 @@ public class GetAtuendoRecomendadoParaEventoRequest {
     private String username;
     private Integer idGuardarropa;
     private Evento  evento;
+    private Integer climaApi=0;
 
     public GetAtuendoRecomendadoParaEventoRequest() {
     }
@@ -27,12 +28,19 @@ public class GetAtuendoRecomendadoParaEventoRequest {
         this.idGuardarropa = idGuardarropa;
     }
 
-    public Evento getEvento() {
-        return evento;
-    }
+    public Evento getEvento() {return evento; }
 
     public void setEvento(Evento evento) {
         this.evento = evento;
     }
+
+    public Integer getClimaApi() {
+        return climaApi;
+    }
+
+    public void setEvento(Integer climaApi) {
+        this.climaApi= climaApi;
+    }
+
 
 }
