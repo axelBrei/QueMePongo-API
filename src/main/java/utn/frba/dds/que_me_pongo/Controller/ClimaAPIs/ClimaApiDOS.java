@@ -11,10 +11,21 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
 
 public class ClimaApiDOS implements ClimaService {
     @Override
-    public float getTemperatura(Evento evento) {
+    public float getTemperatura(Evento evento) throws NullPointerException  {
+        Date now = new Date();
+        Date cincoDias = new Date();
+        cincoDias.setTime(now.getTime() + 5*24*60*60*1000);
+
+        if(evento.getDate().getTime()<now.getTime()){
+            throw new NullPointerException("\033[0;1m"+"Fecha menor a la actual"+"\033[0;0m");
+        }else if(evento.getDate().getTime()>cincoDias.getTime()){
+            throw new NullPointerException("\033[0;1m"+"Fecha más de 5 dias mayor a la actual"+"\033[0;0m");
+        }
+
 
         RequestDarkSkyWeather openWeather = new RequestDarkSkyWeather();
 
@@ -26,7 +37,8 @@ public class ClimaApiDOS implements ClimaService {
 
         getClimaDate(response,evento.getDate());
 
-        return (float) fahrenheitToC(getClimaDate(response,evento.getDate()).getTemperature());
+        return (float) fahrenheitToC(getClimaDate(response, evento.getDate()).getTemperature());
+
     }
 
     private float kelvinToC(float kelvin){
@@ -41,18 +53,21 @@ public class ClimaApiDOS implements ClimaService {
     private Weather getClimaDate(DarkSkyResponse responseWeather, Date date){
 
         ArrayList<Weather> list = responseWeather.getClimaList();
+        if(list.size()>0) {
+            Iterator<Weather> iterator = list.iterator();
+            Weather masCercano = list.get(0);
+            Weather uno;
+            while (iterator.hasNext()) {
+                uno = iterator.next();
+                if (Math.abs(uno.getTime() - date.getTime()) <= Math.abs(masCercano.getTime() - date.getTime())) {
+                    masCercano = uno;
+                }
 
-        Iterator<Weather> iterator = list.iterator();
-        Weather masCercano = list.get(0) ;
-        Weather uno ;
-        while (iterator.hasNext()){
-            uno = iterator.next();
-            if(Math.abs(uno.getTime()-date.getTime()) <= Math.abs(masCercano.getTime()-date.getTime())){
-                masCercano=uno;
             }
-
+            return masCercano;
         }
-        return masCercano;
+
+        return null;
     }
 
 

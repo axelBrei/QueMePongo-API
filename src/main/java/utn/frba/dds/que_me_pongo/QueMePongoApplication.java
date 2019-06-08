@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootApplication
 public class QueMePongoApplication {
@@ -27,7 +28,9 @@ public class QueMePongoApplication {
 
         Ubicacion ubicacion = new Ubicacion(-34.603, -58.424);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-        String fecha = "2019-06-08 15:10:00";
+
+        String fecha = "2019-06-10 15:10:00";
+
         Date d = new Date();
         try {
             //return format.parse(this.dt_txt);
@@ -50,11 +53,19 @@ public class QueMePongoApplication {
         */
 
 
-        ClimaService uno = new ClimaApiUNO();
-        System.out.println(Float.toString(uno.getTemperatura(evento)));
+        ClimaApiUNO uno = new ClimaApiUNO();
+        try {
+            System.out.println(Float.toString(uno.getTemperatura(evento)));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
-        ClimaService dos = new ClimaApiDOS();
-        System.out.println(Float.toString(dos.getTemperatura(evento)));
+        ClimaApiDOS dos = new ClimaApiDOS();
+        try {
+            System.out.println(Float.toString(dos.getTemperatura(evento)));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
 
 

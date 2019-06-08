@@ -10,13 +10,24 @@ import utn.frba.dds.que_me_pongo.WebServices.Request.ClimaRequest.RequestOpenWea
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 
 public class ClimaApiUNO implements ClimaService {
 
 
     @Override
-    public float getTemperatura(Evento evento) {
+    public float getTemperatura(Evento evento) throws NullPointerException  {
+        Date now = new Date();
+        Date cincoDias = new Date();
+        cincoDias.setTime(now.getTime() + 5*24*60*60*1000);
+
+        if(evento.getDate().getTime()<now.getTime()){
+            throw new NullPointerException("\033[0;1m"+"Fecha menor a la actual"+"\033[0;0m");
+        }else if(evento.getDate().getTime()>cincoDias.getTime()){
+            throw new NullPointerException("\033[0;1m"+"Fecha más de 5 dias mayor a la actual"+"\033[0;0m");
+        }
+
 
         RequestOpenWeather openWeather = new RequestOpenWeather();
 
@@ -25,6 +36,7 @@ public class ClimaApiUNO implements ClimaService {
         DecimalFormat decimalFormat = new DecimalFormat("#.00",symbol);
         ResponseWeather response = openWeather.getWeather(decimalFormat.format(evento.getUbicacion().getLatitud()),
                 decimalFormat.format(evento.getUbicacion().getLongitud()));
+
         return (float) kelvinToC( getClimaDate(response,evento.getDate()).getMain().getTemp());
     }
 
@@ -36,8 +48,10 @@ public class ClimaApiUNO implements ClimaService {
     private Clima getClimaDate(ResponseWeather responseWeather, Date date){
         responseWeather.getClimaList().removeIf(w -> Math.abs(w.getDate().getTime()-date.getTime()-(60*60*1.5*1000))/1000 > 60*60*1.5 ) ;
 
+        if(responseWeather.getClimaList().size()>0)
+            return responseWeather.getClimaList().get(0);
 
-        return responseWeather.getClimaList().get(0);
+        return null;
     }
 
 }
