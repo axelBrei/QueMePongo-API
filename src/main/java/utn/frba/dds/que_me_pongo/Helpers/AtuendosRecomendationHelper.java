@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import utn.frba.dds.que_me_pongo.Exceptions.AtuendoIncompletoException;
 import utn.frba.dds.que_me_pongo.Model.Atuendo;
+import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Accesorios;
 import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Calzado;
@@ -23,6 +24,36 @@ public class AtuendosRecomendationHelper {
 
 
     public Atuendo generarAtuendoRecomendado(List<Prenda> prendas, Predicate<? super Prenda> condicionPrendas, Predicate<? super  Prenda> condicionAccesorio) throws AtuendoIncompletoException{
+        Atuendo atuendo = new Atuendo();
+
+
+        tiposPrendaObligatorio.forEach( type -> {
+            Optional<PrendaResponseObject> prendaOptional = prendas
+                    .stream()
+                    .filter(p -> p.getClass().equals(type))
+                    .filter(condicionPrendas)
+                    .map(convertirAPrenda())
+                    .findFirst();
+            atuendo.anadirPrenda(
+                    prendaOptional.orElseThrow( () -> new AtuendoIncompletoException(HttpStatus.NOT_FOUND, type.getSimpleName()))
+            );
+        });
+
+        Optional<PrendaResponseObject> prenda = prendas
+                .stream()
+                .filter( p -> p.getClass().equals(Accesorios.class))
+                .filter(condicionAccesorio)
+                .map(convertirAPrenda())
+                .findFirst();
+        try {
+            atuendo.anadirPrenda(prenda.orElseThrow( () -> new Exception("Error")));
+        }catch (Exception e){
+            // no me importa el handleo de la excepcion porque lo estoy tirando a proposito para que no se agrege a la lista como null
+        }
+        return atuendo;
+    }
+
+    public Atuendo generarAtuendoRecomendadoParaEvento(List<Prenda> prendas, Evento evento, Predicate<? super Prenda> condicionPrendas, Predicate<? super  Prenda> condicionAccesorio) throws AtuendoIncompletoException{
         Atuendo atuendo = new Atuendo();
 
 

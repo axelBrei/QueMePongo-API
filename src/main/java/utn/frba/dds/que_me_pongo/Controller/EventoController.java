@@ -45,7 +45,7 @@ public class EventoController {
         Cliente cliente = clienteC.getCliente();
         Evento evento = body.getEvento();
 
-
+        //nuevo generar
         Atuendo atuendo = atuendosHelper.generarAtuendoRecomendadoParaEvento(
                 cliente.getGuardarropa(body.getIdGuardarropa()).getPrendas(),
                 // Evento ,para saber temp
