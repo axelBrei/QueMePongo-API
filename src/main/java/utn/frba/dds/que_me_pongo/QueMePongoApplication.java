@@ -53,14 +53,14 @@ public class QueMePongoApplication {
         */
 
 
-        ClimaApiUNO uno = new ClimaApiUNO();
+        ClimaService uno = new ClimaApiUNO();
         try {
             System.out.println(Float.toString(uno.getTemperatura(evento)));
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
-        ClimaApiDOS dos = new ClimaApiDOS();
+        ClimaService dos = new ClimaApiDOS();
         try {
             System.out.println(Float.toString(dos.getTemperatura(evento)));
         } catch (NullPointerException e) {
