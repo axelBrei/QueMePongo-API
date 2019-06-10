@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 public class ClimaApiDOS implements ClimaService {
     @Override
-    public Float getTemperatura(Evento evento) throws NullPointerException  {
+    public float getTemperatura(Evento evento) throws NullPointerException  {
         Date now = new Date();
         Date cincoDias = new Date();
         cincoDias.setTime(now.getTime() + 5*24*60*60*1000);
@@ -37,16 +37,16 @@ public class ClimaApiDOS implements ClimaService {
 
         getClimaDate(response,evento.getDate());
 
-        return (Float) fahrenheitToC(getClimaDate(response, evento.getDate()).getTemperature());
+        return (float) fahrenheitToC(getClimaDate(response, evento.getDate()).getTemperature());
 
     }
 
-    private Float kelvinToC(float kelvin){
+    private float kelvinToC(float kelvin){
         float cero = (float) 273.15;
         return (kelvin-cero);
     }
 
-    private Float fahrenheitToC(float f){
+    private float fahrenheitToC(float f){
         return  ((f - 32)*5)/9;
     }
 

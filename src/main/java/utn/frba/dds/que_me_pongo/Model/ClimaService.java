@@ -4,6 +4,6 @@ import java.util.concurrent.ExecutionException;
 
 public interface ClimaService {
 
-    public  Float getTemperatura(Evento evento) throws NullPointerException;
+    public  float getTemperatura(Evento evento) throws NullPointerException;
     
 }

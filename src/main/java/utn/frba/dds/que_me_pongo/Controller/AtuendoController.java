@@ -27,8 +27,13 @@ public class AtuendoController {
         ClienteContainer clienteC = new ClienteJsonParser().getCliente(body.getUsername());
         Cliente cliente = clienteC.getCliente();
 
-        Atuendo atuendo = cliente.getGuardarropa(body.getIdGuardarropa()).generarAtuendo();
-
+        Atuendo atuendo = atuendosHelper.generarAtuendoRecomendado(
+                cliente.getGuardarropa(body.getIdGuardarropa()).getPrendas(),
+                // COndicion para filtrar prendas
+                (prenda -> {return true;}),
+                //Condicion para filtrar el accesorio
+                (prenda -> {return true;})
+        );
         return new ResponseEntity<>(atuendo, HttpStatus.OK);
     }
 

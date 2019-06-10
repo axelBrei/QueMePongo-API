@@ -29,7 +29,7 @@ public class QueMePongoApplication {
         Ubicacion ubicacion = new Ubicacion(-34.603, -58.424);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
-        String fecha = "2019-06-11 15:10:00";
+        String fecha = "2019-06-10 15:10:00";
 
         Date d = new Date();
         try {
@@ -79,7 +79,9 @@ public class QueMePongoApplication {
         cliente.anadirPrendaAlGuardarropa(prendaList.get(0),0);
 */
 
-
+       // System.out.println(cliente.toString());
+        Guardarropa guardarropa = new Guardarropa("des");
+        guardarropa.allAtuendos();
 
     }
 
