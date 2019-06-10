@@ -17,7 +17,7 @@ public class ClimaApiUNO implements ClimaService {
 
 
     @Override
-    public float getTemperatura(Evento evento) throws NullPointerException  {
+    public Float getTemperatura(Evento evento) throws NullPointerException  {
         Date now = new Date();
         Date cincoDias = new Date();
         cincoDias.setTime(now.getTime() + 5*24*60*60*1000);
@@ -37,10 +37,10 @@ public class ClimaApiUNO implements ClimaService {
         ResponseWeather response = openWeather.getWeather(decimalFormat.format(evento.getUbicacion().getLatitud()),
                 decimalFormat.format(evento.getUbicacion().getLongitud()));
 
-        return (float) kelvinToC( getClimaDate(response,evento.getDate()).getMain().getTemp());
+        return (Float) kelvinToC( getClimaDate(response,evento.getDate()).getMain().getTemp());
     }
 
-    private float kelvinToC(float kelvin){
+    private Float kelvinToC(float kelvin){
         float cero = (float) 273.15;
         return (kelvin-cero);
     }

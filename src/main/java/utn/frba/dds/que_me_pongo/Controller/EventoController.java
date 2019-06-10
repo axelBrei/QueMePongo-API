@@ -1,7 +1,6 @@
 package utn.frba.dds.que_me_pongo.Controller;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,18 +10,12 @@ import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS;
 import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO;
 import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
-import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.ClienteContainer;
 import utn.frba.dds.que_me_pongo.Model.*;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoParaEventoRequest;
-import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
-import utn.frba.dds.que_me_pongo.WebServices.Responses.GetCantidadGuardarropasResponse;
-import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.CantidadGuardarropaResponseObject;
+
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/evento")
@@ -41,8 +34,7 @@ public class EventoController {
     @RequestMapping(value = "/atuendo", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Atuendo> getPrendas(@RequestBody GetAtuendoRecomendadoParaEventoRequest body) throws IOException {
 
-        ClienteContainer clienteC = new ClienteJsonParser().getCliente(body.getUsername());
-        Cliente cliente = clienteC.getCliente();
+        Cliente cliente = ClienteJsonParser.getCliente(body.getUsername());
         Evento evento = body.getEvento();
         int apiNumero = body.getClimaApi();
         ClimaService climaService;
@@ -59,19 +51,19 @@ public class EventoController {
             break;
         }
 
-        //nuevo generar
+
+
         Atuendo atuendo = atuendosHelper.generarAtuendoRecomendadoParaEvento(
                 cliente.getGuardarropa(body.getIdGuardarropa()).getPrendas(),
-                // Evento ,para saber temp
+                //Evento
                 evento,
-                // ApiElegida
+                // Api de clima que desea
                 climaService,
                 // COndicion para filtrar prendas
                 (prenda -> {return true;}),
                 //Condicion para filtrar el accesorio
                 (prenda -> {return true;})
         );
-
         return new ResponseEntity<>(atuendo, HttpStatus.OK);
     }
 }

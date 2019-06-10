@@ -1,8 +1,14 @@
 package utn.frba.dds.que_me_pongo.Model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
 import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
+import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,8 +93,21 @@ public class Guardarropa {
         prendas.add(prenda);
     }
 
+    public Atuendo generarAtuendo() {
+        AtuendosRecomendationHelper atuendosHelper = null;
+        Atuendo atuendo = atuendosHelper.generarAtuendoRecomendado(
+                this.getPrendas(),
+                // COndicion para filtrar prendas
+                (prenda -> {return true;}),
+                //Condicion para filtrar el accesorio
+                (prenda -> {return true;})
+        );
 
-    public  boolean  deletePrenda(Prenda prenda){
-       return prendas.remove(prenda);
+        return  atuendo;
+    }
+
+
+    public List<Prenda> getPrendas() {
+        return prendas;
     }
 }

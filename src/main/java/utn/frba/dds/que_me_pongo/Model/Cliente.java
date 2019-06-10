@@ -13,6 +13,8 @@ import java.util.Optional;
 public class Cliente {
     private String uid;
     private String mail;
+    private TipoCliente tipoCliente = new TipoCliente().setTipoClienteGratuito();
+    @JsonProperty("nombre")
     private String name;
 
 
@@ -77,7 +79,18 @@ public class Cliente {
         return uid;
     }
 
+    public List<Prenda> getAllPrendas(){
+        Guardarropa nuevo = new Guardarropa();
+        getGuardarropas().forEach( g -> nuevo.aniadirPrendas(g.getPrendas()));
+
+        return nuevo.getPrendas();
+    }
+
     public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setTipoCliente(String uid) {
         this.uid = uid;
     }
 
