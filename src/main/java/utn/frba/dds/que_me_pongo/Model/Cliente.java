@@ -15,6 +15,7 @@ import java.util.Optional;
 public class Cliente {
     private String uid;
     private String mail;
+    private TipoCliente tipoCliente = new TipoCliente().setTipoClienteGratuito();
     @JsonProperty("nombre")
     private String name;
     private List<Guardarropa> guardarropas = new ArrayList<>();
