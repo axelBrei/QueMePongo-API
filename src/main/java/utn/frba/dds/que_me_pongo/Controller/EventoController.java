@@ -11,7 +11,7 @@ import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS;
 import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO;
 import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
-import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.ClienteContainer;
+
 import utn.frba.dds.que_me_pongo.Model.*;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoParaEventoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
@@ -41,8 +41,7 @@ public class EventoController {
     @RequestMapping(value = "/atuendo", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Atuendo> getPrendas(@RequestBody GetAtuendoRecomendadoParaEventoRequest body) throws IOException {
 
-        ClienteContainer clienteC = new ClienteJsonParser().getCliente(body.getUsername());
-        Cliente cliente = clienteC.getCliente();
+        Cliente cliente = ClienteJsonParser.getCliente(body.getUsername());
         Evento evento = body.getEvento();
         int apiNumero = body.getClimaApi();
         ClimaService climaService;

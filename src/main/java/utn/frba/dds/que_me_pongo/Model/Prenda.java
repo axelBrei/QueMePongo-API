@@ -1,12 +1,15 @@
 package utn.frba.dds.que_me_pongo.Model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import utn.frba.dds.que_me_pongo.Helpers.Deserializer.PrendaRequestDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-@JsonDeserialize( using = PrendaRequestDeserializer.class)
+import utn.frba.dds.que_me_pongo.Helpers.Deserializer.PrendaDeserializer;
+import utn.frba.dds.que_me_pongo.Helpers.Serializer.PrendaSerializer;
+
+@JsonDeserialize( using = PrendaDeserializer.class)
+@JsonSerialize(using = PrendaSerializer.class)
 public class Prenda {
 
-    private String tipo = "";
     private Integer id;
     private String tipoDeTela = "";
     private String descripcion = "";
@@ -15,8 +18,7 @@ public class Prenda {
     // EG. Camprera Remera
     private String tipoDePrenda = "";
 
-    public Prenda(String tipo, Integer id, String tipoDeTela, String descripcion, String colorP, String colorS, String tipoDePrenda) {
-        this.tipo = tipo != null ? tipo : "";
+    public Prenda(Integer id, String tipoDeTela, String descripcion, String colorP, String colorS, String tipoDePrenda) {
         this.id = id;
         this.tipoDeTela = tipoDeTela != null ? tipoDeTela : "";
         this.descripcion = descripcion != null ? descripcion : "";
@@ -27,11 +29,6 @@ public class Prenda {
 
     public Prenda() {
     }
-
-    public String getTipo(){
-        return tipo;
-    }
-
 
     public Integer getId() {
         return id;

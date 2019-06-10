@@ -5,7 +5,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
-import utn.frba.dds.que_me_pongo.Helpers.PrendasJsonDeserializer.ClienteContainer;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Cliente.NuevoClienteRequestBody;
 
@@ -18,8 +17,7 @@ public class ClienteController {
     @RequestMapping(value = "/nuevo",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity registrarCliente(@RequestBody NuevoClienteRequestBody body) throws IOException {
         Cliente c = new Cliente(body.getUid(), body.getMail(), body.getName());
-        ClienteContainer container = new ClienteContainer(c);
-        ClienteJsonParser.newJsonCliente(container);
+        ClienteJsonParser.newJsonCliente(c);
         return new ResponseEntity(HttpStatus.OK);
     }
 

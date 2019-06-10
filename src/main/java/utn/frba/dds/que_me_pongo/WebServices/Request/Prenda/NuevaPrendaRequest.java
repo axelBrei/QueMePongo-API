@@ -1,14 +1,14 @@
 package utn.frba.dds.que_me_pongo.WebServices.Request.Prenda;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import utn.frba.dds.que_me_pongo.Helpers.Deserializer.PrendaRequestDeserializer;
+import utn.frba.dds.que_me_pongo.Helpers.Deserializer.PrendaDeserializer;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
 
 public class NuevaPrendaRequest {
     private String uid;
     private String idGuardarropa;
 
-    @JsonDeserialize(using = PrendaRequestDeserializer.class)
+    @JsonDeserialize(using = PrendaDeserializer.class)
     private Prenda prenda;
 
     public NuevaPrendaRequest() {
