@@ -31,8 +31,8 @@ public class EventoController {
     {
 	"username":"Q7xKaH8qPiUW2tz7DF7eVqdQ7253",
 	"idGuardarropa":0,
-	"evento":{"nombre":"casamiento","fecha":"2019-06-08T15:10:00","hora":0,"ubicacion":{"latitud":-34.603,"longitud":-58.424,"radio":5.0},"sugeridos":[],}
-	"climaApi":0
+	"climaApi":0,
+	"evento":{"nombre":"casamiento","fecha":"2019-06-10T15:10:00","hora":0,"ubicacion":{"latitud":-34.603,"longitud":-58.424,"radio":5.0},"sugeridos":[]}
     }
      */
 
@@ -43,6 +43,8 @@ public class EventoController {
 
         Cliente cliente = ClienteJsonParser.getCliente(body.getUsername());
         Evento evento = body.getEvento();
+
+
         int apiNumero = body.getClimaApi();
         ClimaService climaService;
 
@@ -59,17 +61,7 @@ public class EventoController {
         }
 
         //nuevo generar
-        Atuendo atuendo = atuendosHelper.generarAtuendoRecomendadoParaEvento(
-                cliente.getGuardarropa(body.getIdGuardarropa()).getPrendas(),
-                // Evento ,para saber temp
-                evento,
-                // ApiElegida
-                climaService,
-                // COndicion para filtrar prendas
-                (prenda -> {return true;}),
-                //Condicion para filtrar el accesorio
-                (prenda -> {return true;})
-        );
+        Atuendo atuendo = cliente.getGuardarropa(body.getIdGuardarropa()).generarAtuendoParaEvento(evento,climaService);
 
         return new ResponseEntity<>(atuendo, HttpStatus.OK);
     }

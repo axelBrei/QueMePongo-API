@@ -6,8 +6,9 @@ import utn.frba.dds.que_me_pongo.Model.Evento;
 public class GetAtuendoRecomendadoParaEventoRequest {
     private String username;
     private Integer idGuardarropa;
+    private Integer climaApi;
     private Evento  evento;
-    private Integer climaApi=0;
+
 
     public GetAtuendoRecomendadoParaEventoRequest() {
     }
@@ -38,7 +39,7 @@ public class GetAtuendoRecomendadoParaEventoRequest {
         return climaApi;
     }
 
-    public void setEvento(Integer climaApi) {
+    public void setClimaApi(Integer climaApi) {
         this.climaApi= climaApi;
     }
 

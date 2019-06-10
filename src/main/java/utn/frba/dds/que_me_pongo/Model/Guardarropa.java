@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import org.springframework.http.HttpStatus;
 import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
 import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
+import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,32 @@ public class Guardarropa{
 
     public int getId() {
         return id;
+    }
+
+    public Atuendo generarAtuendo(){
+        AtuendosRecomendationHelper atuendosHelper = new AtuendosRecomendationHelper();
+        Atuendo atuendo = atuendosHelper.generarAtuendoRecomendado(
+                this.getPrendas(),
+                // COndicion para filtrar prendas
+                (prenda -> {return true;}),
+                //Condicion para filtrar el accesorio
+                (prenda -> {return true;})
+        );
+
+        return atuendo;
+    }
+
+    public Atuendo generarAtuendoParaEvento(Evento evento,ClimaService climaService){
+        AtuendosRecomendationHelper atuendosHelper = new AtuendosRecomendationHelper();
+        Atuendo atuendo = atuendosHelper.generarAtuendoRecomendado(
+                this.getPrendas(),
+                // COndicion para filtrar prendas
+                (prenda -> {return true;}),
+                //Condicion para filtrar el accesorio
+                (prenda -> {return true;})
+        );
+
+        return atuendo;
     }
 
     public void setId(int id) {

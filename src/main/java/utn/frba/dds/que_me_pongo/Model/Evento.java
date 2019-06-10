@@ -7,7 +7,6 @@ import java.util.List;
 public class Evento {
     private String nombre;
     private Date fecha;
-    private int hora;
     private Ubicacion ubicacion;
     private List<Atuendo> sugeridos = new ArrayList<Atuendo>();
     private Atuendo seleccionado;

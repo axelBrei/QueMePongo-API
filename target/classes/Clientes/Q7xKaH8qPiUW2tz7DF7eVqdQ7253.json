@@ -1,0 +1,57 @@
+{
+  "uid":"Q7xKaH8qPiUW2tz7DF7eVqdQ7253",
+  "mail":"peter@peter.com",
+  "nombre":"peter",
+  "guardarropas":[
+    {
+      "descripcion":"nuevoGuardsrropa",
+      "id":0,
+      "prendas":[
+        {
+          "parteQueOcupa":"Superior",
+          "tipo":"",
+          "id":7,
+          "tipoDeTela":"Algodon",
+          "descripcion":"Remera",
+          "colorP":"Azul",
+          "colorS":"Verde",
+          "posicion":0,
+          "tipoDePrenda":""
+
+        }
+
+      ]
+    },
+    {
+      "descripcion":"nuevoGuardsrropa1",
+      "id":1,
+      "prendas":[
+        {
+          "parteQueOcupa":"Calzado",
+          "tipo":"",
+          "tipoDeTela":"Otro",
+          "descripcion":"Zapatos de salir",
+          "colorP":"Verde",
+          "colorS":"Naranja",
+          "tipoDePrenda":""
+        },
+        {
+          "parteQueOcupa":"Calzado",
+          "tipo":"",
+          "tipoDeTela":"Jean",
+          "descripcion":"Calzado para salir",
+          "colorP":"Azul",
+          "colorS":"Naranja",
+          "tipoDePrenda":""
+        }
+      ]
+    },
+    {
+      "descripcion":"otronuevo",
+      "id":344841,
+      "prendas":[
+
+      ]
+    }
+  ]
+}

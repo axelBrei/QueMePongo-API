@@ -24,13 +24,8 @@ public class AtuendoController {
     public ResponseEntity<Atuendo> getPrendas(@RequestBody GetAtuendoRecomendadoRequest body) throws IOException {
         Cliente cliente = ClienteJsonParser.getCliente(body.getUsername());
 
-        Atuendo atuendo = atuendosHelper.generarAtuendoRecomendado(
-                cliente.getGuardarropa(body.getIdGuardarropa()).getPrendas(),
-                // COndicion para filtrar prendas
-                (prenda -> {return true;}),
-                //Condicion para filtrar el accesorio
-                (prenda -> {return true;})
-        );
+        Atuendo atuendo = cliente.getGuardarropa(body.getIdGuardarropa()).generarAtuendo();
+
         return new ResponseEntity<>(atuendo, HttpStatus.OK);
     }
 
