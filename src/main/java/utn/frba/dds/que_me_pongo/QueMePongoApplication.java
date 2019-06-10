@@ -79,9 +79,6 @@ public class QueMePongoApplication {
         cliente.anadirPrendaAlGuardarropa(prendaList.get(0),0);
 */
 
-       // System.out.println(cliente.toString());
-        Guardarropa guardarropa = new Guardarropa("des");
-        guardarropa.allAtuendos();
 
     }
 
