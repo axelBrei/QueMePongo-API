@@ -22,11 +22,15 @@ public class Superior extends Prenda {
         TipoSuperior = tipoSuperior;
     }
 
+    public Superior prendaToSuperior(Prenda p){
+        return (Superior)p;
+    }
+
 
 
     @Override
     public Double getAbrigo(){
-        return 10.0;
+        return 8.0;
     }
 
 }

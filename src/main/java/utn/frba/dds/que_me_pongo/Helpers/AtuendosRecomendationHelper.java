@@ -14,6 +14,7 @@ import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Inferior;
 import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Superior;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.PrendaResponseObject;
 
+import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +33,7 @@ public class AtuendosRecomendationHelper {
 
 
         tiposPrendaObligatorio.forEach( type -> {
+            if(type != Superior.class){
             Optional<Prenda> prendaOptional = prendas
                     .stream()
                     .filter(p -> p.getClass().equals(type))
@@ -40,6 +42,17 @@ public class AtuendosRecomendationHelper {
             atuendo.anadirPrenda(
                     prendaOptional.orElseThrow( () -> new AtuendoIncompletoException(HttpStatus.NOT_FOUND, type.getSimpleName()))
             );
+            }else {
+                Optional<Prenda> prendaOptional = prendas
+                        .stream()
+                        .filter(p -> p.getClass().equals(type))
+                        .filter(prendaSuperiorObligatoria())
+                        .filter(condicionPrendas)
+                        .findFirst();
+                atuendo.anadirPrenda(
+                        prendaOptional.orElseThrow( () -> new AtuendoIncompletoException(HttpStatus.NOT_FOUND, type.getSimpleName() , " de nievel 0"))
+                );
+            }
         });
 
         Optional<Prenda> prenda = prendas
@@ -55,21 +68,7 @@ public class AtuendosRecomendationHelper {
         return atuendo;
     }
 
-    public List<Atuendo> generarAllAtuendoRecomendadoParaEvento(List<Prenda> prendas, Evento evento, ClimaService climaService, Predicate<? super Prenda> condicionPrendas, Predicate<? super  Prenda> condicionAccesorio) throws AtuendoIncompletoException{
 
-        Float temperatura = climaService.getTemperatura(evento);
-
-        List<Atuendo> todos = generarAllAtuendos(prendas,condicionPrendas,condicionAccesorio);
-
-        List<Optional<Atuendo>>  filtrados = todos.stream()
-                .filter(p -> p.esSuficienteAbrigado(temperatura))
-                .filter(p -> p.esCorrecto())
-                .map(Optional::ofNullable)
-                .collect(Collectors.toList());
-
-
-        return optionalToAtuendosList(filtrados);
-    }
 
     public  List<Atuendo> optionalToAtuendosList(List<Optional<Atuendo>> optional){
         List<Atuendo> retornar = new ArrayList<Atuendo>();
@@ -81,9 +80,10 @@ public class AtuendosRecomendationHelper {
 
     public List<Atuendo> generarAllAtuendos(List<Prenda> prendas, Predicate<? super Prenda> condicionPrendas, Predicate<? super  Prenda> condicionAccesorio) throws AtuendoIncompletoException{
         List<List<Optional<Prenda>>> obligatorios = new  ArrayList<List<Optional<Prenda>>>();
+        List<Optional<Prenda>> superioresNoObligatorias = new  ArrayList<Optional<Prenda>>();
         List<List<Optional<Prenda>>> opcionales = new  ArrayList<List<Optional<Prenda>>>();
-
-
+        //Chequeo si estan las prendas basicas
+        Atuendo at = generarAtuendoRecomendado(prendas,condicionPrendas,condicionAccesorio);
 
         tiposPrendaObligatorio.forEach( type -> {
             if(type != Superior.class) {
@@ -92,32 +92,26 @@ public class AtuendosRecomendationHelper {
                     .filter(condicionPrendas)
                     .map(Optional::ofNullable)
                     .collect(Collectors.toList());
-            //System.out.println(prendaList.toString());
+
             obligatorios.add(prendaList);
             }else {
                 List<Optional<Prenda>> superioresObligatorias = prendas.stream()
-                .filter(p -> p.getClass().equals(Superior.class))
-                        .filter(condicionPrendas)
-                //.map(p -> (Superior)p)
-                        .filter(prendaSuperiorObligatoria())
-                .map(Optional::ofNullable)
-                .collect(Collectors.toList());
-
-
-
+                                        .filter(p -> p.getClass().equals(Superior.class))
+                                                .filter(condicionPrendas)
+                                        //.map(p -> (Superior)p)
+                                                .filter(prendaSuperiorObligatoria())
+                                        .map(Optional::ofNullable)
+                                        .collect(Collectors.toList());
                 obligatorios.add(superioresObligatorias);
 
-                List<Optional<Prenda>> superioresNoObligatorias = prendas.stream()
-                .filter(p -> p.getClass().equals(Superior.class))
-                .filter(condicionPrendas)
-                //.map(p -> (Superior)p)
-                .filter(prendaSuperiorObligatoria().negate())
-                .map(Optional::ofNullable)
-                .collect(Collectors.toList());
-
-
-
-               // opcionales.addAll(dividirPorTipoSuperior(superioresNoObligatorias));
+                List<Optional<Prenda>> noObliga = prendas.stream()
+                                        .filter(p -> p.getClass().equals(Superior.class))
+                                        .filter(condicionPrendas)
+                                        //.map(p -> (Superior)p)
+                                        .filter(prendaSuperiorObligatoria().negate())
+                                        .map(Optional::ofNullable)
+                                        .collect(Collectors.toList());
+                superioresNoObligatorias.addAll(noObliga);
             }
         });
 
@@ -133,33 +127,42 @@ public class AtuendosRecomendationHelper {
         );
 
 
-
-
         List<Atuendo> completa = getAllConbinations(obligatorios,opcionales);
+
+        obligatorios.add(getTipo(superioresNoObligatorias,1));
+        List<Atuendo> completaMasUno = getAllConbinations(obligatorios,opcionales);
+        completa.addAll(completaMasUno);
+
+        obligatorios.add(getTipo(superioresNoObligatorias,2));
+        List<Atuendo> completaMasDos = getAllConbinations(obligatorios,opcionales);
+        completa.addAll(completaMasDos);
+
+        obligatorios.add(getTipo(superioresNoObligatorias,3));
+        List<Atuendo> completaMasTres = getAllConbinations(obligatorios,opcionales);
+        completa.addAll(completaMasTres);
 
 
         return completa;
     }
-    /*
-    private List<List<Optional<Superior>> dividirPorTipoSuperior(List<Optional<Superior>> superiores){
-        List<List<Optional<Superior>>> divididos = new  ArrayList<List<Optional<Superior>>>();
 
-        for (int i = 0; i < 4; i++) {
-            int finalI = i;
-            List<Optional<Superior>> nuevo =
-                            superiores.stream()
 
-                            .filter(condicionPrendaSuperiorTipo(.get(),finalI))
+    private List<Optional<Prenda>> getTipo(List<Optional<Prenda>> sup, Integer tipoNumero){
+        List<Optional<Prenda>> tipo = new  ArrayList<Optional<Prenda>>();
+        List<Prenda> superiores = optionalListPrendasToListPrendas(sup);
+
+        try {
+            tipo= superiores.stream()
+                            .filter( p -> condicionPrendaSuperiorTipo(p,tipoNumero))
                             .map(Optional::ofNullable)
                             .collect(Collectors.toList());
-
-
+            return tipo;
+        }catch (Exception e){
+            return tipo;
         }
 
 
-        return divididos;
     }
-    */
+
     private List<Atuendo> getAllConbinations(List<List<Optional<Prenda>>> obligatorios,List<List<Optional<Prenda>>> opcionales){
         Integer cantObligatorios = obligatorios.size();
         Integer cantOpcionales = opcionales.size();
@@ -186,6 +189,19 @@ public class AtuendosRecomendationHelper {
 
 
         return master;
+    }
+
+    private List<Prenda> optionalListPrendasToListPrendas(List<Optional<Prenda>> prendas){
+        List<Prenda> prendaList = new  ArrayList<Prenda>();
+        prendas.forEach( uno -> {
+            try {
+                prendaList.add(uno.get());
+            }catch (Exception e){
+                // no me importa el handleo de la excepcion porque lo estoy tirando a proposito para que no se agrege a la lista como null
+            }
+
+        });
+        return prendaList;
     }
 
     private List<Atuendo> optionalPrendasToListAtuendo(List<Optional<Prenda>> prendas){
@@ -256,7 +272,7 @@ public class AtuendosRecomendationHelper {
         return (superior.getTipoSuperior()==null || superior.getTipoSuperior()==0);
     }
 
-    private boolean condicionPrendaSuperiorTipo(Superior prenda,Integer tipo){
+    private boolean condicionPrendaSuperiorTipo(Prenda prenda,Integer tipo){
         Superior superior = (Superior) prenda;
         //TODO: condicion para agregar o no una prenda al atuendo;
         return (superior.getTipoSuperior()==tipo);

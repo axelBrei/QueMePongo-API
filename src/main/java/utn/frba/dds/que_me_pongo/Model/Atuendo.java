@@ -4,6 +4,7 @@ import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Superior;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Atuendo {
     private List<Prenda> prendas;
@@ -24,16 +25,17 @@ public class Atuendo {
     }
 
     public Boolean esSuficienteAbrigado(Float temperatura){
-        Double top = 50.0;
+        Double top = 55.0;
         Double margen = 5.0;
         Double necesita = top - temperatura;
 
         if(necesita<20.0){
             return this.getAbrigo()==20.0;
         }else{
+
             return (this.getAbrigo()<=necesita+margen && this.getAbrigo()>=necesita-margen);
         }
-            //exception
+
 
     }
 
@@ -46,7 +48,8 @@ public class Atuendo {
     }
 
     public Boolean esCorrecto(){
-        List<Superior> prendaList = (List<Superior>) prendas.stream().filter(p -> p.getClass().equals(Superior.class));
+        List<Superior> prendaList = this.prendas.stream().filter(p -> p.getClass().equals(Superior.class)).map(prenda -> new Superior().prendaToSuperior(prenda)).collect(Collectors.toList());
+
 
         Integer cant = prendaList.size();
 

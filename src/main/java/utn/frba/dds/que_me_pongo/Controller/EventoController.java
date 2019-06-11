@@ -7,8 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS;
 import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO;
+import utn.frba.dds.que_me_pongo.Exceptions.AtuendoIncompletoException;
+import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaPrendasException;
 import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
 
@@ -19,6 +22,7 @@ import utn.frba.dds.que_me_pongo.WebServices.Responses.GetCantidadGuardarropasRe
 import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.CantidadGuardarropaResponseObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -61,7 +65,15 @@ public class EventoController {
         }
 
         //nuevo generar
-        List<Atuendo> atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAtuendoParaEvento(evento,climaService);
+        List<Atuendo> atuendos = new ArrayList<Atuendo>();
+        try {
+            atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAtuendoParaEvento(evento,climaService);
+            if(atuendos.isEmpty())
+                throw new GuardarropaPrendasException(HttpStatus.NOT_FOUND);
+        }catch (NullPointerException e){
+            throw new GuardarropaPrendasException(HttpStatus.NOT_FOUND);
+        }
+
 
         return new ResponseEntity<>(atuendos, HttpStatus.OK);
     }

@@ -23,9 +23,9 @@ public class ClimaApiUNO implements ClimaService {
         cincoDias.setTime(now.getTime() + 5*24*60*60*1000);
 
         if(evento.getDate().getTime()<now.getTime()){
-            throw new NullPointerException("\033[0;1m"+"Fecha menor a la actual"+"\033[0;0m");
+            throw new NullPointerException("Fecha menor a la actual");
         }else if(evento.getDate().getTime()>cincoDias.getTime()){
-            throw new NullPointerException("\033[0;1m"+"Fecha más de 5 dias mayor a la actual"+"\033[0;0m");
+            throw new NullPointerException("Fecha más de 5 dias mayor a la actual");
         }
 
 
