@@ -50,6 +50,8 @@ public class Prenda {
         return descripcion;
     }
 
+
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
@@ -76,6 +78,10 @@ public class Prenda {
 
     public void setTipoDePrenda(String tipoDePrenda) {
         this.tipoDePrenda = tipoDePrenda;
+    }
+
+    public Double getAbrigo(){
+        return 0.0;
     }
 
     @Override

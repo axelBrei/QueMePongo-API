@@ -9,9 +9,11 @@ import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Model.Atuendo;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
+import utn.frba.dds.que_me_pongo.Model.TipoCliente;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/atuendo")
@@ -24,9 +26,21 @@ public class AtuendoController {
     public ResponseEntity<Atuendo> getPrendas(@RequestBody GetAtuendoRecomendadoRequest body) throws IOException {
         Cliente cliente = ClienteJsonParser.getCliente(body.getUsername());
 
+
+
         Atuendo atuendo = cliente.getGuardarropa(body.getIdGuardarropa()).generarAtuendo();
 
         return new ResponseEntity<>(atuendo, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "getAllAtuendos", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public ResponseEntity<List<Atuendo>> getAllAtuendos(@RequestBody GetAtuendoRecomendadoRequest body) throws IOException {
+        Cliente cliente = ClienteJsonParser.getCliente(body.getUsername());
+
+
+        List<Atuendo> atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAllAtuendos();
+
+        return new ResponseEntity<>(atuendos, HttpStatus.OK);
     }
 
 

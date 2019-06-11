@@ -1,7 +1,11 @@
 package utn.frba.dds.que_me_pongo.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TipoCliente {
+    @JsonProperty("nombreTipo")
     private String nombre;
+    @JsonProperty("prendasMax")
     private Integer PrendasMax;
 
     public TipoCliente setTipoClienteGratuito(){

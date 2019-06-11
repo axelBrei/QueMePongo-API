@@ -12,10 +12,21 @@ public class Superior extends Prenda {
     }
 
     public Integer getTipoSuperior() {
+        if(TipoSuperior==null)
+            return 0;
+
         return TipoSuperior;
     }
 
     public void setTipoSuperior(Integer tipoSuperior) {
         TipoSuperior = tipoSuperior;
     }
+
+
+
+    @Override
+    public Double getAbrigo(){
+        return 10.0;
+    }
+
 }

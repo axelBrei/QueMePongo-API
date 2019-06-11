@@ -9,6 +9,9 @@ public class Accesorios extends Prenda {
     public Accesorios(Integer id, String tipoDeTela, String descripcion, String colorP, String colorS, String tipoDePrenda) {
         super(id, tipoDeTela, descripcion, colorP, colorS, tipoDePrenda);
     }
-
+    @Override
+    public Double getAbrigo(){
+        return 0.0;
+    }
 
 }

@@ -71,9 +71,9 @@ public class Guardarropa{
         return atuendo;
     }
 
-    public Atuendo generarAtuendoParaEvento(Evento evento,ClimaService climaService){
+    public List<Atuendo> generarAllAtuendos(){
         AtuendosRecomendationHelper atuendosHelper = new AtuendosRecomendationHelper();
-        Atuendo atuendo = atuendosHelper.generarAtuendoRecomendado(
+        List<Atuendo> atuendos = atuendosHelper.generarAllAtuendos(
                 this.getPrendas(),
                 // COndicion para filtrar prendas
                 (prenda -> {return true;}),
@@ -81,7 +81,22 @@ public class Guardarropa{
                 (prenda -> {return true;})
         );
 
-        return atuendo;
+        return atuendos;
+    }
+
+    public List<Atuendo> generarAtuendoParaEvento(Evento evento,ClimaService climaService){
+        AtuendosRecomendationHelper atuendosHelper = new AtuendosRecomendationHelper();
+        List<Atuendo> atuendos = atuendosHelper.generarAllAtuendoRecomendadoParaEvento(
+                this.getPrendas(),
+                evento,
+                climaService,
+                // COndicion para filtrar prendas
+                (prenda -> {return true;}),
+                //Condicion para filtrar el accesorio
+                (prenda -> {return true;})
+        );
+
+        return atuendos;
     }
 
     public void setId(int id) {

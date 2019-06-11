@@ -10,4 +10,8 @@ public class Calzado extends Prenda {
     public Calzado(Integer id, String tipoDeTela, String descripcion, String colorP, String colorS, String tipoDePrenda) {
         super( id, tipoDeTela, descripcion, colorP, colorS, tipoDePrenda);
     }
+    @Override
+    public Double getAbrigo(){
+        return 5.0;
+    }
 }

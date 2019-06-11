@@ -39,7 +39,7 @@ public class EventoController {
     @Autowired
     private AtuendosRecomendationHelper atuendosHelper;
     @RequestMapping(value = "/atuendo", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Atuendo> getPrendas(@RequestBody GetAtuendoRecomendadoParaEventoRequest body) throws IOException {
+    public ResponseEntity<List<Atuendo>> getPrendas(@RequestBody GetAtuendoRecomendadoParaEventoRequest body) throws IOException {
 
         Cliente cliente = ClienteJsonParser.getCliente(body.getUsername());
         Evento evento = body.getEvento();
@@ -61,8 +61,8 @@ public class EventoController {
         }
 
         //nuevo generar
-        Atuendo atuendo = cliente.getGuardarropa(body.getIdGuardarropa()).generarAtuendoParaEvento(evento,climaService);
+        List<Atuendo> atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAtuendoParaEvento(evento,climaService);
 
-        return new ResponseEntity<>(atuendo, HttpStatus.OK);
+        return new ResponseEntity<>(atuendos, HttpStatus.OK);
     }
 }
