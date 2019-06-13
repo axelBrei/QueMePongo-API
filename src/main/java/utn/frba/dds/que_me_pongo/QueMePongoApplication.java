@@ -1,23 +1,26 @@
 package utn.frba.dds.que_me_pongo;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import org.paukov.combinatorics.Factory;
+import org.paukov.combinatorics.Generator;
+import org.paukov.combinatorics.ICombinatoricsVector;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import utn.frba.dds.que_me_pongo.Model.*;
+import sun.security.smartcardio.SunPCSC;
 import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS;
 import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO;
-
+import utn.frba.dds.que_me_pongo.Model.ClimaService;
+import utn.frba.dds.que_me_pongo.Model.Evento;
+import utn.frba.dds.que_me_pongo.Model.Ubicacion;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
+
+
+
+
 
 @SpringBootApplication
 public class QueMePongoApplication {
@@ -39,6 +42,15 @@ public class QueMePongoApplication {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        Factory factory = new Factory();
+        ICombinatoricsVector initialvector = Factory.createVector(new String[] {"hola","chau","peter","nida"});
+        Generator gen = Factory.createSimpleCombinationGenerator(initialvector,3);
+
+        List<ICombinatoricsVector<String>> list = gen.generateAllObjects();
+
+        list.forEach(c->System.out.println(c.getVector().toString()));
+
 
         Evento evento = new Evento("casamiento",d,ubicacion);
         /*
@@ -66,7 +78,6 @@ public class QueMePongoApplication {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
 
 
 
