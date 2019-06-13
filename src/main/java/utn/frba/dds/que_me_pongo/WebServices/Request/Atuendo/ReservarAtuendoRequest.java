@@ -1,13 +1,14 @@
 package utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo;
 
 import utn.frba.dds.que_me_pongo.Model.Atuendo;
+import utn.frba.dds.que_me_pongo.Model.AtuendoReservado;
 
-public class GetAtuendoRecomendadoRequest {
+public class ReservarAtuendoRequest {
     private String username;
     private Integer idGuardarropa;
-    private Atuendo atuendo;
+    private AtuendoReservado atuendo;
 
-    public GetAtuendoRecomendadoRequest() {
+    public ReservarAtuendoRequest() {
     }
 
     public String getUsername() {
@@ -26,11 +27,11 @@ public class GetAtuendoRecomendadoRequest {
         this.idGuardarropa = idGuardarropa;
     }
 
-    public Atuendo getAtuendo() {
+    public AtuendoReservado getAtuendo() {
         return atuendo;
     }
 
-    public void setAtuendo(Atuendo atuendo) {
+    public void setAtuendo(AtuendoReservado atuendo) {
         this.atuendo = atuendo;
     }
 }

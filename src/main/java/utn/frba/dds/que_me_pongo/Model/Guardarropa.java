@@ -6,13 +6,11 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 import org.springframework.http.HttpStatus;
 import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
+import utn.frba.dds.que_me_pongo.Exceptions.NoSePuedoReservarException;
 import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
 import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Guardarropa{
@@ -20,6 +18,7 @@ public class Guardarropa{
     private String descripcion;
     private int id;
     private List<Prenda> prendas = new ArrayList<>();
+   // private List<AtuendoReservado> atuendosReservados = new ArrayList<>();
 
 
     public Guardarropa() {
@@ -57,7 +56,32 @@ public class Guardarropa{
     public int getId() {
         return id;
     }
+/*
+    public void reservarAtuendo(Atuendo atuendo,Date desde,Date hasta){
+        if(existeElAtuendo(atuendo) && estaLibre(atuendo,desde,hasta)) {
+            this.atuendosReservados.add(new AtuendoReservado(atuendo, desde, hasta));
+        }else {
+            throw new NoSePuedoReservarException(HttpStatus.NOT_FOUND);
+        }
+    }
 
+    public Boolean sePuedeReservar(Atuendo atuendo,Date desde,Date hasta){
+        return (existeElAtuendo(atuendo) && estaLibre(atuendo,desde,hasta));
+    }
+
+
+    private Boolean existeElAtuendo(Atuendo atuendo){
+        //si existen las prendas en el guardarropa
+        return  (atuendo.getPrendas().stream().allMatch(p-> prendas.stream().anyMatch(prenda->prenda.getId().equals(p.getId()))));
+    }
+
+    private Boolean estaLibre(Atuendo atuendo, Date desde,Date hasta){
+        //solo los atuendos que tengan algua de las prendas
+        List<AtuendoReservado> reservas = atuendosReservados.stream().filter(reservado -> reservado.getAtuendo().tieneAlgunaPrenda(atuendo.getPrendas())).collect(Collectors.toList());
+        //todas se pueden reservar para ese tiempo
+        return  reservas.stream().noneMatch(res -> res.estaReservada(desde,hasta));
+    }
+*/
     public Atuendo generarAtuendo(){
         AtuendosRecomendationHelper atuendosHelper = new AtuendosRecomendationHelper();
         Atuendo atuendo = atuendosHelper.generarAtuendoRecomendado(

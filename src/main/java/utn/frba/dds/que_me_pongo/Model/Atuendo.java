@@ -24,6 +24,10 @@ public class Atuendo {
         prendas.addAll(p);
     }
 
+    public Boolean tieneAlgunaPrenda(List<Prenda> prendas){
+        return  this.prendas.stream().anyMatch(p-> prendas.stream().anyMatch(prenda -> prenda.getId().equals(p.getId())));
+    }
+
     public Boolean esSuficienteAbrigado(Float temperatura){
         Double top = 55.0;
         Double margen = 5.0;

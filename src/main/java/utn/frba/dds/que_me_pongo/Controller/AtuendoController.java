@@ -9,10 +9,9 @@ import org.springframework.web.server.ResponseStatusException;
 import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaPrendasException;
 import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
-import utn.frba.dds.que_me_pongo.Model.Atuendo;
-import utn.frba.dds.que_me_pongo.Model.Cliente;
-import utn.frba.dds.que_me_pongo.Model.TipoCliente;
+import utn.frba.dds.que_me_pongo.Model.*;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
+import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.ReservarAtuendoRequest;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +51,17 @@ public class AtuendoController {
 
 
         return new ResponseEntity<>(atuendos, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "reservarAtuendo", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public ResponseEntity<Atuendo> reservarAtuendo(@RequestBody ReservarAtuendoRequest body) throws IOException {
+        Cliente cliente = ClienteJsonParser.getCliente(body.getUsername());
+        Guardarropa guardarropa= cliente.getGuardarropa(body.getIdGuardarropa());
+        //Atuendo a reservar
+        AtuendoReservado reserva = body.getAtuendo();
+        //guardarropa.reservarAtuendo(reserva.getAtuendo(),reserva.getDesde(),reserva.getHasta());
+
+        return new ResponseEntity<>(reserva.getAtuendo(), HttpStatus.OK);
     }
 
 
