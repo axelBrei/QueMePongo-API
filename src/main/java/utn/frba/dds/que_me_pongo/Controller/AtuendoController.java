@@ -29,8 +29,8 @@ public class AtuendoController {
         Cliente cliente = ClienteJsonParser.getCliente(body.getUsername());
 
 
-
-        Atuendo atuendo = cliente.getGuardarropa(body.getIdGuardarropa()).generarAtuendo();
+        Atuendo atuendo = new Atuendo();
+//        Atuendo atuendo = cliente.getGuardarropa(body.getIdGuardarropa()).generarAtuendo();
 
         return new ResponseEntity<>(atuendo, HttpStatus.OK);
     }
@@ -42,7 +42,7 @@ public class AtuendoController {
 
         List<Atuendo> atuendos = new ArrayList<Atuendo>();
         try {
-            atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAllAtuendos();
+//            atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAllAtuendos();
             if(atuendos.isEmpty())
                 throw new GuardarropaPrendasException(HttpStatus.NOT_FOUND);
         }catch (NullPointerException e){

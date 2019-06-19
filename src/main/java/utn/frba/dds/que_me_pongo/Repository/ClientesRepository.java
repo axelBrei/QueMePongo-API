@@ -12,7 +12,4 @@ import utn.frba.dds.que_me_pongo.Model.Cliente;
 public interface ClientesRepository extends JpaRepository<Cliente, Integer> {
     Cliente findClienteByUid(String uid);
     void deleteByUid(String id);
-
-//    @Query("INSERT INTO public.")
-//    void addGuardarropa();
 }

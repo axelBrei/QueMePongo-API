@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Superior;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,25 +72,25 @@ public class Atuendo {
         return abrigo;
     }
 
-    public Boolean esCorrecto(){
-        List<Superior> prendaList = this.prendas.stream().filter(p -> p.getClass().equals(Superior.class)).map(prenda -> new Superior().prendaToSuperior(prenda)).collect(Collectors.toList());
-
-
-        Integer cant = prendaList.size();
-
-
-        switch (cant){
-            case 1:
-                return (prendaList.get(0).getTipoSuperior()==0);
-            case 2:
-                return (1==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
-            case 3:
-                return (3==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
-            case 4:
-                return (6==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
-        }
-        return false;
-    }
+//    public Boolean esCorrecto(){
+//        List<Superior> prendaList = this.prendas.stream().filter(p -> p.getClass().equals(Superior.class)).map(prenda -> new Superior().prendaToSuperior(prenda)).collect(Collectors.toList());
+//
+//
+//        Integer cant = prendaList.size();
+//
+//
+//        switch (cant){
+//            case 1:
+//                return (prendaList.get(0).getTipoSuperior()==0);
+//            case 2:
+//                return (1==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
+//            case 3:
+//                return (3==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
+//            case 4:
+//                return (6==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
+//        }
+//        return false;
+//    }
 
 
 
