@@ -4,16 +4,18 @@ import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.PrendaResponseObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GetPrendasResponse {
-    private List<Prenda> prendas = new ArrayList<>();
+    private Set<Prenda> prendas = new HashSet<>();
 
-    public void setPrendas(List<Prenda> prendas) {
+    public void setPrendas(Set<Prenda> prendas) {
         this.prendas = prendas;
     }
 
-    public List<Prenda> getPrendas() {
+    public Set<Prenda> getPrendas() {
         return prendas;
     }
 }

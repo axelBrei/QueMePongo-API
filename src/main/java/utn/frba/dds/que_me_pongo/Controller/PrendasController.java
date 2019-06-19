@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/prendas")
@@ -24,7 +25,7 @@ public class PrendasController {
     @RequestMapping(value = "getPrendas", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity getPrendasGuardarropas(@RequestBody GetPrendasRequest body) throws IOException {
         Cliente cliente = ClienteJsonParser.getCliente(body.getUid());
-        List<Prenda> prendas = cliente.getGuardarropa(body.getIdGuardarropa()).getPrendas();
+        Set<Prenda> prendas = cliente.getGuardarropa(body.getIdGuardarropa()).getPrendas();
 
         GetPrendasResponse response = new GetPrendasResponse();
         response.setPrendas(prendas);
