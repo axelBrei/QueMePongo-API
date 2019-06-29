@@ -3,13 +3,9 @@ package utn.frba.dds.que_me_pongo.Helpers;
 import org.paukov.combinatorics.CombinatoricsFactory;
 import org.paukov.combinatorics.Generator;
 import org.paukov.combinatorics.ICombinatoricsVector;
-import org.springframework.core.task.AsyncTaskExecutor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import utn.frba.dds.que_me_pongo.Exceptions.AtuendoIncompletoException;
 import utn.frba.dds.que_me_pongo.Model.Atuendo;
-import utn.frba.dds.que_me_pongo.Model.ClimaService;
-import utn.frba.dds.que_me_pongo.Model.Evento;
+
 import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Accesorios;
 import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Calzado;
@@ -17,7 +13,6 @@ import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Inferior;
 import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Superior;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.PrendaResponseObject;
 
-import java.lang.reflect.Executable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -25,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class AtuendosRecomendationHelper {
-    private List<Class<? extends Prenda>> tiposPrendaObligatorio = Arrays.asList(Superior.class, Inferior.class, Calzado.class);
+
     private List<Integer> superiorObligatorias = Arrays.asList(1,2);
     private List<Integer> inferiorObligatorias = Arrays.asList(1);
     private List<Integer> calzadoObligatorias = Arrays.asList(1);
@@ -131,16 +126,10 @@ public class AtuendosRecomendationHelper {
         for (int i = 1; i < cantOpcionales+1 ; i++) {
             List<List<Integer>> conv = vectorOptionalCombination(cantOpcionales,i);
             conv.forEach(unaConvinacion ->{
-
                 List<List<Optional<Prenda>>> seleccionados = seleccionarDelVector(opcionales,unaConvinacion);
                 secundario.addAll(addListToAtuendos(copymaster,convinaciones(seleccionados)));
-
-
             });
-
         }
-
-
         return secundario;
     }
 
