@@ -82,6 +82,7 @@ public class Guardarropa{
         return  reservas.stream().noneMatch(res -> res.estaReservada(desde,hasta));
     }
 */
+/*
     public Atuendo generarAtuendo(){
         AtuendosRecomendationHelper atuendosHelper = new AtuendosRecomendationHelper();
         Atuendo atuendo = atuendosHelper.generarAtuendoRecomendado(
@@ -94,7 +95,7 @@ public class Guardarropa{
 
         return atuendo;
     }
-
+    */
     public List<Atuendo> generarAllAtuendos(){
 
 
@@ -105,7 +106,7 @@ public class Guardarropa{
         return  atuendos;
         //return atuendos.stream().filter(a->a.esCorrecto()).collect(Collectors.toList());
     }
-
+    /*
     public List<Atuendo> generarAtuendoParaEvento(Evento evento,ClimaService climaService){
         Float temperatura = climaService.getTemperatura(evento);
         AtuendosRecomendationHelper atuendosHelper = new AtuendosRecomendationHelper();
@@ -120,7 +121,7 @@ public class Guardarropa{
 
         return atuendos.stream().filter(a->a.esCorrecto()).filter(a->a.esSuficienteAbrigado(temperatura)).collect(Collectors.toList());
     }
-
+    */
     public void setId(int id) {
         this.id = id;
     }

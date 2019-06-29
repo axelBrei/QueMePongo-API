@@ -64,13 +64,13 @@ public class Atuendo {
 
         switch (cant){
             case 1:
-                return (prendaList.get(0).getTipoSuperior()==0);
+                return (prendaList.get(0).getPosicion()==0);
             case 2:
-                return (1==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
+                return (1==prendaList.stream().mapToInt(Superior::getPosicion).sum());
             case 3:
-                return (3==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
+                return (3==prendaList.stream().mapToInt(Superior::getPosicion).sum());
             case 4:
-                return (6==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
+                return (6==prendaList.stream().mapToInt(Superior::getPosicion).sum());
         }
         return false;
     }

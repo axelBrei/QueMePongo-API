@@ -30,9 +30,9 @@ public class AtuendoController {
 
 
 
-        Atuendo atuendo = cliente.getGuardarropa(body.getIdGuardarropa()).generarAtuendo();
+        //Atuendo atuendo = cliente.getGuardarropa(body.getIdGuardarropa()).generarAllAtuendos();
 
-        return new ResponseEntity<>(atuendo, HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @RequestMapping(value = "getAllAtuendos", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)

@@ -67,7 +67,7 @@ public class EventoController {
         //nuevo generar
         List<Atuendo> atuendos = new ArrayList<Atuendo>();
         try {
-            atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAtuendoParaEvento(evento,climaService);
+            atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAllAtuendos();
             if(atuendos.isEmpty())
                 throw new GuardarropaPrendasException(HttpStatus.NOT_FOUND);
         }catch (NullPointerException e){
