@@ -12,6 +12,10 @@ public class Atuendo {
     public Atuendo(List<Prenda> prendas) {
         this.prendas = prendas;
     }
+    public Atuendo(Prenda prenda) {
+        this.prendas = new ArrayList<Prenda>();
+        this.prendas.add(prenda);
+    }
 
     public Atuendo() {
         prendas = new ArrayList<>();

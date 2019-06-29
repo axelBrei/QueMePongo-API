@@ -96,17 +96,14 @@ public class Guardarropa{
     }
 
     public List<Atuendo> generarAllAtuendos(){
+
+
+
         AtuendosRecomendationHelper atuendosHelper = new AtuendosRecomendationHelper();
-        List<Atuendo> atuendos = atuendosHelper.generarAllAtuendos(
-                this.getPrendas(),
-                // COndicion para filtrar prendas
-                (prenda -> {return true;}),
-                //Condicion para filtrar el accesorio
-                (prenda -> {return true;})
-        );
+        List<Atuendo> atuendos = atuendosHelper.generarAtuendosCero( this.getPrendas() );
 
-
-        return atuendos.stream().filter(a->a.esCorrecto()).collect(Collectors.toList());
+        return  atuendos;
+        //return atuendos.stream().filter(a->a.esCorrecto()).collect(Collectors.toList());
     }
 
     public List<Atuendo> generarAtuendoParaEvento(Evento evento,ClimaService climaService){

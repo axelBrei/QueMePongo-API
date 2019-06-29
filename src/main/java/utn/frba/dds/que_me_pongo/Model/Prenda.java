@@ -11,6 +11,7 @@ import utn.frba.dds.que_me_pongo.Helpers.Serializer.PrendaSerializer;
 public class Prenda {
 
     private Integer id;
+    private Integer posicion;
     private String tipoDeTela = "";
     private String descripcion = "";
     private String colorP = "";
@@ -28,6 +29,17 @@ public class Prenda {
     }
 
     public Prenda() {
+    }
+
+    public Integer getPosicion() {
+        if(this.posicion==null)
+                return  0;
+
+        return this.posicion;
+    }
+
+    public void setPosicion(Integer posicion) {
+        this.posicion = posicion;
     }
 
     public Integer getId() {
