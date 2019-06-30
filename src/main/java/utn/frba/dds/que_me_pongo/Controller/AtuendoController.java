@@ -52,7 +52,7 @@ public class AtuendoController {
 
         return new ResponseEntity<>(atuendos, HttpStatus.OK);
     }
-
+    /*
     @RequestMapping(value = "reservarAtuendo", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Atuendo> reservarAtuendo(@RequestBody ReservarAtuendoRequest body) throws IOException {
         Cliente cliente = ClienteJsonParser.getCliente(body.getUsername());
@@ -63,7 +63,7 @@ public class AtuendoController {
 
         return new ResponseEntity<>(reserva.getAtuendo(), HttpStatus.OK);
     }
-
+    */
 
 
 }

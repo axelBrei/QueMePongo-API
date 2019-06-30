@@ -22,7 +22,7 @@ public class Superior extends Prenda {
 
     @Override
     public Double getAbrigo(){
-        return 8.0;
+        return 10.0;
     }
 
 }

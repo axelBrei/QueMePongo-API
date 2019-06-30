@@ -35,7 +35,6 @@ public class EventoController {
     {
 	"username":"Q7xKaH8qPiUW2tz7DF7eVqdQ7253",
 	"idGuardarropa":0,
-	"climaApi":0,
 	"evento":{"nombre":"casamiento","fecha":"2019-06-10T15:10:00","hora":0,"ubicacion":{"latitud":-34.603,"longitud":-58.424,"radio":5.0},"sugeridos":[]}
     }
      */
@@ -48,26 +47,13 @@ public class EventoController {
         Cliente cliente = ClienteJsonParser.getCliente(body.getUsername());
         Evento evento = body.getEvento();
 
+        ClimaService climaService = new ClimaApiDOS();
+        Float temperatura = climaService.getTemperatura(evento);
 
-        int apiNumero = body.getClimaApi();
-        ClimaService climaService;
 
-        switch (apiNumero){
-            case 0:
-                climaService = new ClimaApiUNO();
-            break;
-            case 1:
-                climaService = new ClimaApiDOS();
-            break;
-            default:
-                climaService = new ClimaApiUNO();
-            break;
-        }
-
-        //nuevo generar
         List<Atuendo> atuendos = new ArrayList<Atuendo>();
         try {
-            atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAllAtuendos();
+            atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAllAtuendos(temperatura);
             if(atuendos.isEmpty())
                 throw new GuardarropaPrendasException(HttpStatus.NOT_FOUND);
         }catch (NullPointerException e){

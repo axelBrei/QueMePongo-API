@@ -82,46 +82,17 @@ public class Guardarropa{
         return  reservas.stream().noneMatch(res -> res.estaReservada(desde,hasta));
     }
 */
-/*
-    public Atuendo generarAtuendo(){
-        AtuendosRecomendationHelper atuendosHelper = new AtuendosRecomendationHelper();
-        Atuendo atuendo = atuendosHelper.generarAtuendoRecomendado(
-                this.getPrendas(),
-                // COndicion para filtrar prendas
-                (prenda -> {return true;}),
-                //Condicion para filtrar el accesorio
-                (prenda -> {return true;})
-        );
 
-        return atuendo;
-    }
-    */
     public List<Atuendo> generarAllAtuendos(){
-
-
-
         AtuendosRecomendationHelper atuendosHelper = new AtuendosRecomendationHelper();
-        List<Atuendo> atuendos = atuendosHelper.generarAtuendosCero( this.getPrendas() );
-
-        return  atuendos;
-        //return atuendos.stream().filter(a->a.esCorrecto()).collect(Collectors.toList());
+        return atuendosHelper.execute( this.getPrendas() );
     }
-    /*
-    public List<Atuendo> generarAtuendoParaEvento(Evento evento,ClimaService climaService){
-        Float temperatura = climaService.getTemperatura(evento);
+
+    public List<Atuendo> generarAllAtuendos(Float temperatura){
         AtuendosRecomendationHelper atuendosHelper = new AtuendosRecomendationHelper();
-
-        List<Atuendo> atuendos = atuendosHelper.generarAllAtuendos(
-                this.getPrendas(),
-                // COndicion para filtrar prendas
-                (prenda -> {return true;}),
-                //Condicion para filtrar el accesorio
-                (prenda -> {return true;})
-        );
-
-        return atuendos.stream().filter(a->a.esCorrecto()).filter(a->a.esSuficienteAbrigado(temperatura)).collect(Collectors.toList());
+        return atuendosHelper.execute( this.getPrendas() , temperatura);
     }
-    */
+
     public void setId(int id) {
         this.id = id;
     }

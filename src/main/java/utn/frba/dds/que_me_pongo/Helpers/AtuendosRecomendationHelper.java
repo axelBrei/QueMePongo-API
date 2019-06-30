@@ -21,12 +21,36 @@ import java.util.stream.Collectors;
 @Service
 public class AtuendosRecomendationHelper {
 
-    private List<Integer> superiorObligatorias = Arrays.asList(1,2);
+    private List<Integer> superiorObligatorias = Arrays.asList(1);
     private List<Integer> inferiorObligatorias = Arrays.asList(1);
     private List<Integer> calzadoObligatorias = Arrays.asList(1);
 
+    public List<Atuendo> execute(List<Prenda> prendas){
+        List<Prenda> filtardas = filtrarPrendas(prendas);
+        List<Atuendo> atuendos = generarAtuendos(filtardas);
 
-    private List<Atuendo> generarAtuendos(List<Prenda> superior, List<Prenda> inferior, List<Prenda> calzado, List<Prenda> accesorio){
+        return atuendos;
+    }
+
+    public List<Atuendo> execute(List<Prenda> prendas,Float temperatura){
+        List<Prenda> prendasFiltradas = filtrarPrendas(prendas);
+        List<Atuendo> atuendos = generarAtuendos(prendasFiltradas);
+        List<Atuendo> filtrados = filtrarCombinaciones(atuendos,temperatura);
+
+        return filtrados;
+    }
+
+    private List<Atuendo> filtrarCombinaciones(List<Atuendo> atuendos,Float temperatura) {
+        return atuendos.stream().filter(atuendo -> atuendo.esSuficienteAbrigado(temperatura)).collect(Collectors.toList());
+    }
+
+
+    private List<Prenda> filtrarPrendas(List<Prenda> prendas) {
+        return prendas.stream().filter(this::prendaAceptada).collect(Collectors.toList());
+    }
+
+
+    private List<Atuendo> generadorDeCombinaciones(List<Prenda> superior, List<Prenda> inferior, List<Prenda> calzado, List<Prenda> accesorio){
         List<Prenda> superiorObl = filterPorPosicion(superior,this.superiorObligatorias);
         List<Prenda> inferiorObl = filterPorPosicion(inferior,this.inferiorObligatorias);
         List<Prenda> calzadoObl =  filterPorPosicion(calzado,this.calzadoObligatorias);
@@ -74,8 +98,8 @@ public class AtuendosRecomendationHelper {
     }
 
 
-    public List<Atuendo> generarAtuendosCero(List<Prenda> superior){
-        return generarAtuendos(superior.stream().filter(p->p.getClass().equals(Superior.class)).collect(Collectors.toList()),
+    public List<Atuendo> generarAtuendos(List<Prenda> superior){
+        return generadorDeCombinaciones(superior.stream().filter(p->p.getClass().equals(Superior.class)).collect(Collectors.toList()),
                                 superior.stream().filter(p->p.getClass().equals(Inferior.class)).collect(Collectors.toList()),
                                 superior.stream().filter(p->p.getClass().equals(Calzado.class)).collect(Collectors.toList()),
                                     superior.stream().filter(p->p.getClass().equals(Accesorios.class)).collect(Collectors.toList()));
@@ -259,6 +283,29 @@ public class AtuendosRecomendationHelper {
 
     private Function<? super Prenda, PrendaResponseObject> convertirAPrenda(){
         return prenda -> new PrendaResponseObject(prenda, prenda.getClass().getName());
+    }
+
+    private boolean prendaAceptada(Prenda prenda) {
+        if(prenda.getDescripcion().equals("Campera")&&prenda.getTipoDeTela().equals("Seda"))
+            return false;
+        if(prenda.getDescripcion().equals("Buso")&&prenda.getTipoDeTela().equals("Seda"))
+            return false;
+        if(prenda.getDescripcion().equals("Remera")&&prenda.getTipoDeTela().equals("Cuero"))
+            return false;
+        if(prenda.getDescripcion().equals("Remera")&&prenda.getTipoDeTela().equals("Polar"))
+            return false;
+        if(prenda.getDescripcion().equals("Zapatilla")&&prenda.getTipoDeTela().equals("Seda"))
+            return false;
+        if(prenda.getDescripcion().equals("Zapatilla")&&prenda.getTipoDeTela().equals("Polar"))
+            return false;
+        if(prenda.getDescripcion().equals("Zapato")&&prenda.getTipoDeTela().equals("Algodon"))
+            return false;
+        if(prenda.getDescripcion().equals("Zapato")&&prenda.getTipoDeTela().equals("Seda"))
+            return false;
+        if(prenda.getDescripcion().equals("Zapato")&&prenda.getTipoDeTela().equals("Polar"))
+            return false;
+
+        return true;
     }
 
     /**

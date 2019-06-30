@@ -33,18 +33,16 @@ public class Atuendo {
     }
 
     public Boolean esSuficienteAbrigado(Float temperatura){
-        Double top = 55.0;
+        Double top = 50.0;
         Double margen = 5.0;
         Double necesita = top - temperatura;
 
-        if(necesita<20.0){
-            return this.getAbrigo()==20.0;
+        if(necesita<20){
+            return this.getAbrigo()==20;
         }else{
-
+            System.out.println(necesita);
             return (this.getAbrigo()<=necesita+margen && this.getAbrigo()>=necesita-margen);
         }
-
-
     }
 
     public Double getAbrigo(){
