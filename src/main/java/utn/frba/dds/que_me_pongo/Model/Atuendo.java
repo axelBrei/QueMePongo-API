@@ -40,7 +40,6 @@ public class Atuendo {
         if(necesita<20){
             return this.getAbrigo()==20;
         }else{
-            System.out.println(necesita);
             return (this.getAbrigo()<=necesita+margen && this.getAbrigo()>=necesita-margen);
         }
     }
