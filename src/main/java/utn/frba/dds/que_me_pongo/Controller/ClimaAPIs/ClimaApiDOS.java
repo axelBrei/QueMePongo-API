@@ -1,7 +1,7 @@
 package utn.frba.dds.que_me_pongo.Controller.ClimaAPIs;
 
-import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassDarkSkyWeather.DarkSkyResponse;
-import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassDarkSkyWeather.Weather;
+import utn.frba.dds.que_me_pongo.WebServices.PronosticoClassDarkSkyWeather.DarkSkyResponse;
+import utn.frba.dds.que_me_pongo.WebServices.PronosticoClassDarkSkyWeather.Weather;
 import utn.frba.dds.que_me_pongo.Model.ClimaService;
 import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.WebServices.Request.ClimaRequest.RequestDarkSkyWeather;
@@ -11,7 +11,6 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.concurrent.ExecutionException;
 
 public class ClimaApiDOS implements ClimaService {
     @Override

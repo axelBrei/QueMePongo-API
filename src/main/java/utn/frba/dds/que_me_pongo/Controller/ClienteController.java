@@ -5,7 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.TipoCliente;
@@ -34,20 +37,25 @@ public class ClienteController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/borrar",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @RequestMapping(value = "/borrar",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Transactional
     public ResponseEntity eliminarCliente(@RequestParam String id){
         clientesRepository.deleteByUid(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/getall",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/getall",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAllClientes(){
         return new ResponseEntity(clientesRepository.findAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/cargarTipos",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/cargarTipos",method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity agregarTiposDeCliente(){
         TipoCliente tipo = new TipoCliente();
+        if(tipoClienteRepository.findByNombre("Gratuito") != null)
+            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Ya existe los tipos de cliente en la base de datos");
+
         tipoClienteRepository.save(tipo.setTipoClienteGratuito());
         tipoClienteRepository.save(tipo.setTipoClientePremium());
         return new ResponseEntity(HttpStatus.OK);
