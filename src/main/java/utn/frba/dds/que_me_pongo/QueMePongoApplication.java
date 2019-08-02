@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Model.*;
 import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS;
 import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO;
@@ -25,26 +26,10 @@ import java.util.concurrent.ExecutionException;
 @SpringBootApplication
 public class QueMePongoApplication {
 
-    @Autowired
-    TipoClienteRepository tipoClienteRepository;
 
 
     public static void main(String[] args) {
         SpringApplication.run(QueMePongoApplication.class, args);
-
-        Ubicacion ubicacion = new Ubicacion(-34.603, -58.424);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-
-        String fecha = "2019-06-10 15:10:00";
-
-        Date d = new Date();
-        try {
-            //return format.parse(this.dt_txt);
-            d = format.parse(fecha);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
+}
 
 }

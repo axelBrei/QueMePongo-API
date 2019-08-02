@@ -29,7 +29,6 @@ public class ClienteGuardarropaRepositoryImpl implements ClienteGuardarropaRepos
     @Override
     public boolean removeGuardarropaDelCliente(Cliente c, int id) {
        try{
-           guardarropasRepository.deleteById(id);
            c.deleteGuardarropa(id);
            clientesRepository.save(c);
            return true;

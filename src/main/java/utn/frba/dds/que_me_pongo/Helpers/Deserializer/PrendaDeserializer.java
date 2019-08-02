@@ -33,7 +33,12 @@ public class PrendaDeserializer extends JsonDeserializer<Prenda> {
                 try{
                     if(auxNode.isInt()){
                         Integer num = auxNode.asInt();
-                        f.set(p, num == 0 ? null : num);
+                        f.set(p, num < 0 ? null : num);
+//                        f.set(p, num == 0 ? null : num);
+                    }
+                    if (auxNode.isDouble()){
+                        Double num = auxNode.asDouble();
+                        f.set(p, num);
                     }
                     if(auxNode.isTextual()){
                         String val = auxNode.asText();

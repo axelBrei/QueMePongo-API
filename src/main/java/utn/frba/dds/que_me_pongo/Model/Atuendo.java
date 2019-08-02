@@ -38,6 +38,11 @@ public class Atuendo {
         this.prendas = prendas;
     }
 
+    public Atuendo(Integer id, List<Prenda> prendas) {
+        this.prendas = prendas;
+        this.id = id;
+    }
+
     public void anadirPrenda(Prenda p){
         prendas.add(p);
     }
