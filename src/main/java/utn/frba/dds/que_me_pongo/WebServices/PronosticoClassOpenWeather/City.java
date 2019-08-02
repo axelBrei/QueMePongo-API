@@ -1,4 +1,4 @@
-package utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather;
+package utn.frba.dds.que_me_pongo.WebServices.PronosticoClassOpenWeather;
 
 public class City {
     private float id;

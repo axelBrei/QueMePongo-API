@@ -2,7 +2,7 @@ package utn.frba.dds.que_me_pongo.WebServices.Request.ClimaRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassDarkSkyWeather.DarkSkyResponse;
+import utn.frba.dds.que_me_pongo.WebServices.PronosticoClassDarkSkyWeather.DarkSkyResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
