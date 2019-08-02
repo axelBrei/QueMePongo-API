@@ -5,22 +5,66 @@ package utn.frba.dds.que_me_pongo.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.springframework.http.HttpStatus;
+
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaLimitException;
 import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
 import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
-public class Cliente {
-    private String uid;
-    private String mail;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Data
+@Entity
+@Table(name = "Clientes")
+@FieldDefaults( level = AccessLevel.PRIVATE)
+@Setter
+@Getter
+@NoArgsConstructor
+public class Cliente  implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    int id;
+
+
+    String uid;
+    @Column(name = "mail")
+    String mail;
+
     @JsonProperty("tipoCliente")
-    private TipoCliente tipoCliente;
+    @OneToOne(targetEntity = TipoCliente.class)
+    TipoCliente tipoCliente;
+
     @JsonProperty("nombre")
-    private String name;
-    private List<Guardarropa> guardarropas = new ArrayList<>();
+    String name;
+
+    @ElementCollection(targetClass = Guardarropa.class)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "Clientes", targetEntity = Guardarropa.class)
+    Set<Guardarropa> guardarropas = new HashSet<>();
 
     public Cliente(String uid, String mail, String name,TipoCliente tipoCliente) {
         this.uid = uid;
@@ -40,17 +84,6 @@ public class Cliente {
         this.mail = mail;
         this.name = name;
         tipoCliente = new TipoCliente().setTipoClienteGratuito();
-    }
-
-    public Cliente() {
-    }
-
-    public List<Guardarropa> getGuardarropas() {
-        return this.guardarropas;
-    }
-
-    public void setGuardarropas(List<Guardarropa> guardarropas) {
-        this.guardarropas = guardarropas;
     }
 
     public void addGuardarropa(Guardarropa g){

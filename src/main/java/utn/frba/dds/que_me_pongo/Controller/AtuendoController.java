@@ -10,12 +10,14 @@ import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaPrendasException;
 import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Model.*;
+import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.ReservarAtuendoRequest;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/atuendo")
@@ -23,14 +25,15 @@ public class AtuendoController {
 
     @Autowired
     private AtuendosRecomendationHelper atuendosHelper;
+    @Autowired
+    ClientesRepository clientesRepository;
 
     @RequestMapping(value = "getRecomendadosDesdeGuardaropa", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<Atuendo> getPrendas(@RequestBody GetAtuendoRecomendadoRequest body) throws IOException {
         Cliente cliente = ClienteJsonParser.getCliente(body.getUsername());
 
-
-
-        Atuendo atuendo = cliente.getGuardarropa(body.getIdGuardarropa()).generarAtuendo();
+        Atuendo atuendo = new Atuendo();
+        AtuendosRecomendationHelper helper = new AtuendosRecomendationHelper();
 
         return new ResponseEntity<>(atuendo, HttpStatus.OK);
     }
@@ -42,7 +45,7 @@ public class AtuendoController {
 
         List<Atuendo> atuendos = new ArrayList<Atuendo>();
         try {
-            atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAllAtuendos();
+//            atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAllAtuendos();
             if(atuendos.isEmpty())
                 throw new GuardarropaPrendasException(HttpStatus.NOT_FOUND);
         }catch (NullPointerException e){
@@ -64,6 +67,11 @@ public class AtuendoController {
         return new ResponseEntity<>(reserva.getAtuendo(), HttpStatus.OK);
     }
 
-
+    @RequestMapping(value = "getAtuendo", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getAtuendo(){
+        AtuendosRecomendationHelper helper = new AtuendosRecomendationHelper();
+        Set<Atuendo> atuendoSet = helper.generarAtuendos("bQ6V3NjB37UVkt9DLcRDGqnIdPl1",40, clientesRepository);
+        return new ResponseEntity(atuendoSet.toArray(), HttpStatus.OK);
+    }
 
 }

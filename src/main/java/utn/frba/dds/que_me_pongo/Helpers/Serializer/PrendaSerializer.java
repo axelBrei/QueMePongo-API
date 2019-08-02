@@ -29,7 +29,7 @@ public class PrendaSerializer extends JsonSerializer {
                 e.printStackTrace();
             }
         });
-        prendaMap.put("parteQueOcupa", o.getClass().getSimpleName());
+        prendaMap.put("parteQueOcupa", ((Prenda)o).getTipoDePrenda());
         jsonGenerator.writeObject(prendaMap);
     }
 }

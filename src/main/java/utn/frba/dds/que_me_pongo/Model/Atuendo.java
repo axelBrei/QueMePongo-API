@@ -1,20 +1,46 @@
 package utn.frba.dds.que_me_pongo.Model;
 
-import utn.frba.dds.que_me_pongo.Model.TiposPrenda.Superior;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Data
+@Entity
+@Table(name = "Atuendos")
+@NoArgsConstructor
+@Setter
+@Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Atuendo {
-    private List<Prenda> prendas;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
+
+    @ElementCollection(targetClass = Prenda.class)
+    List<Prenda> prendas = new ArrayList<>();
 
     public Atuendo(List<Prenda> prendas) {
         this.prendas = prendas;
     }
 
-    public Atuendo() {
-        prendas = new ArrayList<>();
+    public Atuendo(Integer id, List<Prenda> prendas) {
+        this.prendas = prendas;
+        this.id = id;
     }
 
     public void anadirPrenda(Prenda p){
@@ -51,25 +77,25 @@ public class Atuendo {
         return abrigo;
     }
 
-    public Boolean esCorrecto(){
-        List<Superior> prendaList = this.prendas.stream().filter(p -> p.getClass().equals(Superior.class)).map(prenda -> new Superior().prendaToSuperior(prenda)).collect(Collectors.toList());
-
-
-        Integer cant = prendaList.size();
-
-
-        switch (cant){
-            case 1:
-                return (prendaList.get(0).getTipoSuperior()==0);
-            case 2:
-                return (1==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
-            case 3:
-                return (3==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
-            case 4:
-                return (6==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
-        }
-        return false;
-    }
+//    public Boolean esCorrecto(){
+//        List<Superior> prendaList = this.prendas.stream().filter(p -> p.getClass().equals(Superior.class)).map(prenda -> new Superior().prendaToSuperior(prenda)).collect(Collectors.toList());
+//
+//
+//        Integer cant = prendaList.size();
+//
+//
+//        switch (cant){
+//            case 1:
+//                return (prendaList.get(0).getTipoSuperior()==0);
+//            case 2:
+//                return (1==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
+//            case 3:
+//                return (3==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
+//            case 4:
+//                return (6==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
+//        }
+//        return false;
+//    }
 
 
 
@@ -81,7 +107,4 @@ public class Atuendo {
         return prendas;
     }
 
-    public void setPrendas(List<Prenda> prendas) {
-        this.prendas = prendas;
-    }
 }

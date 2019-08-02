@@ -1,9 +1,18 @@
 package utn.frba.dds.que_me_pongo.WebServices.Request.Prenda;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import utn.frba.dds.que_me_pongo.Helpers.Deserializer.PrendaDeserializer;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
 
+@Data
+@NoArgsConstructor
+@Setter
+@Getter
 public class NuevaPrendaRequest {
     private String uid;
     private String idGuardarropa;
@@ -11,30 +20,4 @@ public class NuevaPrendaRequest {
     @JsonDeserialize(using = PrendaDeserializer.class)
     private Prenda prenda;
 
-    public NuevaPrendaRequest() {
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getIdGuardarropa() {
-        return idGuardarropa;
-    }
-
-    public void setIdGuardarropa(String idGuardarropa) {
-        this.idGuardarropa = idGuardarropa;
-    }
-
-    public Prenda getPrenda() {
-        return prenda;
-    }
-
-    public void setPrenda(Prenda prenda) {
-        this.prenda = prenda;
-    }
 }

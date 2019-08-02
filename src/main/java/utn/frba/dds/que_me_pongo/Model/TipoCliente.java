@@ -2,34 +2,68 @@ package utn.frba.dds.que_me_pongo.Model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
+
+
+@Data
+@Entity
+@Table(name = "TipoCliente")
+@NoArgsConstructor
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class TipoCliente {
+
+    @Id
+    @Getter
+    @Setter
+    @GeneratedValue
+    int id;
+
     @JsonProperty("nombreTipo")
-    private String nombre;
+    String nombre;
+
     @JsonProperty("prendasMax")
-    private Integer PrendasMax;
+    Integer PrendasMax;
 
     public TipoCliente setTipoClienteGratuito(){
-        this.nombre = "Gratuito";
-        this.PrendasMax = 10;
-        return this;
+        TipoCliente  cli = new TipoCliente();
+        cli.setNombre("Gratuito");
+        cli.setPrendasMax(10);
+        return cli;
     }
 
     public TipoCliente setTipoClientePremium(){
-        this.nombre = "Premium";
-        this.PrendasMax = null;
-        return this;
+        TipoCliente  cli = new TipoCliente();
+        cli.setNombre("Premium");
+        cli.setPrendasMax(null);
+        return cli;
     }
 
-    public String getNombre(){return this.nombre;}
+    public Integer getPrendasMax() {
+        return PrendasMax;
+    }
 
-    public Integer getPrendasMax(){return this.PrendasMax; }
+    public String getNombre() {
+        return nombre;
+    }
 
     public Boolean esGratuito(TipoCliente tipoCliente){
-        return tipoCliente.nombre.equals(new TipoCliente().setTipoClienteGratuito().getNombre());
+        return tipoCliente.nombre.equals(new TipoCliente().setTipoClienteGratuito().nombre);
     }
 
     public Boolean esPremium(TipoCliente tipoCliente){
-        return tipoCliente.nombre.equals(new TipoCliente().setTipoClientePremium().getNombre());
+        return tipoCliente.nombre.equals(new TipoCliente().setTipoClientePremium().nombre);
     }
 }
 
