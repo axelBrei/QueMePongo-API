@@ -1,8 +1,7 @@
 package utn.frba.dds.que_me_pongo.Controller.ClimaAPIs;
 
-import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassDarkSkyWeather.DarkSkyResponse;
-import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.Clima;
-import utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather.ResponseWeather;
+import utn.frba.dds.que_me_pongo.WebServices.PronosticoClassOpenWeather.Clima;
+import utn.frba.dds.que_me_pongo.WebServices.PronosticoClassOpenWeather.ResponseWeather;
 import utn.frba.dds.que_me_pongo.Model.ClimaService;
 import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.WebServices.Request.ClimaRequest.RequestOpenWeather;
@@ -10,7 +9,6 @@ import utn.frba.dds.que_me_pongo.WebServices.Request.ClimaRequest.RequestOpenWea
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
 
 public class ClimaApiUNO implements ClimaService {

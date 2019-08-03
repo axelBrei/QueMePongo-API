@@ -1,6 +1,4 @@
-package utn.frba.dds.que_me_pongo.Helpers.PronosticoClassDarkSkyWeather;
-
-import javax.validation.constraints.Null;
+package utn.frba.dds.que_me_pongo.WebServices.PronosticoClassDarkSkyWeather;
 
 public class Weather {
     private long time;

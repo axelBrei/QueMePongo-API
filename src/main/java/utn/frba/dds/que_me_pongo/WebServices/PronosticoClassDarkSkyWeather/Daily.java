@@ -1,11 +1,11 @@
-package utn.frba.dds.que_me_pongo.Helpers.PronosticoClassDarkSkyWeather;
+package utn.frba.dds.que_me_pongo.WebServices.PronosticoClassDarkSkyWeather;
 
 import java.util.ArrayList;
 
-public class Hourly {
+public class Daily {
     private String summary;
     private String icon;
-    ArrayList< Weather > data = new ArrayList < Weather>();
+    ArrayList< Weather > data = new ArrayList < Weather> ();
 
 
     // Getter Methods
@@ -17,7 +17,6 @@ public class Hourly {
     public String getIcon() {
         return icon;
     }
-
     public ArrayList<Weather> getWeather () {
         return data ;
     }

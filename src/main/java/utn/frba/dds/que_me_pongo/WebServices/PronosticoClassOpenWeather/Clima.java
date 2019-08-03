@@ -1,4 +1,4 @@
-package utn.frba.dds.que_me_pongo.Helpers.PronosticoClassOpenWeather;
+package utn.frba.dds.que_me_pongo.WebServices.PronosticoClassOpenWeather;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

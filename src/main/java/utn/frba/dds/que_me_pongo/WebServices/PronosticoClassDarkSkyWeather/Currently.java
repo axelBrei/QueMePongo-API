@@ -1,4 +1,4 @@
-package utn.frba.dds.que_me_pongo.Helpers.PronosticoClassDarkSkyWeather;
+package utn.frba.dds.que_me_pongo.WebServices.PronosticoClassDarkSkyWeather;
 
 public class Currently {
     private float time;

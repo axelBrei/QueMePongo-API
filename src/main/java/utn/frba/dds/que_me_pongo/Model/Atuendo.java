@@ -29,7 +29,8 @@ public class Atuendo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    long id;
+    float calificacion;
 
     @ElementCollection(targetClass = Prenda.class)
     List<Prenda> prendas = new ArrayList<>();

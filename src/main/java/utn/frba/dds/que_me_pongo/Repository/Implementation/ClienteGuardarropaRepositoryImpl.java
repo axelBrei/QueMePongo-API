@@ -31,6 +31,7 @@ public class ClienteGuardarropaRepositoryImpl implements ClienteGuardarropaRepos
        try{
            c.deleteGuardarropa(id);
            clientesRepository.save(c);
+           guardarropasRepository.deleteById(id);
            return true;
        }catch (Exception e){
            return false;

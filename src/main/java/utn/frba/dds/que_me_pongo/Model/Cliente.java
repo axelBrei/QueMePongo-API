@@ -1,7 +1,5 @@
 package utn.frba.dds.que_me_pongo.Model;
 
-
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.springframework.http.HttpStatus;
@@ -17,9 +15,7 @@ import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
 import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -30,13 +26,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Data
 @Entity
@@ -48,8 +40,7 @@ import javax.persistence.Transient;
 public class Cliente  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
-
+    long id;
 
     String uid;
     @Column(name = "mail")
@@ -62,8 +53,8 @@ public class Cliente  implements Serializable {
     @JsonProperty("nombre")
     String name;
 
+    @ManyToMany(cascade = {CascadeType.ALL, CascadeType.MERGE}, mappedBy = "Clientes", targetEntity = Guardarropa.class)
     @ElementCollection(targetClass = Guardarropa.class)
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "Clientes", targetEntity = Guardarropa.class)
     Set<Guardarropa> guardarropas = new HashSet<>();
 
     public Cliente(String uid, String mail, String name,TipoCliente tipoCliente) {

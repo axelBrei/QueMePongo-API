@@ -68,9 +68,9 @@ public class AtuendoController {
     }
 
     @RequestMapping(value = "getAtuendo", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getAtuendo(){
+    public ResponseEntity getAtuendo(@RequestBody GetAtuendoRecomendadoRequest body){
         AtuendosRecomendationHelper helper = new AtuendosRecomendationHelper();
-        Set<Atuendo> atuendoSet = helper.generarAtuendos("bQ6V3NjB37UVkt9DLcRDGqnIdPl1",40, clientesRepository);
+        Set<Atuendo> atuendoSet = helper.generarAtuendos(body.getUsername(),body.getIdGuardarropa(), clientesRepository);
         return new ResponseEntity(atuendoSet.toArray(), HttpStatus.OK);
     }
 

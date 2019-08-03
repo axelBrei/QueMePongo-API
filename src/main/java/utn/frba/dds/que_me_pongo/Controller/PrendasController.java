@@ -61,7 +61,6 @@ public class PrendasController {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
         Guardarropa guardarropa = cliente.getGuardarropa(body.getIdGuardarropa());
         prendaGuardarroparepository.eleminiarPrendaDelGuardarropa(guardarropa, body.getIdPrenda());
-//        cliente.deletePrendaDelGuardarropa(body.getPrenda(), Integer.parseInt(body.getIdGuardarropa()));
         return new ResponseEntity<>("Prenda eliminada con exito", HttpStatus.OK);
     }
 
