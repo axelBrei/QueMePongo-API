@@ -37,4 +37,6 @@ public class PrendaGuardarroparepositoryImpl implements PrendaGuardarropareposit
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Error al intentar eliminar la prenda: " + prendaId);
         }
     }
+
+
 }

@@ -27,6 +27,28 @@ public class ClienteGuardarropaRepositoryImpl implements ClienteGuardarropaRepos
     }
 
     @Override
+    public boolean compartirToCliente(Cliente c, Guardarropa g){
+        try{
+            c.addGuardarropa(g);
+            clientesRepository.save(c);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public boolean dejarDeCompartirToCliente(Cliente c, Guardarropa g){
+        try{
+            c.deleteGuardarropa(g.getId());
+            clientesRepository.save(c);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
     public boolean removeGuardarropaDelCliente(Cliente c, int id) {
        try{
            c.deleteGuardarropa(id);

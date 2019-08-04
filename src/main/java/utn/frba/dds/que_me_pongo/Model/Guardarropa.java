@@ -70,6 +70,7 @@ public class Guardarropa{
     }
 
 
+
     public int getId() {
         return id;
     }

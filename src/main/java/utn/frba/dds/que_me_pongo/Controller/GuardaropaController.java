@@ -11,6 +11,8 @@ import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Repository.ClienteGuardarropaRepository;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.GuardarropasRepository;
+import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoParaEventoRequest;
+import utn.frba.dds.que_me_pongo.WebServices.Request.Guardarropa.CompartirGuardaropaRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.GetCantidadGuardarropasResponse;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.CantidadGuardarropaResponseObject;
 
@@ -52,5 +54,25 @@ public class GuardaropaController {
                 new CantidadGuardarropaResponseObject(guardarropa.getId(), guardarropa.getDescripcion())
         ).collect(Collectors.toList());
         return new ResponseEntity<GetCantidadGuardarropasResponse>(new GetCantidadGuardarropasResponse(responseList), HttpStatus.OK);
+    }
+
+    @RequestMapping( value = "compartir", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity compartirGuardarropa(@RequestBody CompartirGuardaropaRequest body) throws IOException {
+        Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
+        Cliente aCliente = clientesRepository.findClienteByUid(body.getA_uid());
+        Guardarropa guardarropa = cliente.getGuardarropa(body.getGuardarropaId());
+        clienteGuardarropaRepository.compartirToCliente(aCliente,guardarropa);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping( value = "dejarDeCompartir", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity dejarDeCompartirGuardarropa(@RequestBody CompartirGuardaropaRequest body) throws IOException {
+        Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
+        Cliente aCliente = clientesRepository.findClienteByUid(body.getA_uid());
+        Guardarropa guardarropa = cliente.getGuardarropa(body.getGuardarropaId());
+        clienteGuardarropaRepository.dejarDeCompartirToCliente(aCliente,guardarropa);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
