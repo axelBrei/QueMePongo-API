@@ -17,6 +17,7 @@ import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
 import utn.frba.dds.que_me_pongo.Exceptions.NoSePuedoReservarException;
 import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
 import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
+import utn.frba.dds.que_me_pongo.Helpers.ReservasHelper;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -83,6 +84,13 @@ public class Guardarropa{
 
     public Set<Prenda> getPrendas() {
         return prendas;
+    }
+
+    public Set<Prenda> getPrendasLibres(Date desde,Date hasta) {
+        ReservasHelper reservasHelper = new ReservasHelper();
+        Set<Prenda> prendas = this.getPrendas();
+        prendas.removeIf(prenda -> reservasHelper.estaReservada(prenda,desde,hasta));
+        return  prendas;
     }
 
 
