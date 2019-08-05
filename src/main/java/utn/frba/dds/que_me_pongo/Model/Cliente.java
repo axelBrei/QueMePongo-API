@@ -19,16 +19,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -53,8 +44,8 @@ public class Cliente  implements Serializable {
     @JsonProperty("nombre")
     String name;
 
-    @ManyToMany(cascade = {CascadeType.ALL, CascadeType.MERGE}, mappedBy = "Clientes", targetEntity = Guardarropa.class)
-    @ElementCollection(targetClass = Guardarropa.class)
+    @ManyToMany
+    @JoinTable(uniqueConstraints = @UniqueConstraint(columnNames = {"cliente_id","guardarropas_id"}))
     Set<Guardarropa> guardarropas = new HashSet<>();
 
     public Cliente(String uid, String mail, String name,TipoCliente tipoCliente) {

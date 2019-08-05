@@ -60,7 +60,7 @@ public class GuardaropaController {
     public ResponseEntity compartirGuardarropa(@RequestBody CompartirGuardaropaRequest body) throws IOException {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
         Cliente aCliente = clientesRepository.findClienteByUid(body.getA_uid());
-        Guardarropa guardarropa = cliente.getGuardarropa(body.getGuardarropaId());
+        Guardarropa guardarropa = cliente.getGuardarropa(body.getIdG());
         clienteGuardarropaRepository.compartirToCliente(aCliente,guardarropa);
 
         return new ResponseEntity(HttpStatus.OK);
@@ -70,7 +70,7 @@ public class GuardaropaController {
     public ResponseEntity dejarDeCompartirGuardarropa(@RequestBody CompartirGuardaropaRequest body) throws IOException {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
         Cliente aCliente = clientesRepository.findClienteByUid(body.getA_uid());
-        Guardarropa guardarropa = cliente.getGuardarropa(body.getGuardarropaId());
+        Guardarropa guardarropa = cliente.getGuardarropa(body.getIdG());
         clienteGuardarropaRepository.dejarDeCompartirToCliente(aCliente,guardarropa);
 
         return new ResponseEntity(HttpStatus.OK);
