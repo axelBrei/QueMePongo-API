@@ -49,7 +49,7 @@ public class AtuendoController {
     }
 
     @RequestMapping(value = "getAllAtuendos", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<List<Atuendo>> getAllAtuendos(@RequestBody GetAtuendoRecomendadoRequest body) throws IOException {
+    public ResponseEntity getAllAtuendos(@RequestBody GetAtuendoRecomendadoRequest body) throws IOException {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
         Guardarropa guardarropa = cliente.getGuardarropa(body.getIdGuardarropa());
 
@@ -83,18 +83,19 @@ public class AtuendoController {
         }
 
 
-        return new ResponseEntity<>(atuendos, HttpStatus.OK);
+        return new ResponseEntity<>(guardarropa.getAtuendos().toArray(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "reservarAtuendo", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Atuendo> reservarAtuendo(@RequestBody ReservarAtuendoRequest body) throws IOException {
+    @RequestMapping(value = "reservar", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public ResponseEntity reservarAtuendo(@RequestBody Reser varAtuendoRequest body) throws IOException {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
         Date date = new Date();
         date.setTime(65464);
+
         //cliente.reservarAtuendo(body.getAtuendo(),date,date);//body.getDesde(),body.getHasta());
         reservaPrendaRepository.addReservaAtuendoToCliente(cliente,body.getAtuendo(),date,date);
 
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>("Atuendo Reservado con exito", HttpStatus.OK);
     }
 
     @RequestMapping(value = "getAtuendo", consumes = MediaType.APPLICATION_JSON_VALUE)

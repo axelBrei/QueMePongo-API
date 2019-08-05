@@ -6,17 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
+import org.springframework.data.annotation.TypeAlias;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -32,8 +31,10 @@ public class Atuendo {
     long id;
     float calificacion;
 
-    @ElementCollection(targetClass = Prenda.class)
+
+    @ManyToMany
     List<Prenda> prendas = new ArrayList<>();
+
 
     public Atuendo(List<Prenda> prendas) {
         this.prendas = prendas;
@@ -71,11 +72,8 @@ public class Atuendo {
     }
 
     public Double getAbrigo(){
-        Double abrigo = 0.0;
-        for (int i = 0; i < prendas.size(); i++) {
-            abrigo += prendas.get(i).getAbrigo();
-        }
-        return abrigo;
+        Double abrigo =  this.getPrendas().stream().mapToDouble(p -> p.getAbrigo()).sum();
+        return  abrigo;
     }
 
 //    public Boolean esCorrecto(){
