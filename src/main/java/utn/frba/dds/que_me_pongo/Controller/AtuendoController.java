@@ -143,9 +143,14 @@ public class AtuendoController {
 
     @RequestMapping(value = "calificar", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity calificarAtuendo(@RequestBody CalificarAtuendoRequest body){
-        Atuendo atuendo = atuendoRepository.getAtuendoById(body.getAtuendo().getId());
-        atuendo.setCalificacion(body.getCalificacion());
-        atuendoRepository.save(atuendo);
+        Atuendo atuendo;
+        try {
+            atuendo = atuendoRepository.getAtuendoById(body.getAtuendo().getId());
+            atuendo.setCalificacion(body.getCalificacion());
+            atuendoRepository.save(atuendo);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.OK,"No se econtro el atuendo "+body.getAtuendo().getId());
+        }
 
         return new ResponseEntity(atuendo, HttpStatus.OK);
     }
