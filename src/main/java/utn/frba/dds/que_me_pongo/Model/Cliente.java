@@ -2,6 +2,7 @@ package utn.frba.dds.que_me_pongo.Model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.http.HttpStatus;
 
 import lombok.AccessLevel;
@@ -54,9 +55,9 @@ public class Cliente  implements Serializable {
     @JsonProperty("nombre")
     String name;
 
-    @ManyToMany(cascade = {CascadeType.ALL, CascadeType.MERGE}, mappedBy = "Clientes", targetEntity = Guardarropa.class)
-    @ElementCollection(targetClass = Guardarropa.class)
+    @ManyToMany
     Set<Guardarropa> guardarropas = new HashSet<>();
+
 
     @ElementCollection(targetClass = Reserva.class)
     Set<Reserva> reservas = new HashSet<>();
@@ -66,6 +67,10 @@ public class Cliente  implements Serializable {
         this.mail = mail;
         this.name = name;
         this.tipoCliente = tipoCliente;
+    }
+
+    public Set<Reserva> getReservas(){
+        return this.reservas;
     }
 
     public Cliente(String uid, String mail, String name) {

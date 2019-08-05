@@ -18,4 +18,7 @@ public class ReservarAtuendoRequest {
     private Date desde;
     private Date hasta;
 
+    public Integer getIdGuardarropa() {
+        return idGuardarropa;
+    }
 }

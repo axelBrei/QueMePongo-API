@@ -3,6 +3,7 @@ package utn.frba.dds.que_me_pongo.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.transaction.annotation.Transactional;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.AtuendoReservadoResponse;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Transactional
 @NoArgsConstructor
 public class Reserva  {
     @Id
@@ -23,11 +25,11 @@ public class Reserva  {
     long id;
 
     @JsonProperty("prenda")
-    @OneToOne(targetEntity = Prenda.class)
+    @OneToOne(optional=true,targetEntity = Prenda.class)
     private Prenda prenda ;
 
     @JsonProperty("atuendo")
-    @OneToOne(targetEntity = Atuendo.class)
+    @OneToOne(optional=true)
     private Atuendo atuendo ;
 
     private Date desde;
@@ -51,6 +53,26 @@ public class Reserva  {
             }
         });
         return  atuendosReservados;
+    }
+
+    public Boolean isEqual(Prenda p , Date desde , Date hasta){
+        if(p.getId()==this.getPrenda().getId()
+                && desde.getTime() == this.getDesde().getTime()
+                    && hasta.getTime() == this.getHasta().getTime()){
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean noEstaReservada(Date desde,Date hasta){
+        /*
+        System.out.println("Prenda" + this.getPrenda().getDescripcion() + "{Desde->"+ this.getDesde() +"  -*-  "+desde+ " Hasta ->"+ this.getHasta() + "  -*-  " + hasta);
+        System.out.println(( (desde.getTime() < this.getDesde().getTime() && hasta.getTime() < this.getDesde().getTime() ) ||
+                (desde.getTime() > this.getHasta().getTime() && hasta.getTime() > this.getHasta().getTime() )));
+
+         */
+        return ( (desde.getTime() < this.getDesde().getTime() && hasta.getTime() < this.getDesde().getTime() ) ||
+                (desde.getTime() > this.getHasta().getTime() && hasta.getTime() > this.getHasta().getTime() ));
     }
 
 }

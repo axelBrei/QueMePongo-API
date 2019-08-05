@@ -7,4 +7,5 @@ import utn.frba.dds.que_me_pongo.Model.Reserva;
 
 @Repository
 public interface AtuendoRepository extends JpaRepository<Atuendo, Integer> {
+    Atuendo getAtuendoById(Long id);
 }
