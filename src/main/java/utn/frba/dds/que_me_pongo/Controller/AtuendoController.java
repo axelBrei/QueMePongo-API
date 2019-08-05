@@ -11,8 +11,10 @@ import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Model.*;
 import utn.frba.dds.que_me_pongo.Repository.AtuendoGuardarropaRepository;
+import utn.frba.dds.que_me_pongo.Repository.AtuendoRepository;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.ReservaPrendaRepository;
+import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.CalificarAtuendoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.ReservarAtuendoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.AtuendoReservadoResponse;
@@ -31,6 +33,9 @@ public class AtuendoController {
     private AtuendosRecomendationHelper atuendosHelper;
     @Autowired
     ClientesRepository clientesRepository;
+
+    @Autowired
+    AtuendoRepository atuendoRepository;
 
     @Autowired
     ReservaPrendaRepository reservaPrendaRepository;
@@ -135,5 +140,15 @@ public class AtuendoController {
 
         return new ResponseEntity("---", HttpStatus.OK);
     }
+
+    @RequestMapping(value = "calificar", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity calificarAtuendo(@RequestBody CalificarAtuendoRequest body){
+        Atuendo atuendo = atuendoRepository.getAtuendoById(body.getAtuendo().getId());
+        atuendo.setCalificacion(body.getCalificacion());
+        atuendoRepository.save(atuendo);
+
+        return new ResponseEntity(atuendo, HttpStatus.OK);
+    }
+
 
 }
