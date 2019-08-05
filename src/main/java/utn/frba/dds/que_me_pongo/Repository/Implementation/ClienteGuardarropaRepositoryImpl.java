@@ -29,7 +29,7 @@ public class ClienteGuardarropaRepositoryImpl implements ClienteGuardarropaRepos
     @Override
     public boolean compartirToCliente(Cliente c, Guardarropa g){
         try{
-            c.addGuardarropa(g);
+            g.compartirConCliente(c);
             clientesRepository.save(c);
             return true;
         }catch (Exception e){
@@ -40,7 +40,7 @@ public class ClienteGuardarropaRepositoryImpl implements ClienteGuardarropaRepos
     @Override
     public boolean dejarDeCompartirToCliente(Cliente c, Guardarropa g){
         try{
-            c.deleteGuardarropa(g.getId());
+            g.dejarDeCompartir(c);
             clientesRepository.save(c);
             return true;
         }catch (Exception e){

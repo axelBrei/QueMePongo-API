@@ -11,5 +11,6 @@ import utn.frba.dds.que_me_pongo.Model.Cliente;
 @Repository
 public interface ClientesRepository extends JpaRepository<Cliente, Integer> {
     Cliente findClienteByUid(String uid);
+    Cliente findClienteById(Long id);
     void deleteByUid(String id);
 }

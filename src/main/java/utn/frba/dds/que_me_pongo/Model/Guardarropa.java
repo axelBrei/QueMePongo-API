@@ -21,12 +21,7 @@ import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -45,10 +40,16 @@ public class Guardarropa{
     @ElementCollection( targetClass = Prenda.class)
     Set<Prenda> prendas = new HashSet<>();
 
+    @ElementCollection
+    @CollectionTable(name="clientes_guardarropas",
+    joinColumns=@JoinColumn(name="guardarropas_id"))
+    @Column(name="cliente_id")
+    Set<Long> clientesCompartidos = new HashSet<>();
 
     public Guardarropa(String descripcion) {
         this.descripcion = descripcion;
     }
+
 
     public void aniadirPrendas(List<Prenda> prendas) {
         this.prendas.addAll(prendas);
@@ -69,7 +70,13 @@ public class Guardarropa{
         return descripcion;
     }
 
+    public void compartirConCliente(Cliente c){
+        c.addGuardarropa(this);
+    }
 
+    public void dejarDeCompartir(Cliente c){
+        c.deleteGuardarropa(this.getId());
+    }
 
     public int getId() {
         return id;

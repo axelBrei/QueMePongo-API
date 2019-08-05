@@ -72,6 +72,10 @@ public class Cliente  implements Serializable {
         this.guardarropas.add(g);
     }
 
+    public Set<Guardarropa> getGuardarropas() {
+        return guardarropas;
+    }
+
     public Boolean puedeAnadirPrenda(Guardarropa guardarropa){
         if(new TipoCliente().esGratuito(this.getTipoCliente()) &&
                 guardarropa.getPrendas().size() >= new TipoCliente().setTipoClienteGratuito().getPrendasMax()){
@@ -118,38 +122,5 @@ public class Cliente  implements Serializable {
             throw new PrendaNotFoundException(HttpStatus.NOT_FOUND);
     }
 
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public TipoCliente getTipoCliente() {
-        return tipoCliente;
-    }
-
-    public void setTipoCliente(TipoCliente tipoCliente) {
-        this.tipoCliente= tipoCliente;
-    }
-
-
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
 

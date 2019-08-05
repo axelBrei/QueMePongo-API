@@ -11,15 +11,15 @@ import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Repository.ClienteGuardarropaRepository;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.GuardarropasRepository;
+import utn.frba.dds.que_me_pongo.WebServices.PronosticoClassOpenWeather.Sys;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoParaEventoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Guardarropa.CompartirGuardaropaRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.GetCantidadGuardarropasResponse;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.CantidadGuardarropaResponseObject;
+import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.GuardarropasCompartidosResponse;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -61,9 +61,28 @@ public class GuardaropaController {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
         Cliente aCliente = clientesRepository.findClienteByUid(body.getA_uid());
         Guardarropa guardarropa = cliente.getGuardarropa(body.getIdG());
-        clienteGuardarropaRepository.compartirToCliente(aCliente,guardarropa);
 
-        return new ResponseEntity(HttpStatus.OK);
+
+        return new ResponseEntity(clienteGuardarropaRepository.compartirToCliente(aCliente,guardarropa),HttpStatus.OK);
+    }
+
+    @RequestMapping( value = "compartidos", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity guardarropasCompartidos(@RequestBody CompartirGuardaropaRequest body) throws IOException {
+        Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
+        Set<Guardarropa> guardarropas = cliente.getGuardarropas();
+        Set<GuardarropasCompartidosResponse> gResponse = new HashSet<>();
+
+        guardarropas.forEach(g->g.getClientesCompartidos().removeIf( id-> id.equals(cliente.getId() )));
+        guardarropas.forEach(g->{
+            GuardarropasCompartidosResponse response = new GuardarropasCompartidosResponse(g);
+            g.getClientesCompartidos().forEach( id -> {
+            response.addCliente(clientesRepository.findClienteById(id));
+            });
+            gResponse.add(response);
+        });
+
+
+        return new ResponseEntity(gResponse.toArray(),HttpStatus.OK);
     }
 
     @RequestMapping( value = "dejarDeCompartir", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
