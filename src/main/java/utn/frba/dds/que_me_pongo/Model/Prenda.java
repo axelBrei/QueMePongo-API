@@ -41,21 +41,79 @@ public class Prenda {
     String tipoDePrenda = "";
     Integer indiceSuperposicion;
 
-    public Prenda(Integer id, String tipoDeTela, String descripcion, String colorP, String colorS, String tipoDePrenda, Double abrigo) {
+
+    public Prenda(Integer id, String tipoDeTela, String descripcion, String colorP, String colorS, String tipoDePrenda) {
         this.id = id;
         this.tipoDeTela = tipoDeTela != null ? tipoDeTela : "";
         this.descripcion = descripcion != null ? descripcion : "";
         this.colorP = colorP != null ? colorP : "";
         this.colorS = colorS != null ? colorS : "";
         this.tipoDePrenda = tipoDePrenda != null ? tipoDePrenda: "";
-        this.abrigo = abrigo;
+        this.abrigo = 8.0;
+        inicializarSuperPosicion(tipoDePrenda);
     }
 
     @Override
     public boolean equals(Object obj) {
         Prenda p = (Prenda)obj;
-        return p.getId() != null && this.id.equals(p.getId());
+        return p.getId() != -1 && this.id.equals(p.getId());
     }
+
+    public void inicializarSuperPosicion(String tipoPrenda){
+        switch (tipoPrenda){
+            case "Superior":
+                switch (descripcion){
+                    case "Remera": indiceSuperposicion = 1;
+                    break;
+                    case "Camisa": indiceSuperposicion = 1;
+                    break;
+                    case "Buzo" : indiceSuperposicion = 2;
+                    break;
+                    case "Campera": indiceSuperposicion = 3;
+                    break;
+                    default: indiceSuperposicion = 0;
+
+                }
+                break;
+                default: indiceSuperposicion = 0;
+        }
+
+
+
+    }
+
+    public int getIndiceSuperposicion(){
+        return indiceSuperposicion;
+    }
+    public Double getAbrigo(){
+        return abrigo;
+    }
+
+
+    public String getTipoDePrenda(){
+        return tipoDePrenda;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public String getColorP(){
+        return colorP;
+    }
+    public String getColorS(){
+        return colorS;
+    }
+    public String getTipoDeTela(){
+        return tipoDeTela;
+    }
+    public String getDescripcion(){
+        return descripcion;
+    }
+
+
+
+
 }
 
 

@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "Atuendos")
-@NoArgsConstructor
+//@NoArgsConstructor  si no quito esto produce error: constructor Atuendo ya definido
 @Setter
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -43,6 +43,9 @@ public class Atuendo {
         this.prendas = prendas;
         this.id = id;
     }
+    public Atuendo(){
+
+    }
 
     public void anadirPrenda(Prenda p){
         prendas.add(p);
@@ -52,7 +55,7 @@ public class Atuendo {
     }
 
     public Boolean tieneAlgunaPrenda(List<Prenda> prendas){
-        return  this.prendas.stream().anyMatch(p-> prendas.stream().anyMatch(prenda -> prenda.getId().equals(p.getId())));
+        return  this.prendas.stream().anyMatch(p-> prendas.stream().anyMatch(prenda -> prenda.getId()==p.getId()));
     }
 
     public Boolean esSuficienteAbrigado(Float temperatura){
@@ -78,25 +81,25 @@ public class Atuendo {
         return abrigo;
     }
 
-//    public Boolean esCorrecto(){
-//        List<Superior> prendaList = this.prendas.stream().filter(p -> p.getClass().equals(Superior.class)).map(prenda -> new Superior().prendaToSuperior(prenda)).collect(Collectors.toList());
-//
-//
-//        Integer cant = prendaList.size();
-//
-//
-//        switch (cant){
-//            case 1:
-//                return (prendaList.get(0).getTipoSuperior()==0);
-//            case 2:
-//                return (1==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
-//            case 3:
-//                return (3==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
-//            case 4:
-//                return (6==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
-//        }
-//        return false;
-//    }
+    public Boolean esCorrecto(){
+        List<Prenda> prendaList = this.prendas.stream().filter(p -> p.getTipoDePrenda() == "Superior").collect(Collectors.toList());
+
+
+        Integer cant = prendaList.size();
+
+
+        switch (cant){
+            case 1:
+                return (prendaList.get(0).getIndiceSuperposicion()==0);
+            case 2:
+                return (1==prendaList.stream().mapToInt(Prenda::getIndiceSuperposicion).sum());
+            case 3:
+                return (3==prendaList.stream().mapToInt(Prenda::getIndiceSuperposicion).sum());
+            case 4:
+                return (6==prendaList.stream().mapToInt(Prenda::getIndiceSuperposicion).sum());
+        }
+        return false;
+   }
 
 
 

@@ -13,9 +13,11 @@ import lombok.experimental.FieldDefaults;
 import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaLimitException;
 import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
 import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
+import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -160,5 +162,11 @@ public class Cliente  implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+
+
+
+
+
 }
 
