@@ -45,6 +45,11 @@ public class Guardarropa{
     @ElementCollection( targetClass = Prenda.class)
     Set<Prenda> prendas = new HashSet<>();
 
+    @ElementCollection( targetClass = Atuendo.class)
+    Set<Atuendo> atuendos = new HashSet<>();
+
+    public void addAtuendo(Atuendo atuendo){this.atuendos.add(atuendo);}
+    public Set<Atuendo> getAtuendos(){return this.atuendos; }
 
     public Guardarropa(String descripcion) {
         this.descripcion = descripcion;
@@ -69,6 +74,8 @@ public class Guardarropa{
         return descripcion;
     }
 
+    public Prenda getPrenda(int idPrenda){return  this.prendas.stream().filter(p->p.getId().equals(idPrenda)).findAny().orElse(null);}
+
 
     public int getId() {
         return id;
@@ -77,4 +84,7 @@ public class Guardarropa{
     public Set<Prenda> getPrendas() {
         return prendas;
     }
+
+
+
 }

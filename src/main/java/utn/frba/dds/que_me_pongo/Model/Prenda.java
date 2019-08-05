@@ -51,6 +51,10 @@ public class Prenda {
         this.abrigo = abrigo;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     @Override
     public boolean equals(Object obj) {
         Prenda p = (Prenda)obj;

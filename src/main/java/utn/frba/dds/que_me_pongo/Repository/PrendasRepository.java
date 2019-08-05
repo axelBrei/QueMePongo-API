@@ -7,4 +7,6 @@ import utn.frba.dds.que_me_pongo.Model.Prenda;
 
 @Repository
 public interface PrendasRepository extends JpaRepository<Prenda, Integer> {
+    Prenda findPrendaById(int id);
+    void deleteById(String id);
 }

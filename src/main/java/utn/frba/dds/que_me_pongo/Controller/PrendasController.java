@@ -9,19 +9,15 @@ import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
-import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
-import utn.frba.dds.que_me_pongo.Repository.PrendaGuardarroparepository;
-import utn.frba.dds.que_me_pongo.Repository.PrendasRepository;
+import utn.frba.dds.que_me_pongo.Model.Reserva;
+import utn.frba.dds.que_me_pongo.Repository.*;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Guardarropa.GetPrendasRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Prenda.DeletePrendaRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Prenda.NuevaPrendaRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.GetPrendasResponse;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/prendas")
@@ -33,6 +29,8 @@ public class PrendasController {
     PrendasRepository prendasRepository;
     @Autowired
     PrendaGuardarroparepository prendaGuardarroparepository;
+    @Autowired
+    ReservaPrendaRepository reservaPrendaRepository;
 
     @RequestMapping(value = "getPrendas", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity getPrendasGuardarropas(@RequestBody GetPrendasRequest body) throws IOException {
@@ -62,6 +60,18 @@ public class PrendasController {
         Guardarropa guardarropa = cliente.getGuardarropa(body.getIdGuardarropa());
         prendaGuardarroparepository.eleminiarPrendaDelGuardarropa(guardarropa, body.getIdPrenda());
         return new ResponseEntity<>("Prenda eliminada con exito", HttpStatus.OK);
+    }
+
+
+
+    @RequestMapping(value = "prendasReservadas" ,  method = RequestMethod.POST)
+    public ResponseEntity prendasReservadas(@RequestBody DeletePrendaRequest body) throws IOException {
+
+        Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
+        Set<Reserva> reservas = cliente.getReservas();
+
+
+        return new ResponseEntity<>(reservas.toArray(), HttpStatus.OK);
     }
 
 

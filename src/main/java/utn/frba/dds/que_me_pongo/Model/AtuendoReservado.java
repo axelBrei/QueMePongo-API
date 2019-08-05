@@ -15,6 +15,8 @@ public class AtuendoReservado {
     }
 
 
+
+
     public Atuendo getAtuendo() {
         return atuendo;
     }

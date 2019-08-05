@@ -15,6 +15,7 @@ import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
 import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -57,6 +58,9 @@ public class Cliente  implements Serializable {
     @ElementCollection(targetClass = Guardarropa.class)
     Set<Guardarropa> guardarropas = new HashSet<>();
 
+    @ElementCollection(targetClass = Reserva.class)
+    Set<Reserva> reservas = new HashSet<>();
+
     public Cliente(String uid, String mail, String name,TipoCliente tipoCliente) {
         this.uid = uid;
         this.mail = mail;
@@ -75,6 +79,10 @@ public class Cliente  implements Serializable {
         this.mail = mail;
         this.name = name;
         tipoCliente = new TipoCliente().setTipoClienteGratuito();
+    }
+
+    public void addReserva(Reserva r){
+        this.reservas.add(r);
     }
 
     public void addGuardarropa(Guardarropa g){
@@ -125,6 +133,10 @@ public class Cliente  implements Serializable {
         );
         if(!g.deletePrenda(prenda))
             throw new PrendaNotFoundException(HttpStatus.NOT_FOUND);
+    }
+
+    public void reservarAtuendo(Atuendo a,Date desde,Date hasta){
+        a.getPrendas().forEach(p -> addReserva(new Reserva(a,p,desde,hasta)));
     }
 
     public String getUid() {
