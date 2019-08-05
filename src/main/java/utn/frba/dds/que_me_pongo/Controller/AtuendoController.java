@@ -87,7 +87,7 @@ public class AtuendoController {
     }
 
     @RequestMapping(value = "reservar", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity reservarAtuendo(@RequestBody Reser varAtuendoRequest body) throws IOException {
+    public ResponseEntity reservarAtuendo(@RequestBody ReservarAtuendoRequest body) throws IOException {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
         Date date = new Date();
         date.setTime(65464);

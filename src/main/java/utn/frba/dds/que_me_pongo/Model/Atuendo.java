@@ -33,6 +33,7 @@ public class Atuendo {
 
 
     @ManyToMany
+    @JoinTable(uniqueConstraints = @UniqueConstraint(columnNames = {"atuendo_id","prendas_id"}))
     List<Prenda> prendas = new ArrayList<>();
 
 
