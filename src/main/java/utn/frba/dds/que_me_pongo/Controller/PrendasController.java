@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaLimitException;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
@@ -45,7 +47,9 @@ public class PrendasController {
     public ResponseEntity addPrendaToGuardarropa(@RequestBody NuevaPrendaRequest request) throws IOException {
         Cliente cliente = clientesRepository.findClienteByUid(request.getUid());
         Guardarropa guardarropa = cliente.getGuardarropa(Integer.parseInt(request.getIdGuardarropa()));
-        cliente.puedeAnadirPrenda(guardarropa);
+        if(!cliente.getTipoCliente().puedeAgregarPrenda(guardarropa))
+            throw new GuardarropaLimitException(HttpStatus.NOT_FOUND,guardarropa.getDescripcion());
+
         Prenda p = prendaGuardarroparepository.addPrendaToGuardarropa(guardarropa, request.getPrenda());
         HashMap<String, Object> resp = new HashMap<>();
         resp.put("message", "Se ha añadido la prenda con exito");

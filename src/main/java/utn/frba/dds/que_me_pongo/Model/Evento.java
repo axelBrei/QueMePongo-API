@@ -22,10 +22,22 @@ public class Evento {
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
 
-    private String uidEvento;
-    private String nombre;
-    private Date desde;
-    private Date hasta;
-    private float latitud;
-    private float longitud;
+    // Por si google genera un id para el evento
+    String uidEvento;
+    String nombre;
+    Date desde;
+    Date hasta;
+    float latitud;
+    float longitud;
+    String frecuencia;
+
+    @OneToOne(optional = true)
+    Atuendo atuendo;
+
+    @Override
+    public boolean equals(Object obj) {
+        Evento evento = (Evento) obj;
+        return this.id == evento.getId();
+    }
+
 }

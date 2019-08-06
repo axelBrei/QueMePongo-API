@@ -11,6 +11,7 @@ import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.Repository.Implementation.PrendaReservadaRespositoryImp;
 import utn.frba.dds.que_me_pongo.Repository.PrendaReservadaRespository;
 import utn.frba.dds.que_me_pongo.Repository.ReservasRepository;
+import utn.frba.dds.que_me_pongo.Model.PrendasReservadas;
 
 import java.util.Date;
 import java.util.List;
@@ -18,12 +19,12 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor
 public class ReservaHelper {
-    @Autowired
-    PrendaReservadaRespository prendaReservadaRespository;
-
     public  Boolean sePuedeReservarAtuendo(Atuendo a, Evento e, List<PrendasReservadas> reservadas){
         System.out.println(reservadas.toString());
-        return a.getPrendas().stream().noneMatch(p-> estaReservada(p,e.getDesde(),e.getHasta(),reservadas));
+        if(!a.getPrendas().stream().noneMatch(p-> estaReservada(p,e.getDesde(),e.getHasta(),reservadas)))
+            throw new ResponseStatusException(HttpStatus.OK,"No se puede reservar atuendo");
+
+        return true;
     }
 
     private Boolean estaReservada(Prenda p ,Date desde, Date hasta, List<PrendasReservadas> prendasReservadas){

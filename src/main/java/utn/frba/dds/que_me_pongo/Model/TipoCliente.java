@@ -20,15 +20,12 @@ import javax.persistence.Table;
 public class TipoCliente {
 
     @Id
-    @Getter
-    @Setter
     @GeneratedValue
     int id;
 
     @JsonProperty("nombreTipo")
     String nombre;
 
-    @JsonProperty("prendasMax")
     Integer PrendasMax;
 
     public TipoCliente setTipoClienteGratuito(){
@@ -45,20 +42,16 @@ public class TipoCliente {
         return cli;
     }
 
-    public Integer getPrendasMax() {
-        return PrendasMax;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
     public Boolean esGratuito(TipoCliente tipoCliente){
         return tipoCliente.nombre.equals(new TipoCliente().setTipoClienteGratuito().nombre);
     }
 
     public Boolean esPremium(TipoCliente tipoCliente){
         return tipoCliente.nombre.equals(new TipoCliente().setTipoClientePremium().nombre);
+    }
+
+    public boolean puedeAgregarPrenda(Guardarropa guardarropa){
+        return !this.nombre.equals("Gratuito") || guardarropa.getPrendas().size() < this.PrendasMax;
     }
 }
 
