@@ -42,12 +42,10 @@ public class Reserva  {
         this.atuendo = atuendo;
     }
 
-
     public Set<AtuendoReservadoResponse> atuendosReservados(Set<Reserva> reservas){
         Set<AtuendoReservadoResponse> atuendosReservados = new HashSet<>();
         reservas.stream().forEach( r -> {
             AtuendoReservadoResponse nuevo = new AtuendoReservadoResponse(r.getDesde(),r.getHasta(),r.getAtuendo());
-
             if(atuendosReservados.stream().noneMatch( b -> b.isEqual(nuevo))){
                 atuendosReservados.add(nuevo);
             }
@@ -65,12 +63,6 @@ public class Reserva  {
     }
 
     public Boolean noEstaReservada(Date desde,Date hasta){
-        /*
-        System.out.println("Prenda" + this.getPrenda().getDescripcion() + "{Desde->"+ this.getDesde() +"  -*-  "+desde+ " Hasta ->"+ this.getHasta() + "  -*-  " + hasta);
-        System.out.println(( (desde.getTime() < this.getDesde().getTime() && hasta.getTime() < this.getDesde().getTime() ) ||
-                (desde.getTime() > this.getHasta().getTime() && hasta.getTime() > this.getHasta().getTime() )));
-
-         */
         return ( (desde.getTime() < this.getDesde().getTime() && hasta.getTime() < this.getDesde().getTime() ) ||
                 (desde.getTime() > this.getHasta().getTime() && hasta.getTime() > this.getHasta().getTime() ));
     }

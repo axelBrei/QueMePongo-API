@@ -97,7 +97,6 @@ public class Cliente  implements Serializable {
     public Boolean puedeAnadirPrenda(Guardarropa guardarropa){
         if(new TipoCliente().esGratuito(this.getTipoCliente()) &&
                 guardarropa.getPrendas().size() >= new TipoCliente().setTipoClienteGratuito().getPrendasMax()){
-
                         throw new GuardarropaLimitException(HttpStatus.NOT_FOUND,guardarropa.getDescripcion());
         }
 

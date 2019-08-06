@@ -11,6 +11,5 @@ public interface ReservaPrendaRepository {
     Reserva addReservaToCliente(Cliente c, Reserva g);
     Atuendo addReservaAtuendoToCliente(Cliente c, Atuendo g, Date desde, Date hasta);
     boolean sePuedeReservar(Atuendo g, Date desde, Date hasta);
-    boolean deleteReserva(Cliente c, Reserva r);
     boolean removeReservaDelCliente(Cliente c, AtuendoReservadoResponse id);
 }

@@ -65,11 +65,6 @@ public class ReservaPrendaRepositoryImp implements ReservaPrendaRepository {
     }
 
     @Override
-    public boolean deleteReserva(Cliente c, Reserva r) {
-        return false;
-    }
-
-    @Override
     @Transactional
     public boolean removeReservaDelCliente(Cliente cliente, AtuendoReservadoResponse res) {
         List<Prenda> prendas = res.getAtuendo().getPrendas();
@@ -81,20 +76,15 @@ public class ReservaPrendaRepositoryImp implements ReservaPrendaRepository {
                     reservas.add(reserva);
                 }
         });});
-
         prendas.forEach(p->{
             cliente.getReservas().removeIf(reserva -> reserva.isEqual(p,res.getDesde(),res.getHasta()));
         });
-
         clientesRepository.save(cliente);
 
         reservas.forEach(r->{
-            System.out.println("ACA el ID = " + reservas.toString());
             reservaRepository.delete(r);
         });
 
         return  true;
     }
-
-
 }

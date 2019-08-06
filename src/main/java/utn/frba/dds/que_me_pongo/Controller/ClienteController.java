@@ -50,15 +50,5 @@ public class ClienteController {
         return new ResponseEntity(clientesRepository.findAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/cargarTipos",method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity agregarTiposDeCliente(){
-        TipoCliente tipo = new TipoCliente();
-        if(tipoClienteRepository.findByNombre("Gratuito") != null)
-            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Ya existe los tipos de cliente en la base de datos");
-
-        tipoClienteRepository.save(tipo.setTipoClienteGratuito());
-        tipoClienteRepository.save(tipo.setTipoClientePremium());
-        return new ResponseEntity(HttpStatus.OK);
-    }
 
 }

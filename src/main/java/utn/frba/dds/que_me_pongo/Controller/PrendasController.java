@@ -22,15 +22,11 @@ import java.util.*;
 @RestController
 @RequestMapping("/prendas")
 public class PrendasController {
-
     @Autowired
     ClientesRepository clientesRepository;
     @Autowired
-    PrendasRepository prendasRepository;
-    @Autowired
     PrendaGuardarroparepository prendaGuardarroparepository;
-    @Autowired
-    ReservaPrendaRepository reservaPrendaRepository;
+
 
     @RequestMapping(value = "getPrendas", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity getPrendasGuardarropas(@RequestBody GetPrendasRequest body) throws IOException {
@@ -46,6 +42,7 @@ public class PrendasController {
     public ResponseEntity addPrendaToGuardarropa(@RequestBody NuevaPrendaRequest request) throws IOException {
         Cliente cliente = clientesRepository.findClienteByUid(request.getUid());
         Guardarropa guardarropa = cliente.getGuardarropa(Integer.parseInt(request.getIdGuardarropa()));
+        cliente.puedeAnadirPrenda(guardarropa);
         Prenda p = prendaGuardarroparepository.addPrendaToGuardarropa(guardarropa, request.getPrenda());
         HashMap<String, Object> resp = new HashMap<>();
         resp.put("message", "Se ha añadido la prenda con exito");
@@ -61,18 +58,5 @@ public class PrendasController {
         prendaGuardarroparepository.eleminiarPrendaDelGuardarropa(guardarropa, body.getIdPrenda());
         return new ResponseEntity<>("Prenda eliminada con exito", HttpStatus.OK);
     }
-
-
-
-    @RequestMapping(value = "prendasReservadas" ,  method = RequestMethod.POST)
-    public ResponseEntity prendasReservadas(@RequestBody DeletePrendaRequest body) throws IOException {
-
-        Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
-        Set<Reserva> reservas = cliente.getReservas();
-
-
-        return new ResponseEntity<>(reservas.toArray(), HttpStatus.OK);
-    }
-
 
 }
