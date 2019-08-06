@@ -32,7 +32,6 @@ public class AtuendoController {
     private AtuendosRecomendationHelper atuendosHelper;
     @Autowired
     ClientesRepository clientesRepository;
-
     @Autowired
     AtuendoGuardarropaRepository atuendoGuardarropaRepository;
 
@@ -64,7 +63,11 @@ public class AtuendoController {
         return new ResponseEntity<>(guardarropa.getAtuendos().toArray(), HttpStatus.OK);
     }
 
-
+    /*
+    Cuando el usuario desdepues de recibir las recomendaciones selcciones una, primero la guarda (Que es esto)
+    ACA ES CUANDO SE LE ASIGNA UN ID UNICO A UN ATUENDO
+    *Y despues se puede reservar y calificar(esta en otra tarjeta)
+     */
     @RequestMapping(value = "guardar", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity guardarAtuendo(@RequestBody ReservarAtuendoRequest body) throws IOException {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
@@ -80,6 +83,7 @@ public class AtuendoController {
         Set<Atuendo> atuendoSet = helper.generarAtuendos(body.getUid(), body.getIdGuardarropa(), clientesRepository);
         return new ResponseEntity(atuendoSet.toArray(), HttpStatus.OK);
     }
+
 
     @RequestMapping(value = "guardados", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity atuendosGuardados(@RequestBody ReservarAtuendoRequest body) {

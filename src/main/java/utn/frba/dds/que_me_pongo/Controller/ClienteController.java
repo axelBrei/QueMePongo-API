@@ -30,6 +30,7 @@ public class ClienteController {
         c.setTipoCliente(tipoCliente);
 //        ClienteJsonParser.newJsonCliente(c);
         clientesRepository.save(c);
+
         return new ResponseEntity(HttpStatus.OK);
     }
 

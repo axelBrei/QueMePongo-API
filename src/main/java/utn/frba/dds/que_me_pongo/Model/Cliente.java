@@ -122,6 +122,10 @@ public class Cliente  implements Serializable {
             throw new PrendaNotFoundException(HttpStatus.NOT_FOUND);
     }
 
+    /*
+        Reservar atuendo: reserva cada prenda de el atuendo , agergandola a el Set de reservas de el cliente.
+        Sigue en el ReservaController
+     */
     public void reservarAtuendo(Atuendo a,Date desde,Date hasta){
         a.getPrendas().forEach(p -> addReserva(new Reserva(a,p,desde,hasta)));
     }
