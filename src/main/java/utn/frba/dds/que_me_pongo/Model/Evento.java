@@ -27,8 +27,8 @@ public class Evento {
     String nombre;
     Date desde;
     Date hasta;
-    float latitud;
-    float longitud;
+    Double latitud;
+    Double longitud;
     String frecuencia;
 
     @OneToOne(optional = true)
