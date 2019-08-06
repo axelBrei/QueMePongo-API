@@ -30,7 +30,7 @@ public class Atuendo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    float calificacion;
+    Double calificacion;
 
     @ElementCollection(targetClass = Prenda.class)
     List<Prenda> prendas = new ArrayList<>();
@@ -43,6 +43,12 @@ public class Atuendo {
         this.prendas = prendas;
         this.id = id;
     }
+    public Atuendo(Integer id, Double calificacion,List<Prenda> prendas){
+        this.prendas = prendas;
+        this.calificacion = calificacion;
+        this.id = id;
+    }
+
 
     public void anadirPrenda(Prenda p){
         prendas.add(p);
@@ -52,7 +58,7 @@ public class Atuendo {
     }
 
     public Boolean tieneAlgunaPrenda(List<Prenda> prendas){
-        return  this.prendas.stream().anyMatch(p-> prendas.stream().anyMatch(prenda -> prenda.getId().equals(p.getId())));
+        return  this.prendas.stream().anyMatch(p-> prendas.stream().anyMatch(prenda -> prenda.getId()==(p.getId())));
     }
 
     public Boolean esSuficienteAbrigado(Float temperatura){
@@ -107,5 +113,7 @@ public class Atuendo {
     public List<Prenda> getPrendas() {
         return prendas;
     }
+
+
 
 }

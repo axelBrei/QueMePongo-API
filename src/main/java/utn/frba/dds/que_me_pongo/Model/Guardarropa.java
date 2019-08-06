@@ -54,7 +54,10 @@ public class Guardarropa{
         this.prendas.addAll(prendas);
     }
     public void addPrenda(Prenda prenda){
-        prendas.add(prenda);
+        if(validarPrenda(prenda)){
+            prendas.add(prenda);
+        }
+
     }
 
     public  boolean  deletePrenda(Prenda prenda){
@@ -62,7 +65,7 @@ public class Guardarropa{
     }
 
     public boolean deletePrenda(int idPrenda){
-        return this.prendas.removeIf( p -> p.getId().equals(idPrenda));
+        return this.prendas.removeIf( p -> p.getId() ==(idPrenda));
     }
 
     public String getDescripcion() {
@@ -74,7 +77,35 @@ public class Guardarropa{
         return id;
     }
 
+    public void setId(int unId){
+        id = unId;
+    }
+
     public Set<Prenda> getPrendas() {
         return prendas;
     }
+    public Boolean validarPrenda(Prenda unaPrenda){
+        boolean resultado;
+        switch (unaPrenda.getDescripcion()){
+            case "Remera":
+                switch (unaPrenda.getTipoDeTela()){
+                    case "Cuero": resultado= false;
+                    break;
+                    default: resultado = true;
+                }
+                break;
+            case "Campera":
+                switch (unaPrenda.getTipoDeTela()){
+                    case "Seda":resultado =  false;
+                    break;
+                    default: resultado = true;
+                }
+                break;
+                default: resultado = true;
+
+        }
+        return resultado;
+
+    }
+
 }

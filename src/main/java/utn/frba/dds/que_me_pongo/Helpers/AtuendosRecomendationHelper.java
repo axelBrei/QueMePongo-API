@@ -3,10 +3,12 @@ package utn.frba.dds.que_me_pongo.Helpers;
 import org.paukov.combinatorics3.Generator;
 import org.springframework.stereotype.Service;
 
-import utn.frba.dds.que_me_pongo.Model.Atuendo;
-import utn.frba.dds.que_me_pongo.Model.Guardarropa;
-import utn.frba.dds.que_me_pongo.Model.Prenda;
+import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS;
+import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO;
+import utn.frba.dds.que_me_pongo.Model.*;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
+
+import java.awt.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -35,10 +37,45 @@ public class AtuendosRecomendationHelper {
                 // TODO: agregar un id unico a cada atuendo para guardarselo al usuario cuando deba usarlo
                 .map( prendas -> new Atuendo(prendas))
                 .filter(filtroPorTamano())
-                .filter(filtrarPorAbrigo(100.0))
+                .filter(filtrarPorAbrigo(20))
                 .forEach( at -> atuendos.add(at));
         return atuendos;
     }
+    public Set<Atuendo>  generarAtuendos(Guardarropa unGuardarropa){
+        Set<Atuendo> atuendos = new HashSet<>();
+        Guardarropa guardarropa = unGuardarropa;
+
+        Generator.subset(guardarropa.getPrendas())
+                .simple()
+                .stream()
+                // TODO: agregar un id unico a cada atuendo para guardarselo al usuario cuando deba usarlo
+                .map( prendas -> new Atuendo(prendas))
+                .filter(filtroPorTamano())
+                .filter(filtrarPorAbrigo(20))
+                .forEach( at -> atuendos.add(at));
+        return atuendos;
+    }
+
+    public Set<Atuendo>  generarAtuendosParaEvento(Guardarropa unGuardarropa, Evento evento,ClimaService climaService){
+        Set<Atuendo> atuendos = new HashSet<>();
+        Guardarropa guardarropa = unGuardarropa;
+        float temperatura = climaService.getTemperatura(evento);
+        Generator.subset(guardarropa.getPrendas())
+                .simple()
+                .stream()
+                // TODO: agregar un id unico a cada atuendo para guardarselo al usuario cuando deba usarlo
+                .map( prendas -> new Atuendo(prendas))
+                .filter(filtroPorTamano())
+                .filter(filtrarPorAbrigo(temperatura))
+                .forEach( at -> atuendos.add(at));
+        return atuendos;
+    }
+
+
+
+
+
+
 
     private Predicate<? super Atuendo> filtroPorTamano(){
         return atuendo -> {
@@ -73,7 +110,7 @@ public class AtuendosRecomendationHelper {
         return true;
     }
 
-    private Predicate<? super Atuendo> filtrarPorAbrigo(Double abrigoRequerido){
+    private Predicate<? super Atuendo> filtrarPorAbrigo(float abrigoRequerido){
         return atuendo -> {
             Double sumatoria =  atuendo.getPrendas().stream().mapToDouble(Prenda::getAbrigo).sum();
             return sumatoria > abrigoRequerido;

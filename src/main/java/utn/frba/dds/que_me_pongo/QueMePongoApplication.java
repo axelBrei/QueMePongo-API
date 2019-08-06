@@ -15,11 +15,14 @@ import utn.frba.dds.que_me_pongo.Model.*;
 import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS;
 import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO;
 import utn.frba.dds.que_me_pongo.Repository.TipoClienteRepository;
+import utn.frba.dds.que_me_pongo.WebServices.PronosticoClassOpenWeather.Sys;
 
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
@@ -29,7 +32,8 @@ public class QueMePongoApplication {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(QueMePongoApplication.class, args);
-}
+       SpringApplication.run(QueMePongoApplication.class, args);
+
+    }
 
 }
