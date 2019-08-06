@@ -5,14 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaPrendasException;
-import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
-import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
+
+import utn.frba.dds.que_me_pongo.Utilities.Exceptions.GuardarropaPrendasException;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Model.*;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
-import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
-import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.ReservarAtuendoRequest;
+import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
+import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarAtuendoRequest;
 
 import java.io.IOException;
 import java.util.ArrayList;

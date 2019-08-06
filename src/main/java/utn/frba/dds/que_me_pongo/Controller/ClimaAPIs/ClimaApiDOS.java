@@ -1,10 +1,10 @@
 package utn.frba.dds.que_me_pongo.Controller.ClimaAPIs;
 
-import utn.frba.dds.que_me_pongo.WebServices.PronosticoClassDarkSkyWeather.DarkSkyResponse;
-import utn.frba.dds.que_me_pongo.WebServices.PronosticoClassDarkSkyWeather.Weather;
+import utn.frba.dds.que_me_pongo.Utilities.WebServices.PronosticoClassDarkSkyWeather.DarkSkyResponse;
+import utn.frba.dds.que_me_pongo.Utilities.WebServices.PronosticoClassDarkSkyWeather.Weather;
 import utn.frba.dds.que_me_pongo.Model.ClimaService;
 import utn.frba.dds.que_me_pongo.Model.Evento;
-import utn.frba.dds.que_me_pongo.WebServices.Request.ClimaRequest.RequestDarkSkyWeather;
+import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.ClimaRequest.RequestDarkSkyWeather;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;

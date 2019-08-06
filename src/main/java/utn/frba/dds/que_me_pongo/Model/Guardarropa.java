@@ -1,11 +1,5 @@
 package utn.frba.dds.que_me_pongo.Model;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
-
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AccessLevel;
@@ -13,13 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
-import utn.frba.dds.que_me_pongo.Exceptions.NoSePuedoReservarException;
-import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
-import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -41,6 +30,7 @@ public class Guardarropa{
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     String descripcion;
+    String uidDueno;
 
     @ElementCollection( targetClass = Prenda.class)
     Set<Prenda> prendas = new HashSet<>();
@@ -48,6 +38,12 @@ public class Guardarropa{
 
     public Guardarropa(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Guardarropa(int id, String descripcion, String uidDueno) {
+        this.id = id;
+        this.descripcion = descripcion;
+        this.uidDueno = uidDueno;
     }
 
     public void aniadirPrendas(List<Prenda> prendas) {
@@ -63,18 +59,5 @@ public class Guardarropa{
 
     public boolean deletePrenda(int idPrenda){
         return this.prendas.removeIf( p -> p.getId().equals(idPrenda));
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public Set<Prenda> getPrendas() {
-        return prendas;
     }
 }

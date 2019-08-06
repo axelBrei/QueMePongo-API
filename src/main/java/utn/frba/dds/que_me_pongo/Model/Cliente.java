@@ -10,18 +10,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaLimitException;
-import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
-import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
+import utn.frba.dds.que_me_pongo.Utilities.Exceptions.GuardarropaLimitException;
+import utn.frba.dds.que_me_pongo.Utilities.Exceptions.GuardarropaNotFoundException;
+import utn.frba.dds.que_me_pongo.Utilities.Exceptions.PrendaNotFoundException;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -53,8 +51,7 @@ public class Cliente  implements Serializable {
     @JsonProperty("nombre")
     String name;
 
-    @ManyToMany(cascade = {CascadeType.ALL, CascadeType.MERGE}, mappedBy = "Clientes", targetEntity = Guardarropa.class)
-    @ElementCollection(targetClass = Guardarropa.class)
+    @ManyToMany
     Set<Guardarropa> guardarropas = new HashSet<>();
 
     public Cliente(String uid, String mail, String name,TipoCliente tipoCliente) {

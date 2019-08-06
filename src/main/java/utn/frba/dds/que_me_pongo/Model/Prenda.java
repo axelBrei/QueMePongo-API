@@ -15,8 +15,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import utn.frba.dds.que_me_pongo.Helpers.Deserializer.PrendaDeserializer;
-import utn.frba.dds.que_me_pongo.Helpers.Serializer.PrendaSerializer;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.Deserializer.PrendaDeserializer;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.Serializer.PrendaSerializer;
 
 @Data
 @Entity
