@@ -63,7 +63,12 @@ public class Atuendo {
     }
 
     public Double getAbrigo(){
-        Double abrigo =  this.getPrendas().stream().mapToDouble(p -> p.getAbrigo()).sum();
+        Double abrigo;
+        try {
+            abrigo = this.getPrendas().stream().mapToDouble(p -> p.getAbrigo()).sum();
+        }catch (NullPointerException e){
+            return 0.0;
+        }
         return  abrigo;
     }
 

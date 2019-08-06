@@ -1,40 +1,31 @@
 package utn.frba.dds.que_me_pongo.Model;
 
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Data
+@Entity
+@Table(name = "Eventos")
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@Transactional
 public class Evento {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    long id;
+
+    private String uidEvento;
     private String nombre;
-    private Date fecha;
-    private Ubicacion ubicacion;
-    private List<Atuendo> sugeridos = new ArrayList<Atuendo>();
-    private Atuendo seleccionado;
-
-    public Evento (String nombre,Date fecha, Ubicacion ubicacion){
-        this.nombre = nombre;
-        this.fecha = fecha;
-        this.ubicacion = ubicacion;
-    }
-
-    public Ubicacion getUbicacion(){
-        return this.ubicacion;
-    }
-
-    public void obtenerAtuendos(){
-
-    }
-
-    public Date getDate(){
-        return this.fecha;
-    }
-
-    public  void rechazar(Atuendo atuendo){
-        sugeridos.remove(atuendo);
-    }
-
-    public void aceptar(Atuendo atuendo){
-        this.seleccionado = atuendo;
-    }
-
+    private Date desde;
+    private Date hasta;
+    private float latitud;
+    private float longitud;
 }

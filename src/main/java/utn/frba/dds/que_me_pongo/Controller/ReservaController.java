@@ -8,38 +8,51 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import utn.frba.dds.que_me_pongo.Model.Atuendo;
+import org.springframework.web.server.ResponseStatusException;
+import utn.frba.dds.que_me_pongo.Helpers.PrendasReservadas;
+import utn.frba.dds.que_me_pongo.Helpers.ReservaHelper;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Reserva;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
-import utn.frba.dds.que_me_pongo.Repository.ReservaPrendaRepository;
+import utn.frba.dds.que_me_pongo.Repository.PrendaReservadaRespository;
+import utn.frba.dds.que_me_pongo.Repository.ReservasRepository;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.ReservarAtuendoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Prenda.DeletePrendaRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.AtuendoReservadoResponse;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 @RestController
 @RequestMapping("/reserva")
 public class ReservaController {
+
     @Autowired
     ClientesRepository clientesRepository;
     @Autowired
-    ReservaPrendaRepository reservaPrendaRepository;
+    ReservasRepository reservasRepository;
+    @Autowired
+    PrendaReservadaRespository prendaReservadaRespository;
+
     /*
     Para reservar un atuendo el mismo debe estar guardado*(ver atuendoController) ( se hace en clase atuendo )
      */
     @RequestMapping(value = "reservarAtuendo", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity reservarAtuendo(@RequestBody ReservarAtuendoRequest body) throws IOException {
+        List<PrendasReservadas> pr = prendaReservadaRespository.prendasReservadasList();
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
-        /*
-        Se puede reservar indica si todas la prendas de ese atuendo estan disponibbles para ese lapso de tiempo
-         */
-        reservaPrendaRepository.sePuedeReservar(body.getAtuendo(),body.getDesde(),body.getHasta());
-        Atuendo atuendo = reservaPrendaRepository.addReservaAtuendoToCliente(cliente,body.getAtuendo(),body.getDesde(),body.getHasta());
-        return new ResponseEntity<>(atuendo, HttpStatus.OK);
+        ReservaHelper reservaHelper = new ReservaHelper();
+        if(!reservaHelper.sePuedeReservarAtuendo(body.getAtuendo(),body.getEvento(),pr)){
+            throw new ResponseStatusException(HttpStatus.OK,"No se puede reservar atuendo");
+        }
+        Reserva reserva = new Reserva(body.getEvento(),body.getAtuendo());
+        reserva = reservasRepository.save(reserva);
+        cliente.addReserva(reserva);
+        clientesRepository.save(cliente);
+
+        return new ResponseEntity<>(reserva, HttpStatus.OK);
     }
 
 
@@ -47,29 +60,19 @@ public class ReservaController {
     public ResponseEntity getAtuendosReservados(@RequestBody GetAtuendoRecomendadoRequest body){
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
         Set<Reserva> reservas = cliente.getReservas();
-        /*
-        Atuendos resrvados esta explicado en la def
-         */
-        Set<AtuendoReservadoResponse> responseReservados = new Reserva().atuendosReservados(reservas);
-        return new ResponseEntity(responseReservados.toArray(), HttpStatus.OK);
+        return new ResponseEntity(reservas, HttpStatus.OK);
     }
 
     @RequestMapping(value = "deleteReservaAtuendo", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity deleteAtuendoReservado(@RequestBody AtuendoReservadoResponse body){
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
-        /*Esta funcion quedo, un poco larga , se me acabo la imaginacion, pero anda bien */
-        reservaPrendaRepository.removeReservaDelCliente(cliente,body);
+        cliente.getReservas().removeIf(reserva->reserva.getId()==body.getReserva().getId());
+        clientesRepository.save(cliente);
+        reservasRepository.deleteById(body.getReserva().getId());
 
         return new ResponseEntity("Reserva eliminada", HttpStatus.OK);
     }
-    /*
-    * Este entraga direcamente la lista de reservas de un usuario , es decir cada reserva de cada prenda (No creo que la usemos)
-    * */
-    @RequestMapping(value = "prendasReservadas" ,  method = RequestMethod.POST)
-    public ResponseEntity prendasReservadas(@RequestBody DeletePrendaRequest body) throws IOException {
-        Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
-        Set<Reserva> reservas = cliente.getReservas();
-        return new ResponseEntity<>(reservas.toArray(), HttpStatus.OK);
-    }
+
+
 
 }

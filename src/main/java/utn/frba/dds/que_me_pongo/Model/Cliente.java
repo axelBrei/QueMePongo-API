@@ -126,8 +126,10 @@ public class Cliente  implements Serializable {
         Reservar atuendo: reserva cada prenda de el atuendo , agergandola a el Set de reservas de el cliente.
         Sigue en el ReservaController
      */
-    public void reservarAtuendo(Atuendo a,Date desde,Date hasta){
-        a.getPrendas().forEach(p -> addReserva(new Reserva(a,p,desde,hasta)));
+
+    public Boolean sePuedeReservar(Atuendo atuendo,Evento evento){
+        //this.getReservas().
+        return false;
     }
 
     public String getUid() {

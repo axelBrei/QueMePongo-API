@@ -18,8 +18,8 @@ import java.util.Set;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Transactional
 @NoArgsConstructor
+@Transactional
 /*
     CONCEPTO:
     Esta es una nueva clase , que relaciona una prenda de un atuendo para ser reservado en un intervalo de tiempo
@@ -38,34 +38,28 @@ public class Reserva  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
 
-    @JsonProperty("prenda")
-    @OneToOne(optional=true,targetEntity = Prenda.class)
-    private Prenda prenda ;
-
     @JsonProperty("atuendo")
-    @OneToOne(optional=true)
+    @OneToOne(optional = true)
     private Atuendo atuendo ;
 
-    private Date desde;
-    private Date hasta;
+    @JsonProperty("evento")
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+    private Evento evento;
 
-
-
-    public Reserva(Atuendo atuendo,Prenda prenda, Date desde, Date hasta) {
-        this.prenda = prenda;
-        this.desde = desde;
-        this.hasta = hasta;
+    public Reserva(Evento evento ,Atuendo atuendo) {
         this.atuendo = atuendo;
-    }
+        this.evento = evento;
 
+    }
+    /*
     public Set<AtuendoReservadoResponse> atuendosReservados(Set<Reserva> reservas){
         Set<AtuendoReservadoResponse> atuendosReservados = new HashSet<>();
         reservas.stream().forEach( r -> {
             AtuendoReservadoResponse nuevo = new AtuendoReservadoResponse(r.getDesde(),r.getHasta(),r.getAtuendo());
-            /*
-            * Toma de la lista de reservas los atuendos sin repetir
-            * (Dado que hay tantas reservas por atuendo como prendas tenga el mismo)
-            * */
+
+            // Toma de la lista de reservas los atuendos sin repetir
+            //(Dado que hay tantas reservas por atuendo como prendas tenga el mismo)
+
             if(atuendosReservados.stream().noneMatch( b -> b.isEqual(nuevo))){
                 atuendosReservados.add(nuevo);
             }
@@ -86,5 +80,7 @@ public class Reserva  {
         return ( (desde.getTime() < this.getDesde().getTime() && hasta.getTime() < this.getDesde().getTime() ) ||
                 (desde.getTime() > this.getHasta().getTime() && hasta.getTime() > this.getHasta().getTime() ));
     }
+
+     */
 
 }
