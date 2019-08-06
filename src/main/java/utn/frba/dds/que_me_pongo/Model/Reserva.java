@@ -7,8 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.AtuendoReservadoResponse;
 
 import javax.persistence.*;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Data

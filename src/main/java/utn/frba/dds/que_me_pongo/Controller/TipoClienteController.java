@@ -9,20 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import utn.frba.dds.que_me_pongo.Exceptions.AtuendoIncompletoException;
 import utn.frba.dds.que_me_pongo.Exceptions.ClienteException;
-import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
-import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
-import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.Model.TipoCliente;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.TipoClienteRepository;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Cliente.ClienteUidRequestBody;
-import utn.frba.dds.que_me_pongo.WebServices.Request.Cliente.NuevoClienteRequestBody;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/cliente")

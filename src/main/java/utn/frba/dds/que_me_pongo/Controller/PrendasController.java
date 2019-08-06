@@ -4,20 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
-import utn.frba.dds.que_me_pongo.Model.Reserva;
-import utn.frba.dds.que_me_pongo.Repository.*;
+import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
+import utn.frba.dds.que_me_pongo.Repository.PrendaGuardarroparepository;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Guardarropa.GetPrendasRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Prenda.DeletePrendaRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Prenda.NuevaPrendaRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.GetPrendasResponse;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/prendas")

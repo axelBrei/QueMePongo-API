@@ -1,36 +1,19 @@
 package utn.frba.dds.que_me_pongo.Model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import org.hibernate.annotations.Cascade;
-import org.springframework.http.HttpStatus;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
 import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaLimitException;
 import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
 import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 @Data
 @Entity

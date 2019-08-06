@@ -2,21 +2,12 @@ package utn.frba.dds.que_me_pongo.Model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import utn.frba.dds.que_me_pongo.Helpers.Deserializer.PrendaDeserializer;
 import utn.frba.dds.que_me_pongo.Helpers.Serializer.PrendaSerializer;
+
+import javax.persistence.*;
 
 @Data
 @Entity

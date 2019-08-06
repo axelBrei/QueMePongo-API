@@ -2,16 +2,12 @@ package utn.frba.dds.que_me_pongo.Helpers;
 
 import org.paukov.combinatorics3.Generator;
 import org.springframework.stereotype.Service;
-
 import utn.frba.dds.que_me_pongo.Model.Atuendo;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 

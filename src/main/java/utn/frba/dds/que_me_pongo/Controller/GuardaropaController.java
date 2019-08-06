@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Repository.ClienteGuardarropaRepository;
@@ -17,7 +16,6 @@ import utn.frba.dds.que_me_pongo.WebServices.Responses.ResponseObjects.CantidadG
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 @RestController

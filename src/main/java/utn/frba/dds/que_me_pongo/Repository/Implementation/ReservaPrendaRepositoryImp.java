@@ -9,10 +9,12 @@ import utn.frba.dds.que_me_pongo.Model.Atuendo;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.Model.Reserva;
-import utn.frba.dds.que_me_pongo.Repository.*;
+import utn.frba.dds.que_me_pongo.Repository.AtuendoRepository;
+import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
+import utn.frba.dds.que_me_pongo.Repository.ReservaPrendaRepository;
+import utn.frba.dds.que_me_pongo.Repository.ReservasRepository;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.AtuendoReservadoResponse;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
