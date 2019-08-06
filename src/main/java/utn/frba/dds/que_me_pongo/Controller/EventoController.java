@@ -7,29 +7,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS;
-import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO;
-import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaPrendasException;
-import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
-import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
-import utn.frba.dds.que_me_pongo.Model.Atuendo;
+import org.springframework.web.bind.annotation.*;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
-import utn.frba.dds.que_me_pongo.Model.ClimaService;
 import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
+import utn.frba.dds.que_me_pongo.Repository.EventosClienteRepository;
 import utn.frba.dds.que_me_pongo.Repository.EventosRespository;
 import utn.frba.dds.que_me_pongo.WebServices.Request.AgregarEventoRequest;
-import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoParaEventoRequest;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/evento")
@@ -47,6 +35,8 @@ public class EventoController {
     ClientesRepository clientesRepository;
     @Autowired
     EventosRespository eventosRespository;
+    @Autowired
+    EventosClienteRepository eventosClienteRepository;
 
     @Transactional
     @RequestMapping(value = "agregar", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -76,8 +66,21 @@ public class EventoController {
         return new ResponseEntity(cliente.getEventos(), HttpStatus.OK);
     }
 
-    @Scheduled(fixedDelay = 5*60*1000)
+    @Scheduled(fixedDelay = 5*1000)
     public void corroborarEventosCercanos(){
+        Date ahora = new Date();
+        Date incial = new Date ( ahora.getTime() - (3*60*60*1000));
+        Date dentroDeCincoM = new Date (ahora.getTime() + (5*60*1000)  - (3*60*60*1000));
+        Set<Evento> eventos = eventosRespository.findAllByDesdeBetween(incial,dentroDeCincoM);
+
+        eventos.forEach(evento ->{
+            /*NOTIFICA A CADA UNO DE ESTOS CLIENTES*/
+            Cliente cliente = eventosClienteRepository.clienteDelEvento(evento.getId()).getUid())
+            /*GENERAR LOS ATUENDOS Y ENVIAR*/
+
+            }
+        );
+
         //CADA 5 mins revisar los eventos cercanos.
     }
 }
