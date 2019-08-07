@@ -36,11 +36,6 @@ public class Prenda {
     String tipoDePrenda = "";
     Integer indiceSuperposicion;
 
-
-    public Integer getId() {
-        return id;
-    }
-
     @Override
     public boolean equals(Object obj) {
         Prenda p = (Prenda)obj;
