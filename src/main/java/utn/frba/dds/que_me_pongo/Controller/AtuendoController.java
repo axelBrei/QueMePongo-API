@@ -15,6 +15,7 @@ import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Repository.AtuendoGuardarropaRepository;
 import utn.frba.dds.que_me_pongo.Repository.AtuendoRepository;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
+import utn.frba.dds.que_me_pongo.Repository.PrendaReservadaRespository;
 import utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarAtuendoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.CalificarAtuendoRequest;
@@ -35,7 +36,8 @@ public class AtuendoController {
 
     @Autowired
     AtuendoRepository atuendoRepository;
-
+    @Autowired
+    PrendaReservadaRespository prendaReservadaRespository;
     @Autowired
     AtuendoGuardarropaRepository atuendoGuardarropaRepository;
 
@@ -61,6 +63,16 @@ public class AtuendoController {
         return new ResponseEntity(atuendoSet.toArray(), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "getAtuendoParaEvento", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getAtuendoParaEvento(@RequestBody ReservarAtuendoRequest body) {
+        AtuendosRecomendationHelper helper = new AtuendosRecomendationHelper();
+        Set<Atuendo> atuendoSet =
+                helper.generarAtuendosParaEvento(body.getUid(),body.getIdGuardarropa(),
+                        body.getEvento(), clientesRepository,prendaReservadaRespository);
+
+
+        return new ResponseEntity(atuendoSet.toArray(), HttpStatus.OK);
+    }
 
     @RequestMapping(value = "guardados", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity atuendosGuardados(@RequestBody ReservarAtuendoRequest body) {

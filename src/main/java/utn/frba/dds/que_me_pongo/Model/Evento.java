@@ -28,6 +28,8 @@ public class Evento {
     Double latitud;
     Double longitud;
     String frecuencia;
+    /*FORMAL O INFORMAL*/
+    String formalidad;
     Boolean notificado = false;
 
     @OneToOne(optional = true)

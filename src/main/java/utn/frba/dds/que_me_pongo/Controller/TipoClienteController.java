@@ -28,6 +28,7 @@ public class TipoClienteController {
     @Autowired
     TipoClienteRepository tipoClienteRepository;
 
+
     @RequestMapping(value = "/premium",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity setPremium(@RequestBody ClienteUidRequestBody body) throws IOException {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());

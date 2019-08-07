@@ -3,6 +3,7 @@ package utn.frba.dds.que_me_pongo.Utilities.Helpers;
 import org.paukov.combinatorics3.Generator;
 import org.springframework.stereotype.Service;
 
+import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasReservadas;
 import utn.frba.dds.que_me_pongo.Helpers.ReservaHelper;
 import utn.frba.dds.que_me_pongo.Model.*;
@@ -40,12 +41,18 @@ public class AtuendosRecomendationHelper {
     //    Filtrar prendas
     public Set<Atuendo>  generarAtuendosParaEvento(String uid, int idGuardarropa, Evento evento,
                                                       ClientesRepository clientesRepository, PrendaReservadaRespository pr){
+        Double temperatura = 24.0;
+        /*
+        ClimaService climaService = new ClimaApiUNO();
+        climaService.getTemperatura(evento);
+         */
+
         Set<Atuendo> atuendos = new HashSet<>();
         Guardarropa guardarropa = clientesRepository.findClienteByUid(uid).getGuardarropa(idGuardarropa);
         List<PrendasReservadas> prList = pr.prendasReservadasList();
         ReservaHelper rh = new ReservaHelper();
         List<Prenda> prendasLibres = rh.prendasDisponibles(guardarropa.getPrendas().stream().collect(Collectors.toList()), evento,prList);
-        //prendasLibres.removeIf(p-> filtrarPorFormalidad(p,evento.getFormalidad()));
+        prendasLibres.removeIf(p-> filtrarPorFormalidad(p,evento.getFormalidad()));
 
         Generator.subset(prendasLibres)
                 .simple()
