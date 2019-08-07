@@ -9,7 +9,6 @@ import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Repository.AtuendoGuardarropaRepository;
 import utn.frba.dds.que_me_pongo.Repository.AtuendoRepository;
 import utn.frba.dds.que_me_pongo.Repository.GuardarropasRepository;
-import utn.frba.dds.que_me_pongo.Repository.PrendasRepository;
 
 @Repository
 public class AtuendoGuardarropaRepositoryImp implements AtuendoGuardarropaRepository {

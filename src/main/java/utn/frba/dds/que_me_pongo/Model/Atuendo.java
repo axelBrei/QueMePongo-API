@@ -1,21 +1,11 @@
 package utn.frba.dds.que_me_pongo.Model;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
-import org.springframework.data.annotation.TypeAlias;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -73,7 +63,12 @@ public class Atuendo {
     }
 
     public Double getAbrigo(){
-        Double abrigo =  this.getPrendas().stream().mapToDouble(p -> p.getAbrigo()).sum();
+        Double abrigo;
+        try {
+            abrigo = this.getPrendas().stream().mapToDouble(p -> p.getAbrigo()).sum();
+        }catch (NullPointerException e){
+            return 0.0;
+        }
         return  abrigo;
     }
 

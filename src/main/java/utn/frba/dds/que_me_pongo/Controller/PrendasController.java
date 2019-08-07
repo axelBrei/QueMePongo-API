@@ -4,33 +4,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
-import utn.frba.dds.que_me_pongo.Model.Reserva;
-import utn.frba.dds.que_me_pongo.Repository.*;
-import utn.frba.dds.que_me_pongo.WebServices.Request.Guardarropa.GetPrendasRequest;
-import utn.frba.dds.que_me_pongo.WebServices.Request.Prenda.DeletePrendaRequest;
-import utn.frba.dds.que_me_pongo.WebServices.Request.Prenda.NuevaPrendaRequest;
-import utn.frba.dds.que_me_pongo.WebServices.Responses.GetPrendasResponse;
+import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
+import utn.frba.dds.que_me_pongo.Repository.PrendaGuardarroparepository;
+import utn.frba.dds.que_me_pongo.Utilities.Exceptions.GuardarropaLimitException;
+import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Guardarropa.GetPrendasRequest;
+import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Prenda.DeletePrendaRequest;
+import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Prenda.NuevaPrendaRequest;
+import utn.frba.dds.que_me_pongo.Utilities.WebServices.Responses.GetPrendasResponse;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/prendas")
 public class PrendasController {
-
     @Autowired
     ClientesRepository clientesRepository;
     @Autowired
-    PrendasRepository prendasRepository;
-    @Autowired
     PrendaGuardarroparepository prendaGuardarroparepository;
-    @Autowired
-    ReservaPrendaRepository reservaPrendaRepository;
+
 
     @RequestMapping(value = "getPrendas", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity getPrendasGuardarropas(@RequestBody GetPrendasRequest body) throws IOException {
@@ -46,6 +48,9 @@ public class PrendasController {
     public ResponseEntity addPrendaToGuardarropa(@RequestBody NuevaPrendaRequest request) throws IOException {
         Cliente cliente = clientesRepository.findClienteByUid(request.getUid());
         Guardarropa guardarropa = cliente.getGuardarropa(Integer.parseInt(request.getIdGuardarropa()));
+        if(!cliente.getTipoCliente().puedeAgregarPrenda(guardarropa))
+            throw new GuardarropaLimitException(HttpStatus.NOT_FOUND,guardarropa.getDescripcion());
+
         Prenda p = prendaGuardarroparepository.addPrendaToGuardarropa(guardarropa, request.getPrenda());
         HashMap<String, Object> resp = new HashMap<>();
         resp.put("message", "Se ha añadido la prenda con exito");
@@ -61,18 +66,5 @@ public class PrendasController {
         prendaGuardarroparepository.eleminiarPrendaDelGuardarropa(guardarropa, body.getIdPrenda());
         return new ResponseEntity<>("Prenda eliminada con exito", HttpStatus.OK);
     }
-
-
-
-    @RequestMapping(value = "prendasReservadas" ,  method = RequestMethod.POST)
-    public ResponseEntity prendasReservadas(@RequestBody DeletePrendaRequest body) throws IOException {
-
-        Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
-        Set<Reserva> reservas = cliente.getReservas();
-
-
-        return new ResponseEntity<>(reservas.toArray(), HttpStatus.OK);
-    }
-
 
 }
