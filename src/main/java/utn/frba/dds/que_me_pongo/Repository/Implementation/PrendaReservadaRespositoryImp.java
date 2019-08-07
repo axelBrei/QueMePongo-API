@@ -24,10 +24,10 @@ public class PrendaReservadaRespositoryImp implements PrendaReservadaRespository
     @Override
     public List<PrendasReservadas> prendasReservadasList() {
         Query query = entityManager.createNativeQuery(
-                        "SELECT atuendos_prendas.prendas_id , e.desde , e.hasta "+
-                        "FROM public.reservas as r "+
-                        "JOIN public.atuendos_prendas ON atuendos_prendas.atuendo_id = r.atuendo_id "+
-                        "JOIN public.eventos as e ON e.id = r.evento_id"
+                "SELECT e.id , eventos.desde , eventos.hasta "+
+                "FROM public.eventos "+
+                "JOIN public.atuendos_prendas as at ON at.atuendo_id = eventos.atuendo_id "+
+                "JOIN public.prendas as e ON e.id = at.prendas_id;"
             );
 
             List<Object[]> prendas = query.getResultList();

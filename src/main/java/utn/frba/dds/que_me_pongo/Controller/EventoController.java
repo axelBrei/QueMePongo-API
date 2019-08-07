@@ -75,7 +75,7 @@ public class EventoController {
 
         eventos.forEach(evento ->{
             /*NOTIFICA A CADA UNO DE ESTOS CLIENTES*/
-            Cliente cliente = eventosClienteRepository.clienteDelEvento(evento.getId()).getUid())
+            Cliente cliente = eventosClienteRepository.clienteDelEvento(evento.getId());
             /*GENERAR LOS ATUENDOS Y ENVIAR*/
 
             }

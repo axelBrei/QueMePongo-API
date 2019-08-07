@@ -63,6 +63,24 @@ public class AtuendoController {
         return new ResponseEntity<>(guardarropa.getAtuendos().toArray(), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "getAllAtuendosParaEvento", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public ResponseEntity getAllAtuendosParaEvento(@RequestBody GetAtuendoRecomendadoRequest body) throws IOException {
+        Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
+        Guardarropa guardarropa = cliente.getGuardarropa(body.getIdGuardarropa());
+
+
+        List<Atuendo> atuendos = new ArrayList<Atuendo>();
+        try {
+           // atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAllAtuendos();
+            if (atuendos.isEmpty())
+                throw new GuardarropaPrendasException(HttpStatus.NOT_FOUND);
+        } catch (NullPointerException e) {
+            throw new GuardarropaPrendasException(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(guardarropa.getAtuendos().toArray(), HttpStatus.OK);
+    }
+
     /*
     Cuando el usuario desdepues de recibir las recomendaciones selcciones una, primero la guarda (Que es esto)
     ACA ES CUANDO SE LE ASIGNA UN ID UNICO A UN ATUENDO

@@ -40,4 +40,6 @@ public class Evento {
         return this.id == evento.getId();
     }
 
+    public boolean tieneReserva(){return atuendo!=null;}
+
 }
