@@ -8,18 +8,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.server.ResponseStatusException;
 import utn.frba.dds.que_me_pongo.Model.Atuendo;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Repository.AtuendoGuardarropaRepository;
-
-import utn.frba.dds.que_me_pongo.Utilities.Exceptions.GuardarropaPrendasException;
-import utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper;
-import utn.frba.dds.que_me_pongo.Utilities.Helpers.ClienteJsonParser;
+import utn.frba.dds.que_me_pongo.Repository.AtuendoRepository;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
-import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarAtuendoRequest;
+import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.CalificarAtuendoRequest;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,59 +32,18 @@ public class AtuendoController {
     private AtuendosRecomendationHelper atuendosHelper;
     @Autowired
     ClientesRepository clientesRepository;
+
+    @Autowired
+    AtuendoRepository atuendoRepository;
+
     @Autowired
     AtuendoGuardarropaRepository atuendoGuardarropaRepository;
 
-    @RequestMapping(value = "getRecomendadosDesdeGuardaropa", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Atuendo> getPrendas(@RequestBody GetAtuendoRecomendadoRequest body) throws IOException {
-        Cliente cliente = ClienteJsonParser.getCliente(body.getUid());
-
-        Atuendo atuendo = new Atuendo();
-        AtuendosRecomendationHelper helper = new AtuendosRecomendationHelper();
-
-        return new ResponseEntity<>(atuendo, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "getAllAtuendos", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity getAllAtuendos(@RequestBody GetAtuendoRecomendadoRequest body) throws IOException {
-        Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
-        Guardarropa guardarropa = cliente.getGuardarropa(body.getIdGuardarropa());
-
-
-        List<Atuendo> atuendos = new ArrayList<Atuendo>();
-        try {
-            //atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAllAtuendos();
-            if (atuendos.isEmpty())
-                throw new GuardarropaPrendasException(HttpStatus.NOT_FOUND);
-        } catch (NullPointerException e) {
-            throw new GuardarropaPrendasException(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(guardarropa.getAtuendos().toArray(), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "getAllAtuendosParaEvento", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity getAllAtuendosParaEvento(@RequestBody GetAtuendoRecomendadoRequest body) throws IOException {
-        Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
-        Guardarropa guardarropa = cliente.getGuardarropa(body.getIdGuardarropa());
-
-
-        List<Atuendo> atuendos = new ArrayList<Atuendo>();
-        try {
-           // atuendos = cliente.getGuardarropa(body.getIdGuardarropa()).generarAllAtuendos();
-            if (atuendos.isEmpty())
-                throw new GuardarropaPrendasException(HttpStatus.NOT_FOUND);
-        } catch (NullPointerException e) {
-            throw new GuardarropaPrendasException(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(guardarropa.getAtuendos().toArray(), HttpStatus.OK);
-    }
 
     /*
     Cuando el usuario desdepues de recibir las recomendaciones selcciones una, primero la guarda (Que es esto)
     ACA ES CUANDO SE LE ASIGNA UN ID UNICO A UN ATUENDO
-    *Y despues se puede reservar y calificar(esta en otra tarjeta)
+    Y despues se puede reservar y calificar(esta en otra tarjeta)
      */
     @RequestMapping(value = "guardar", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity guardarAtuendo(@RequestBody ReservarAtuendoRequest body) throws IOException {
@@ -110,6 +67,21 @@ public class AtuendoController {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
         Guardarropa g = cliente.getGuardarropa(body.getIdGuardarropa());
         return new ResponseEntity(g.getAtuendos(), HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "calificar", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity calificarAtuendo(@RequestBody CalificarAtuendoRequest body){
+        Atuendo atuendo;
+        try {
+            atuendo = atuendoRepository.getAtuendoById(body.getAtuendo().getId());
+            atuendo.setCalificacion(body.getCalificacion());
+            atuendoRepository.save(atuendo);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.OK,"No se econtro el atuendo "+body.getAtuendo().getId());
+        }
+
+        return new ResponseEntity(atuendo, HttpStatus.OK);
     }
 
 
