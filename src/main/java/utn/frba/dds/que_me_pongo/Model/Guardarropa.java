@@ -1,11 +1,13 @@
 package utn.frba.dds.que_me_pongo.Model;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -25,6 +27,7 @@ public class Guardarropa{
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     String descripcion;
+    String uidDueno;
 
     @ElementCollection( targetClass = Prenda.class)
     Set<Prenda> prendas = new HashSet<>();
@@ -37,6 +40,12 @@ public class Guardarropa{
 
     public Guardarropa(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Guardarropa(int id, String descripcion, String uidDueno) {
+        this.id = id;
+        this.descripcion = descripcion;
+        this.uidDueno = uidDueno;
     }
 
     public void aniadirPrendas(List<Prenda> prendas) {
@@ -68,7 +77,5 @@ public class Guardarropa{
     public Set<Prenda> getPrendas() {
         return prendas;
     }
-
-
 
 }

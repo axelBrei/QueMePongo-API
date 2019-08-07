@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
-import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaLimitException;
-import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaNotFoundException;
-import utn.frba.dds.que_me_pongo.Exceptions.PrendaNotFoundException;
+import utn.frba.dds.que_me_pongo.Utilities.Exceptions.GuardarropaLimitException;
+import utn.frba.dds.que_me_pongo.Utilities.Exceptions.GuardarropaNotFoundException;
+import utn.frba.dds.que_me_pongo.Utilities.Exceptions.PrendaNotFoundException;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

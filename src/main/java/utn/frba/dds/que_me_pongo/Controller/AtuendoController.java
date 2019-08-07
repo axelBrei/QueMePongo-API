@@ -8,16 +8,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import utn.frba.dds.que_me_pongo.Exceptions.GuardarropaPrendasException;
-import utn.frba.dds.que_me_pongo.Helpers.AtuendosRecomendationHelper;
-import utn.frba.dds.que_me_pongo.Helpers.ClienteJsonParser;
+
 import utn.frba.dds.que_me_pongo.Model.Atuendo;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Repository.AtuendoGuardarropaRepository;
+
+import utn.frba.dds.que_me_pongo.Utilities.Exceptions.GuardarropaPrendasException;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.ClienteJsonParser;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
-import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
-import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.ReservarAtuendoRequest;
+import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.GetAtuendoRecomendadoRequest;
+import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarAtuendoRequest;
 
 import java.io.IOException;
 import java.util.ArrayList;

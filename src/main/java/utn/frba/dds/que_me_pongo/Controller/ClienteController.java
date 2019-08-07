@@ -10,7 +10,7 @@ import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.TipoCliente;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.TipoClienteRepository;
-import utn.frba.dds.que_me_pongo.WebServices.Request.Cliente.NuevoClienteRequestBody;
+import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Cliente.NuevoClienteRequestBody;
 
 import java.io.IOException;
 
