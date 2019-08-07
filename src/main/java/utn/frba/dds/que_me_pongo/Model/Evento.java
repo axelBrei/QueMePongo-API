@@ -29,6 +29,8 @@ public class Evento {
     Double longitud;
     String frecuencia;
     Boolean notificado = false;
+    // FORMAL O INFORMAL
+    String formalidad;
 
     @OneToOne(optional = true)
     Atuendo atuendo;
