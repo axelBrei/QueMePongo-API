@@ -16,6 +16,7 @@ import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.PrendaGuardarroparepository;
 import utn.frba.dds.que_me_pongo.Utilities.Exceptions.GuardarropaLimitException;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Guardarropa.GetPrendasRequest;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Prenda.DeletePrendaRequest;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Prenda.NuevaPrendaRequest;
@@ -43,7 +44,7 @@ public class PrendasController {
         response.setPrendas(prendas);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
+    
     @RequestMapping(value = "addPrenda" ,  method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity addPrendaToGuardarropa(@RequestBody NuevaPrendaRequest request) throws IOException {
         Cliente cliente = clientesRepository.findClienteByUid(request.getUid());

@@ -45,6 +45,7 @@ public class AtuendosRecomendationHelper {
         List<PrendasReservadas> prList = pr.prendasReservadasList();
         ReservaHelper rh = new ReservaHelper();
         List<Prenda> prendasLibres = rh.prendasDisponibles(guardarropa.getPrendas().stream().collect(Collectors.toList()), evento,prList);
+        //prendasLibres.removeIf(p-> filtrarPorFormalidad(p,evento.getFormalidad()));
 
         Generator.subset(prendasLibres)
                 .simple()
@@ -95,5 +96,9 @@ public class AtuendosRecomendationHelper {
             Double sumatoria =  atuendo.getPrendas().stream().mapToDouble(Prenda::getAbrigo).sum();
             return sumatoria > abrigoRequerido;
         };
+    }
+
+    private Boolean filtrarPorFormalidad(Prenda prenda,String formalidad){
+        return ! (Boolean) prenda.getFormalidad().equals(formalidad);
     }
 }

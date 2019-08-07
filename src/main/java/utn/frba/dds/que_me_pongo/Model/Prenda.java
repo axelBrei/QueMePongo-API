@@ -32,6 +32,8 @@ public class Prenda {
     String colorP = "";
     String colorS = "";
     Double abrigo;
+    // FORMAL O INFORMAL
+    String formalidad = "";
     // Ej. Superior-4, Inferior
     String tipoDePrenda = "";
     Integer indiceSuperposicion;
