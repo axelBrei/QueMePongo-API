@@ -1,4 +1,4 @@
-package utn.frba.dds.que_me_pongo.Controller;
+package utn.frba.dds.que_me_pongo.Controller.Eventos;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,9 @@ import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.EventosClienteRepository;
 import utn.frba.dds.que_me_pongo.Repository.EventosRespository;
 import utn.frba.dds.que_me_pongo.WebServices.Request.AgregarEventoRequest;
+import utn.frba.dds.que_me_pongo.WebServices.Responses.Notificacion.FirebaseNotificationrResponse;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -22,14 +24,6 @@ import java.util.Set;
 @RestController
 @RequestMapping("/evento")
 public class EventoController {
-    /* ESTE ES EL REQUEST BODY
-    {
-	"username":"Q7xKaH8qPiUW2tz7DF7eVqdQ7253",
-	"idGuardarropa":0,
-	"climaApi":0,
-	"evento":{"nombre":"casamiento","fecha":"2019-06-10T15:10:00","hora":0,"ubicacion":{"latitud":-34.603,"longitud":-58.424,"radio":5.0},"sugeridos":[]}
-    }
-     */
 
     @Autowired
     ClientesRepository clientesRepository;
@@ -41,9 +35,6 @@ public class EventoController {
     @Transactional
     @RequestMapping(value = "agregar", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity agregarEvento(@RequestBody AgregarEventoRequest body){
-        // NECESITO EL EVENTO O LOS DATOS DEL EVENTO <- viene del req
-        // EL CLIENTE <- viene el id en el req
-        // AGREGAR LOS DATOS DEL EVENTO AL CLIENTE
         Cliente cliente = clientesRepository.findClienteByUid( body.getUid());
         Evento evento = body.getEvento();
         cliente.getEventos().add(evento);
@@ -66,6 +57,8 @@ public class EventoController {
         return new ResponseEntity(cliente.getEventos(), HttpStatus.OK);
     }
 
+
+    // REVISA LOS USUARIOS QUE TIENEN EVENTOS EN LOS PROXIMOS A UNA HORA
     @Scheduled(fixedDelay = 5*1000)
     public void corroborarEventosCercanos(){
         Date ahora = new Date();
@@ -75,9 +68,16 @@ public class EventoController {
 
         eventos.forEach(evento ->{
             /*NOTIFICA A CADA UNO DE ESTOS CLIENTES*/
-            Cliente cliente = eventosClienteRepository.clienteDelEvento(evento.getId());
-            /*GENERAR LOS ATUENDOS Y ENVIAR*/
-
+                if(!evento.getNotificado() && evento.getAtuendo() == null){
+                    Cliente cliente = eventosClienteRepository.clienteDelEvento(evento.getId());
+                    /*GENERAR LOS ATUENDOS Y ENVIAR*/
+                    FirebaseNotificationrResponse response = EventControllerHelper.sendFirebaseNotification(cliente.getFirebaseToken(), evento.getId());
+                    if(response.getSuccess() == 1){
+                        // SALIO TDO BIEN
+                        evento.setNotificado(true);
+                        eventosRespository.save(evento);
+                    }
+                }
             }
         );
 

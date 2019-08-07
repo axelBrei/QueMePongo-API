@@ -51,4 +51,10 @@ public class GuardaropaController {
         ).collect(Collectors.toList());
         return new ResponseEntity<GetCantidadGuardarropasResponse>(new GetCantidadGuardarropasResponse(responseList), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getGuardarropas(@RequestParam String uid, @RequestParam int idGuardarropa) {
+        Cliente cliente = clientesRepository.findClienteByUid(uid);
+        return new ResponseEntity(cliente.getGuardarropa(idGuardarropa), HttpStatus.OK);
+    }
 }

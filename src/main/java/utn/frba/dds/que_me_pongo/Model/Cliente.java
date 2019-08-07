@@ -38,8 +38,8 @@ public class Cliente  implements Serializable {
     long id;
 
     String uid;
-    @Column(name = "mail")
     String mail;
+    String firebaseToken;
 
     @OneToOne(targetEntity = TipoCliente.class)
     TipoCliente tipoCliente;

@@ -47,5 +47,13 @@ public class ClienteController {
         return new ResponseEntity(clientesRepository.findAll(), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "updateToken", method = RequestMethod.GET)
+    public ResponseEntity actualizarToquenDelUsuario(@RequestParam String uid, @RequestParam String userToken){
+        Cliente cliente = clientesRepository.findClienteByUid(uid);
+        cliente.setFirebaseToken(userToken);
+        clientesRepository.save(cliente);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
 }

@@ -91,7 +91,7 @@ public class AtuendoController {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
         Guardarropa guardarropa = cliente.getGuardarropa(body.getIdGuardarropa());
         Atuendo atuendo = atuendoGuardarropaRepository.addAtuendoToGuardarropa(guardarropa, body.getAtuendo());
-
+        clientesRepository.save(cliente);
         return new ResponseEntity<>(atuendo, HttpStatus.OK);
     }
 

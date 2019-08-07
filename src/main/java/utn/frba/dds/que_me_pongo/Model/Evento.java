@@ -30,6 +30,7 @@ public class Evento {
     Double latitud;
     Double longitud;
     String frecuencia;
+    Boolean notificado = false;
 
     @OneToOne(optional = true)
     Atuendo atuendo;
