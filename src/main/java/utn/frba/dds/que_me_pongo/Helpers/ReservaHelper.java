@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class ReservaHelper {
     public  List<Prenda> prendasDisponibles(List<Prenda> prendas, Evento e, List<PrendasReservadas> reservadas){
-        List<Prenda> filtradas =   prendas.stream().filter( p -> estaReservada(p,e.getDesde(),e.getHasta(),reservadas) ).collect(Collectors.toList());
+        List<Prenda> filtradas =   prendas.stream().filter( p -> !estaReservada(p,e.getDesde(),e.getHasta(),reservadas) ).collect(Collectors.toList());
         return  filtradas;
     }
 
@@ -35,7 +35,7 @@ public class ReservaHelper {
 
         if(!( (desde.getTime() < res.getDesde().getTime() && hasta.getTime() < res.getDesde().getTime() ) ||
                 (desde.getTime() > res.getHasta().getTime() && hasta.getTime() > res.getHasta().getTime() ))){
-            throw  new ResponseStatusException(HttpStatus.OK,"La prenda "+res.getPrendas_id()+" ya fue reservada");
+        return false;
         }
         return true;
     }

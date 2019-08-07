@@ -1,8 +1,10 @@
 package utn.frba.dds.que_me_pongo.Utilities.Helpers;
 
 import org.paukov.combinatorics3.Generator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasReservadas;
 import utn.frba.dds.que_me_pongo.Helpers.ReservaHelper;
 import utn.frba.dds.que_me_pongo.Model.*;
@@ -16,41 +18,29 @@ import java.util.stream.Collectors;
 @Service
 public class AtuendosRecomendationHelper {
 
-
-
     private static final Set<String> tipos = new HashSet<>(Arrays.asList("Superior", "Inferior", "Calzado", "Accesorio"));
-
-//    Filtrar prendas
-    public Set<Atuendo> generarAtuendos(String uid, int idGuardarropa, ClientesRepository clientesRepository){
-        Set<Atuendo> atuendos = new HashSet<>();
-        Guardarropa guardarropa = clientesRepository.findClienteByUid(uid).getGuardarropa(idGuardarropa);
-
-        Generator.subset(guardarropa.getPrendas())
-                .simple()
-                .stream()
-                // TODO: agregar un id unico a cada atuendo para guardarselo al usuario cuando deba usarlo
-                .map( prendas -> new Atuendo(prendas))
-                .filter(filtroPorTamano())
-                .filter(filtrarPorAbrigo(100.0))
-                .forEach( at -> atuendos.add(at));
-        return atuendos;
-    }
-
-
-    //    Filtrar prendas
-    public Set<Atuendo>  generarAtuendosParaEvento(String uid, int idGuardarropa, Evento evento,
-                                                      ClientesRepository clientesRepository, PrendaReservadaRespository pr){
-        Set<Atuendo> atuendos = new HashSet<>();
-        Guardarropa guardarropa = clientesRepository.findClienteByUid(uid).getGuardarropa(idGuardarropa);
+    private List<Prenda> getPrendasDisponibles(Guardarropa guardarropa, Evento evento, PrendaReservadaRespository pr){
         List<PrendasReservadas> prList = pr.prendasReservadasList();
         ReservaHelper rh = new ReservaHelper();
         List<Prenda> prendasLibres = rh.prendasDisponibles(guardarropa.getPrendas().stream().collect(Collectors.toList()), evento,prList);
-        //prendasLibres.removeIf(p-> filtrarPorFormalidad(p,evento.getFormalidad()));
+        prendasLibres.removeIf(p-> filtrarPorFormalidad(p,evento.getFormalidad()));
+        return prendasLibres;
+    }
+
+//    Filtrar prendas
+    public Set<Atuendo> generarAtuendos(String uid, int idGuardarropa,Evento evento,  ClientesRepository clientesRepository, PrendaReservadaRespository pr){
+        Set<Atuendo> atuendos = new HashSet<>();
+        Guardarropa guardarropa = clientesRepository.findClienteByUid(uid).getGuardarropa(idGuardarropa);
+
+//        List<Prenda> prendasLibres = getPrendasDisponibles(guardarropa,evento,pr);
+        List<PrendasReservadas> prList = pr.prendasReservadasList();
+        ReservaHelper rh = new ReservaHelper();
+        List<Prenda> prendasLibres = rh.prendasDisponibles(guardarropa.getPrendas().stream().collect(Collectors.toList()), evento,prList);
+        prendasLibres.removeIf(p-> filtrarPorFormalidad(p,evento.getFormalidad()));
 
         Generator.subset(prendasLibres)
                 .simple()
                 .stream()
-                // TODO: agregar un id unico a cada atuendo para guardarselo al usuario cuando deba usarlo
                 .map( prendas -> new Atuendo(prendas))
                 .filter(filtroPorTamano())
                 .filter(filtrarPorAbrigo(100.0))

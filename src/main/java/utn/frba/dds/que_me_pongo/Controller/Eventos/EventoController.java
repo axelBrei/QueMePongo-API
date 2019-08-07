@@ -85,6 +85,7 @@ public class EventoController {
 
 
     // REVISA LOS USUARIOS QUE TIENEN EVENTOS EN LOS PROXIMOS A UNA HORA
+
     @Scheduled(fixedDelay = 5*1000)
     public void corroborarEventosCercanos(){
         Date ahora = new Date();
@@ -95,7 +96,7 @@ public class EventoController {
         eventos.forEach(evento ->{
                 if(!evento.getNotificado() && evento.getAtuendo() == null){
                     Cliente cliente = eventosClienteRepository.clienteDelEvento(evento.getId());
-                    /*GENERAR LOS ATUENDOS Y ENVIAR*/
+                    //GENERAR LOS ATUENDOS Y ENVIAR
                     FirebaseNotificationrResponse response = EventControllerHelper.sendFirebaseNotification(cliente.getFirebaseToken(), evento.getId());
                     if(response.getSuccess() == 1){
                         // SALIO TDO BIEN
@@ -112,4 +113,5 @@ public class EventoController {
             }
         );
     }
+
 }
