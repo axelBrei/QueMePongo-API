@@ -93,20 +93,23 @@ public class EventoController {
         Set<Evento> eventos = eventosRespository.findAllByDesdeBetween(incial,dentroDeCincoM);
 
         eventos.forEach(evento ->{
-            /*NOTIFICA A CADA UNO DE ESTOS CLIENTES*/
                 if(!evento.getNotificado() && evento.getAtuendo() == null){
                     Cliente cliente = eventosClienteRepository.clienteDelEvento(evento.getId());
                     /*GENERAR LOS ATUENDOS Y ENVIAR*/
                     FirebaseNotificationrResponse response = EventControllerHelper.sendFirebaseNotification(cliente.getFirebaseToken(), evento.getId());
                     if(response.getSuccess() == 1){
                         // SALIO TDO BIEN
-                        evento.setNotificado(true);
+                        if(!evento.getFrecuencia().isEmpty()){
+                            eventosRespository.deleteById(evento.getId());
+                            evento = EventControllerHelper.clonarEventorepetitivo(evento);
+                        }else {
+                            evento.setNotificado(true);
+                        }
+
                         eventosRespository.save(evento);
                     }
                 }
             }
         );
-
-        //CADA 5 mins revisar los eventos cercanos.
     }
 }
