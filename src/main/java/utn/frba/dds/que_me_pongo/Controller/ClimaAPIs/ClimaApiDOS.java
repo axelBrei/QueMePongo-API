@@ -2,7 +2,7 @@ package utn.frba.dds.que_me_pongo.Controller.ClimaAPIs;
 
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.PronosticoClassDarkSkyWeather.DarkSkyResponse;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.PronosticoClassDarkSkyWeather.Weather;
-import utn.frba.dds.que_me_pongo.Model.ClimaService;
+import utn.frba.dds.que_me_pongo.Services.ClimaService;
 import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.ClimaRequest.RequestDarkSkyWeather;
 

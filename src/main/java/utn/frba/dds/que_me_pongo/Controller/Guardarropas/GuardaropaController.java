@@ -68,10 +68,13 @@ public class GuardaropaController {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
         if(GuardarropasHelper.puedeCompartir(cliente, body.getIdGuardarropa())){
             Cliente clienteDestino = clientesRepository.findClienteByUid(body.getUidDestino());
-            Guardarropa guardarropa = cliente.getGuardarropa(body.getIdGuardarropa());
-            clienteDestino.addGuardarropa(guardarropa);
-            clientesRepository.save(clienteDestino);
-            return new ResponseEntity(HttpStatus.OK);
+            if(GuardarropasHelper.clientesDelMismoRangoSocial(cliente, clienteDestino)){
+                Guardarropa guardarropa = cliente.getGuardarropa(body.getIdGuardarropa());
+                clienteDestino.addGuardarropa(guardarropa);
+                clientesRepository.save(clienteDestino);
+                return new ResponseEntity(HttpStatus.OK);
+            }
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }else
             return new ResponseEntity(HttpStatus.NOT_FOUND);
     }

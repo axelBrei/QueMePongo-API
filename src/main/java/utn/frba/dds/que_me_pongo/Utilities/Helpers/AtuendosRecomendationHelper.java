@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO;
+import utn.frba.dds.que_me_pongo.Helpers.ClimeHelper;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasReservadas;
 import utn.frba.dds.que_me_pongo.Helpers.ReservaHelper;
 import utn.frba.dds.que_me_pongo.Model.*;
@@ -31,19 +32,24 @@ public class AtuendosRecomendationHelper {
     public Set<Atuendo> generarAtuendos(String uid, int idGuardarropa,Evento evento,  ClientesRepository clientesRepository, PrendaReservadaRespository pr){
         Set<Atuendo> atuendos = new HashSet<>();
         Guardarropa guardarropa = clientesRepository.findClienteByUid(uid).getGuardarropa(idGuardarropa);
-
-//        List<Prenda> prendasLibres = getPrendasDisponibles(guardarropa,evento,pr);
         List<PrendasReservadas> prList = pr.prendasReservadasList();
         ReservaHelper rh = new ReservaHelper();
         List<Prenda> prendasLibres = rh.prendasDisponibles(guardarropa.getPrendas().stream().collect(Collectors.toList()), evento,prList);
-        prendasLibres.removeIf(p-> filtrarPorFormalidad(p,evento.getFormalidad()));
+
+        if(evento.getFormalidad() != null)
+            prendasLibres.removeIf(p-> filtrarPorFormalidad(p,evento.getFormalidad()));
+
+        Map<String, Double> climasEvento = ClimeHelper.getClimaParaEvento(evento);
 
         Generator.subset(prendasLibres)
                 .simple()
                 .stream()
                 .map( prendas -> new Atuendo(prendas))
                 .filter(filtroPorTamano())
-                .filter(filtrarPorAbrigo(100.0))
+                .filter(filtrarPorAbrigo(
+                        climasEvento.get(ClimeHelper.MAX_ABRIGO),
+                        climasEvento.get(ClimeHelper.MIN_ABRIGO)
+                ))
                 .forEach( at -> atuendos.add(at));
         return atuendos;
     }
@@ -81,10 +87,10 @@ public class AtuendosRecomendationHelper {
         return true;
     }
 
-    private Predicate<? super Atuendo> filtrarPorAbrigo(Double abrigoRequerido){
+    private Predicate<? super Atuendo> filtrarPorAbrigo(Double max, Double min){
         return atuendo -> {
             Double sumatoria =  atuendo.getPrendas().stream().mapToDouble(Prenda::getAbrigo).sum();
-            return sumatoria > abrigoRequerido;
+            return sumatoria >= min && sumatoria <= max;
         };
     }
 
