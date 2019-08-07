@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Repository
-public interface EventosRespository extends JpaRepository<Evento, Integer> {
+public interface EventosRespository extends JpaRepository<Evento, Long> {
     Set<Evento> findAllByDesdeBetween(Date incio, Date fin);
 
 }

@@ -2,6 +2,7 @@ package utn.frba.dds.que_me_pongo.Controller.Eventos;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,10 @@ import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.EventosClienteRepository;
 import utn.frba.dds.que_me_pongo.Repository.EventosRespository;
+import utn.frba.dds.que_me_pongo.Utilities.Exceptions.EventoNotFoundException;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.DateHelper;
 import utn.frba.dds.que_me_pongo.WebServices.Request.AgregarEventoRequest;
+import utn.frba.dds.que_me_pongo.WebServices.Request.Evento.AbmEvento;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.Notificacion.FirebaseNotificationrResponse;
 
 import java.time.Instant;
@@ -42,12 +46,34 @@ public class EventoController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @Transactional
+    @Modifying
     @RequestMapping(value = "eliminar")
-    public ResponseEntity eliminarEvento(@RequestBody Map<String, Object> body){
-        Cliente cliente = clientesRepository.findClienteByUid( (String) body.get("uid") );
-        cliente.getEventos().removeIf( e -> e.getId() == (int) body.get("idEvento"));
+    public ResponseEntity eliminarEvento(@RequestBody AbmEvento body){
+        Cliente cliente = clientesRepository.findClienteByUid( body.getUid() );
+        Evento evento = cliente
+                .getEventos()
+                .stream()
+                .filter(e -> e.getId() == body.getIdEvento())
+                .findFirst()
+                .orElseThrow( () -> new EventoNotFoundException(HttpStatus.NOT_FOUND, ""));
+        evento = EventControllerHelper.clonarEventorepetitivo(evento);
+        cliente.getEventos().removeIf(e -> e.getId() == body.getIdEvento());
         clientesRepository.save(cliente);
+        cliente.getEventos().add(evento);
+        clientesRepository.save(cliente);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Transactional
+    @RequestMapping(value = "eliminarFrecuencia", method = RequestMethod.POST)
+    public ResponseEntity eliminarEventoConFrecuencia(@RequestBody AbmEvento body) {
+        Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
+        cliente.getEventos()
+                .removeIf(
+                        e -> e.getId() == body.getIdEvento()
+                );
+        clientesRepository.save(cliente);
+        eventosRespository.deleteById(body.getIdEvento());
         return new ResponseEntity(HttpStatus.OK);
     }
 
