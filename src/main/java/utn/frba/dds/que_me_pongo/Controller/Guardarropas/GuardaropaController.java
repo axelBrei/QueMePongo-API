@@ -6,7 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Model.GuardarropaCompartido;
@@ -55,6 +54,12 @@ public class GuardaropaController {
                 new CantidadGuardarropaResponseObject(guardarropa.getId(), guardarropa.getDescripcion())
         ).collect(Collectors.toList());
         return new ResponseEntity<GetCantidadGuardarropasResponse>(new GetCantidadGuardarropasResponse(responseList), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getGuardarropas(@RequestParam String uid, @RequestParam int idGuardarropa) {
+        Cliente cliente = clientesRepository.findClienteByUid(uid);
+        return new ResponseEntity(cliente.getGuardarropa(idGuardarropa), HttpStatus.OK);
     }
 
     @RequestMapping( value = "compartir", method = RequestMethod.POST)

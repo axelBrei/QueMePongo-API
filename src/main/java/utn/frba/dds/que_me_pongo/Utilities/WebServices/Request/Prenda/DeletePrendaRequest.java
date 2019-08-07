@@ -16,4 +16,16 @@ public class DeletePrendaRequest {
     String uid;
     Integer idGuardarropa;
     Integer idPrenda;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public Integer getIdGuardarropa() {
+        return idGuardarropa;
+    }
+
+    public Integer getIdPrenda() {
+        return idPrenda;
+    }
 }

@@ -6,8 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.TipoCliente;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
@@ -32,6 +30,7 @@ public class ClienteController {
         c.setTipoCliente(tipoCliente);
 //        ClienteJsonParser.newJsonCliente(c);
         clientesRepository.save(c);
+
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -48,15 +47,13 @@ public class ClienteController {
         return new ResponseEntity(clientesRepository.findAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/cargarTipos",method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity agregarTiposDeCliente(){
-        TipoCliente tipo = new TipoCliente();
-        if(tipoClienteRepository.findByNombre("Gratuito") != null)
-            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Ya existe los tipos de cliente en la base de datos");
-
-        tipoClienteRepository.save(tipo.setTipoClienteGratuito());
-        tipoClienteRepository.save(tipo.setTipoClientePremium());
+    @RequestMapping(value = "updateToken", method = RequestMethod.GET)
+    public ResponseEntity actualizarToquenDelUsuario(@RequestParam String uid, @RequestParam String userToken){
+        Cliente cliente = clientesRepository.findClienteByUid(uid);
+        cliente.setFirebaseToken(userToken);
+        clientesRepository.save(cliente);
         return new ResponseEntity(HttpStatus.OK);
     }
+
 
 }

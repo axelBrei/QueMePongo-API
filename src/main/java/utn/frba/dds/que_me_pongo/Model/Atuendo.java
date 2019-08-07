@@ -1,22 +1,11 @@
 package utn.frba.dds.que_me_pongo.Model;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Data
 @Entity
@@ -32,8 +21,11 @@ public class Atuendo {
     long id;
     float calificacion;
 
-    @ElementCollection(targetClass = Prenda.class)
+
+    @ManyToMany
+    @JoinTable(uniqueConstraints = @UniqueConstraint(columnNames = {"atuendo_id","prendas_id"}))
     List<Prenda> prendas = new ArrayList<>();
+
 
     public Atuendo(List<Prenda> prendas) {
         this.prendas = prendas;
@@ -71,11 +63,13 @@ public class Atuendo {
     }
 
     public Double getAbrigo(){
-        Double abrigo = 0.0;
-        for (int i = 0; i < prendas.size(); i++) {
-            abrigo += prendas.get(i).getAbrigo();
+        Double abrigo;
+        try {
+            abrigo = this.getPrendas().stream().mapToDouble(p -> p.getAbrigo()).sum();
+        }catch (NullPointerException e){
+            return 0.0;
         }
-        return abrigo;
+        return  abrigo;
     }
 
 //    public Boolean esCorrecto(){

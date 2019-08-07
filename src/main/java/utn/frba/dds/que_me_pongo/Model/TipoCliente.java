@@ -1,18 +1,13 @@
 package utn.frba.dds.que_me_pongo.Model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 
 
 @Data
@@ -25,15 +20,12 @@ import lombok.experimental.FieldDefaults;
 public class TipoCliente {
 
     @Id
-    @Getter
-    @Setter
     @GeneratedValue
     int id;
 
     @JsonProperty("nombreTipo")
     String nombre;
 
-    @JsonProperty("prendasMax")
     Integer PrendasMax;
 
     public TipoCliente setTipoClienteGratuito(){
@@ -50,20 +42,16 @@ public class TipoCliente {
         return cli;
     }
 
-    public Integer getPrendasMax() {
-        return PrendasMax;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
     public Boolean esGratuito(TipoCliente tipoCliente){
         return tipoCliente.nombre.equals(new TipoCliente().setTipoClienteGratuito().nombre);
     }
 
     public Boolean esPremium(TipoCliente tipoCliente){
         return tipoCliente.nombre.equals(new TipoCliente().setTipoClientePremium().nombre);
+    }
+
+    public boolean puedeAgregarPrenda(Guardarropa guardarropa){
+        return !this.nombre.equals("Gratuito") || guardarropa.getPrendas().size() < this.PrendasMax;
     }
 }
 

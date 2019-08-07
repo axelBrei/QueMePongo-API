@@ -1,40 +1,46 @@
 package utn.frba.dds.que_me_pongo.Model;
 
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Data
+@Entity
+@Table(name = "Eventos")
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@Transactional
 public class Evento {
-    private String nombre;
-    private Date fecha;
-    private Ubicacion ubicacion;
-    private List<Atuendo> sugeridos = new ArrayList<Atuendo>();
-    private Atuendo seleccionado;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    long id;
 
-    public Evento (String nombre,Date fecha, Ubicacion ubicacion){
-        this.nombre = nombre;
-        this.fecha = fecha;
-        this.ubicacion = ubicacion;
+    // Por si google genera un id para el evento
+    String uidEvento;
+    String nombre;
+    Date desde;
+    Date hasta;
+    Double latitud;
+    Double longitud;
+    String frecuencia;
+    Boolean notificado = false;
+
+    @OneToOne(optional = true)
+    Atuendo atuendo;
+
+    @Override
+    public boolean equals(Object obj) {
+        Evento evento = (Evento) obj;
+        return this.id == evento.getId();
     }
 
-    public Ubicacion getUbicacion(){
-        return this.ubicacion;
-    }
-
-    public void obtenerAtuendos(){
-
-    }
-
-    public Date getDate(){
-        return this.fecha;
-    }
-
-    public  void rechazar(Atuendo atuendo){
-        sugeridos.remove(atuendo);
-    }
-
-    public void aceptar(Atuendo atuendo){
-        this.seleccionado = atuendo;
-    }
+    public boolean tieneReserva(){return atuendo!=null;}
 
 }

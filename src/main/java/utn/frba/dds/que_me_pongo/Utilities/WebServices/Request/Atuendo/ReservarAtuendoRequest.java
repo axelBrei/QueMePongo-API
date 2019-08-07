@@ -1,36 +1,24 @@
 package utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo;
 
-import utn.frba.dds.que_me_pongo.Model.AtuendoReservado;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import utn.frba.dds.que_me_pongo.Model.Atuendo;
+import utn.frba.dds.que_me_pongo.Model.Evento;
 
+import java.util.Date;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class ReservarAtuendoRequest {
-    private String username;
+    private String uid;
     private Integer idGuardarropa;
-    private AtuendoReservado atuendo;
+    private Atuendo atuendo;
+    private Evento evento;
 
-    public ReservarAtuendoRequest() {
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public Integer getIdGuardarropa() {
         return idGuardarropa;
-    }
-
-    public void setIdGuardarropa(Integer idGuardarropa) {
-        this.idGuardarropa = idGuardarropa;
-    }
-
-    public AtuendoReservado getAtuendo() {
-        return atuendo;
-    }
-
-    public void setAtuendo(AtuendoReservado atuendo) {
-        this.atuendo = atuendo;
     }
 }

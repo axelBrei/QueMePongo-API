@@ -19,9 +19,9 @@ public class ClimaApiDOS implements ClimaService {
         Date cincoDias = new Date();
         cincoDias.setTime(now.getTime() + 5*24*60*60*1000);
 
-        if(evento.getDate().getTime()<now.getTime()){
+        if(evento.getDesde().getTime()<now.getTime()){
             throw new NullPointerException("Fecha menor a la actual");
-        }else if(evento.getDate().getTime()>cincoDias.getTime()){
+        }else if(evento.getDesde().getTime()>cincoDias.getTime()){
             throw new NullPointerException("Fecha más de 5 dias mayor a la actual");
         }
 
@@ -31,12 +31,12 @@ public class ClimaApiDOS implements ClimaService {
         DecimalFormatSymbols symbol = new DecimalFormatSymbols();
         symbol.setDecimalSeparator('.');
         DecimalFormat decimalFormat = new DecimalFormat("#.00",symbol);
-        DarkSkyResponse response = openWeather.getWeather(decimalFormat.format(evento.getUbicacion().getLatitud()),
-                                                        decimalFormat.format(evento.getUbicacion().getLongitud()));
+        DarkSkyResponse response = openWeather.getWeather(decimalFormat.format(evento.getLatitud()),
+                                                        decimalFormat.format(evento.getLongitud()));
 
-        getClimaDate(response,evento.getDate());
+        getClimaDate(response,evento.getDesde());
 
-        return (float) fahrenheitToC(getClimaDate(response, evento.getDate()).getTemperature());
+        return (float) fahrenheitToC(getClimaDate(response, evento.getDesde()).getTemperature());
 
     }
 
