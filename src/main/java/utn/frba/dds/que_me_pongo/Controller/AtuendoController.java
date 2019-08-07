@@ -11,17 +11,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import utn.frba.dds.que_me_pongo.Model.Atuendo;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
+import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Repository.AtuendoGuardarropaRepository;
 import utn.frba.dds.que_me_pongo.Repository.AtuendoRepository;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.PrendaReservadaRespository;
 import utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.DateHelper;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarAtuendoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.CalificarAtuendoRequest;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -59,18 +62,13 @@ public class AtuendoController {
     @RequestMapping(value = "getAtuendo", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAtuendo(@RequestBody ReservarAtuendoRequest body) {
         AtuendosRecomendationHelper helper = new AtuendosRecomendationHelper();
-        Set<Atuendo> atuendoSet = helper.generarAtuendos(body.getUid(), body.getIdGuardarropa(), clientesRepository);
-        return new ResponseEntity(atuendoSet.toArray(), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "getAtuendoParaEvento", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getAtuendoParaEvento(@RequestBody ReservarAtuendoRequest body) {
-        AtuendosRecomendationHelper helper = new AtuendosRecomendationHelper();
-        Set<Atuendo> atuendoSet =
-                helper.generarAtuendosParaEvento(body.getUid(),body.getIdGuardarropa(),
-                        body.getEvento(), clientesRepository,prendaReservadaRespository);
-
-
+        if(body.getEvento() == null){
+            Evento evento = new Evento();
+            evento.setDesde(new Date());
+            evento.setHasta(DateHelper.sumarDiasAFecha(new Date(), 1));
+             body.setEvento(evento);
+        }
+        Set<Atuendo> atuendoSet = helper.generarAtuendos(body.getUid(), body.getIdGuardarropa(), body.getEvento() , clientesRepository, prendaReservadaRespository);
         return new ResponseEntity(atuendoSet.toArray(), HttpStatus.OK);
     }
 

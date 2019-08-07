@@ -10,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.Map;
 
+import utn.frba.dds.que_me_pongo.Model.Evento;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.DateHelper;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Notificaciones.FirebaseNotificationRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Notificaciones.NotificationBody;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Notificaciones.NotificationData;
@@ -33,5 +35,34 @@ public class EventControllerHelper {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static Integer convertirRepeticionANumeroDeDias(String repeticion){
+        // diario, semanal, mensual, anual
+        // TODO: fijarse los casos particulares cuando el mes tiene mas/menos de 30 dias y el año mas o menos de 365
+        switch (repeticion.toLowerCase()){
+            case "diario": return 1;
+            case "semanal": return 7;
+            case "mensual": return 30;
+            case "anual": return 365;
+            default: return null;
+        }
+    }
+
+    public static Evento clonarEventorepetitivo(Evento original) {
+        original.setDesde(
+                DateHelper.sumarDiasAFecha(
+                original.getDesde(),
+                EventControllerHelper.convertirRepeticionANumeroDeDias(original.getFrecuencia())
+        ));
+
+        original.setHasta(
+                DateHelper.sumarDiasAFecha(
+                        original.getHasta(),
+                        EventControllerHelper.convertirRepeticionANumeroDeDias(original.getFrecuencia())
+                ));
+        original.setAtuendo(null);
+        original.setNotificado(false);
+        return original;
     }
 }
