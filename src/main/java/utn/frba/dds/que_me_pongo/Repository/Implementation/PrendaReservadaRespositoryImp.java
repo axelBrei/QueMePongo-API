@@ -1,14 +1,10 @@
 package utn.frba.dds.que_me_pongo.Repository.Implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
 import utn.frba.dds.que_me_pongo.Helpers.PrendasReservadas;
-import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.Repository.PrendaReservadaRespository;
-import utn.frba.dds.que_me_pongo.Repository.ReservasRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

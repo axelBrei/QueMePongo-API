@@ -2,6 +2,9 @@ package utn.frba.dds.que_me_pongo.Utilities.Helpers;
 
 import org.paukov.combinatorics3.Generator;
 import org.springframework.stereotype.Service;
+
+import utn.frba.dds.que_me_pongo.Helpers.PrendasReservadas;
+import utn.frba.dds.que_me_pongo.Helpers.ReservaHelper;
 import utn.frba.dds.que_me_pongo.Model.*;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.PrendaReservadaRespository;
@@ -17,10 +20,8 @@ public class AtuendosRecomendationHelper {
 
     private static final Set<String> tipos = new HashSet<>(Arrays.asList("Superior", "Inferior", "Calzado", "Accesorio"));
 
-
-
 //    Filtrar prendas
-    public Set<Atuendo>     generarAtuendos(String uid, int idGuardarropa, ClientesRepository clientesRepository){
+    public Set<Atuendo> generarAtuendos(String uid, int idGuardarropa, ClientesRepository clientesRepository){
         Set<Atuendo> atuendos = new HashSet<>();
         Guardarropa guardarropa = clientesRepository.findClienteByUid(uid).getGuardarropa(idGuardarropa);
 

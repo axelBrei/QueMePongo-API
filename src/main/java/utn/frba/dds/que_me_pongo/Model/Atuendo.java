@@ -21,11 +21,9 @@ public class Atuendo {
     long id;
     float calificacion;
 
-
     @ManyToMany
     @JoinTable(uniqueConstraints = @UniqueConstraint(columnNames = {"atuendo_id","prendas_id"}))
     List<Prenda> prendas = new ArrayList<>();
-
 
     public Atuendo(List<Prenda> prendas) {
         this.prendas = prendas;
@@ -72,34 +70,10 @@ public class Atuendo {
         return  abrigo;
     }
 
-//    public Boolean esCorrecto(){
-//        List<Superior> prendaList = this.prendas.stream().filter(p -> p.getClass().equals(Superior.class)).map(prenda -> new Superior().prendaToSuperior(prenda)).collect(Collectors.toList());
-//
-//
-//        Integer cant = prendaList.size();
-//
-//
-//        switch (cant){
-//            case 1:
-//                return (prendaList.get(0).getTipoSuperior()==0);
-//            case 2:
-//                return (1==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
-//            case 3:
-//                return (3==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
-//            case 4:
-//                return (6==prendaList.stream().mapToInt(Superior::getTipoSuperior).sum());
-//        }
-//        return false;
-//    }
-
-
 
     public void eliminarPrenda(Prenda p){
         prendas.remove(p);
     }
 
-    public List<Prenda> getPrendas() {
-        return prendas;
-    }
 
 }
