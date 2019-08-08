@@ -3,6 +3,7 @@ package utn.frba.dds.que_me_pongo.Model;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.transaction.annotation.Transactional;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.DateHelper;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -40,6 +41,8 @@ public class Evento {
         Evento evento = (Evento) obj;
         return this.id == evento.getId();
     }
+
+
 
     public boolean tieneReserva(){return atuendo!=null;}
 

@@ -23,17 +23,13 @@ import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarA
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.CalificarAtuendoRequest;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @RestController
 @RequestMapping("/atuendo")
 public class AtuendoController {
 
-    @Autowired
-    private AtuendosRecomendationHelper atuendosHelper;
     @Autowired
     ClientesRepository clientesRepository;
 
@@ -62,9 +58,11 @@ public class AtuendoController {
     @RequestMapping(value = "getAtuendo", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAtuendo(@RequestBody ReservarAtuendoRequest body) {
         AtuendosRecomendationHelper helper = new AtuendosRecomendationHelper();
+        // no se deberia enviar eventos null
         if(body.getEvento() == null){
             Evento evento = new Evento();
             evento.setDesde(new Date());
+            evento.setFormalidad("Informal");
             evento.setHasta(DateHelper.sumarDiasAFecha(new Date(), 1));
              body.setEvento(evento);
         }

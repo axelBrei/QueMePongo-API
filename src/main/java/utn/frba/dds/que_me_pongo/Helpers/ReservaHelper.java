@@ -19,7 +19,12 @@ public class ReservaHelper {
     }
 
     public  Boolean sePuedeReservarAtuendo(Atuendo a, Evento e, List<PrendasReservadas> reservadas){
-        System.out.println(reservadas.toString());
+        if(e==null)
+            throw new ResponseStatusException(HttpStatus.OK,"No se ecuentra el evento");
+
+        if(a==null)
+            throw new ResponseStatusException(HttpStatus.OK,"No se ecuentra el atuendo");
+
         if(!a.getPrendas().stream().noneMatch(p-> estaReservada(p,e.getDesde(),e.getHasta(),reservadas)))
             throw new ResponseStatusException(HttpStatus.OK,"No se puede reservar atuendo");
 

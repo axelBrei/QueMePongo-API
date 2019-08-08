@@ -28,7 +28,6 @@ public class ClienteController {
         Cliente c = new Cliente(body.getUid(), body.getMail(), body.getName());
         TipoCliente tipoCliente = tipoClienteRepository.findByNombre("Gratuito");
         c.setTipoCliente(tipoCliente);
-//        ClienteJsonParser.newJsonCliente(c);
         clientesRepository.save(c);
 
         return new ResponseEntity(HttpStatus.OK);

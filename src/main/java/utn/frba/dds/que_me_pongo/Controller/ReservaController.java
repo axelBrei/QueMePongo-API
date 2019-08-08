@@ -13,13 +13,11 @@ import utn.frba.dds.que_me_pongo.Repository.AtuendoRepository;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.EventosRespository;
 import utn.frba.dds.que_me_pongo.Repository.PrendaReservadaRespository;
-import utn.frba.dds.que_me_pongo.Utilities.Exceptions.NoSePuedoReservarException;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarAtuendoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.DeleteReservaRequest;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -42,20 +40,15 @@ public class ReservaController {
     public ResponseEntity reservarAtuendo(@RequestBody ReservarAtuendoRequest body) throws IOException {
         ReservaHelper reservaHelper = new ReservaHelper();
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
-        Evento evento = cliente
-                .getEventos()
-                .stream()
-                .filter(e -> e.getId() == body.getEvento().getId())
-                .findFirst()
-                .orElseThrow(() -> new NoSePuedoReservarException(HttpStatus.NOT_FOUND));
+        Evento evento = cliente.getEvento(body.getEvento().getId());
 
         Atuendo atuendo = atuendoRepository.getAtuendoById(body.getAtuendo().getId());
-        System.out.println(body.getAtuendo().getId());
         reservaHelper.sePuedeReservarAtuendo(atuendo,
                 evento,prendaReservadaRespository.prendasReservadasList());
 
         evento.setAtuendo(body.getAtuendo());
         clientesRepository.save(cliente);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -64,6 +57,7 @@ public class ReservaController {
     public ResponseEntity getAtuendosReservados(@RequestParam String uid){
         Cliente cliente = clientesRepository.findClienteByUid(uid);
         List<Evento> reservas = cliente.getEventos().stream().filter(r -> r.tieneReserva()).collect(Collectors.toList());
+
         return new ResponseEntity(reservas, HttpStatus.OK);
     }
 
@@ -71,13 +65,7 @@ public class ReservaController {
     @RequestMapping(value = "deleteReserva", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity deleteAtuendoReservado(@RequestBody DeleteReservaRequest body){
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
-        Evento evento = cliente
-                .getEventos()
-                .stream()
-                .filter(e -> e.getId() == body.getIdEvento())
-                .findFirst()
-                .orElseThrow(() -> new NoSePuedoReservarException(HttpStatus.NOT_FOUND));
-
+        Evento evento = cliente.getEvento(body.getIdEvento());
         evento.setAtuendo(null);
         clientesRepository.save(cliente);
 

@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
-import utn.frba.dds.que_me_pongo.Utilities.Exceptions.GuardarropaLimitException;
-import utn.frba.dds.que_me_pongo.Utilities.Exceptions.GuardarropaNotFoundException;
-import utn.frba.dds.que_me_pongo.Utilities.Exceptions.PrendaNotFoundException;
+import utn.frba.dds.que_me_pongo.Utilities.Exceptions.*;
 
 
 import javax.persistence.*;
@@ -77,6 +75,14 @@ public class Cliente  implements Serializable {
                 new GuardarropaNotFoundException(HttpStatus.NOT_FOUND,id)
         );
         guardarropas.remove(g);
+    }
+
+    public Evento getEvento(long id){
+        return this.getEventos()
+                    .stream()
+                    .filter(e -> e.getId() == id)
+                    .findFirst()
+                    .orElseThrow(() -> new NoSeEcuentraEvento(HttpStatus.NOT_FOUND));
     }
 }
 
