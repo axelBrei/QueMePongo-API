@@ -63,8 +63,10 @@ public class PrendasController {
     @RequestMapping(value = "deletePrenda" ,  method = RequestMethod.POST)
     public ResponseEntity deletePrenda(@RequestBody DeletePrendaRequest body) throws IOException {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
-        Guardarropa guardarropa = cliente.getGuardarropa(body.getIdGuardarropa());
-        prendaGuardarroparepository.eleminiarPrendaDelGuardarropa(guardarropa, body.getIdPrenda());
+        cliente.getGuardarropa(body.getIdGuardarropa()).deletePrenda(body.getIdPrenda());
+        clientesRepository.save(cliente);
+//        Guardarropa guardarropa = cliente.getGuardarropa(body.getIdGuardarropa());
+//        prendaGuardarroparepository.eleminiarPrendaDelGuardarropa(guardarropa, body.getIdPrenda());
 
         return new ResponseEntity<>("Prenda eliminada con exito", HttpStatus.OK);
     }
