@@ -34,8 +34,14 @@ public class ClimaApiUNO implements ClimaService {
         DecimalFormat decimalFormat = new DecimalFormat("#.00",symbol);
         ResponseWeather response = openWeather.getWeather(decimalFormat.format(evento.getLatitud()),
                 decimalFormat.format(evento.getLongitud()));
+        float t;
+        try {
+            t =  kelvinToC( getClimaDate(response,evento.getDesde()).getMain().getTemp());
+        }catch (NullPointerException e){
+            t=20;
+        }
 
-        return (float) kelvinToC( getClimaDate(response,evento.getDesde()).getMain().getTemp());
+        return t;
     }
 
     private float kelvinToC(float kelvin){
