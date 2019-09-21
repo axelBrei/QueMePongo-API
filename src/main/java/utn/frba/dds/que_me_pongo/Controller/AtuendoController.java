@@ -17,15 +17,13 @@ import utn.frba.dds.que_me_pongo.Repository.AtuendoGuardarropaRepository;
 import utn.frba.dds.que_me_pongo.Repository.AtuendoRepository;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.PrendaReservadaRespository;
-import utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper;
+import utn.frba.dds.que_me_pongo.Utilities.RecomendationGenerator.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Utilities.Helpers.DateHelper;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarAtuendoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.CalificarAtuendoRequest;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -71,7 +69,7 @@ public class AtuendoController {
             evento.setLongitud(24.123);
              body.setEvento(evento);
         }
-        Set<Atuendo> atuendoSet = helper.generarAtuendos(body.getUid(), body.getIdGuardarropa(), body.getEvento() , clientesRepository, prendaReservadaRespository);
+        Set<Atuendo> atuendoSet = AtuendosRecomendationHelper.execute(body.getUid(), body.getIdGuardarropa(), body.getEvento() , clientesRepository, prendaReservadaRespository);
         return new ResponseEntity(atuendoSet.toArray(), HttpStatus.OK);
     }
 

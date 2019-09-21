@@ -37,7 +37,7 @@ public class EventControllerHelper {
         }
     }
 
-    public static Integer convertirRepeticionANumeroDeDias(String repeticion){
+    private static Integer convertirRepeticionANumeroDeDias(String repeticion){
         // diario, semanal, mensual, anual
         // TODO: fijarse los casos particulares cuando el mes tiene mas/menos de 30 dias y el año mas o menos de 365
         switch (repeticion.toLowerCase()){

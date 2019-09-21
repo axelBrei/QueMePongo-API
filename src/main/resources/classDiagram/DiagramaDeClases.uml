@@ -3,159 +3,21 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="789.0248491704374" y="572.0">utn.frba.dds.que_me_pongo.Model.TiposPrenda.Superior</node>
-    <node x="425.0" y="616.5">utn.frba.dds.que_me_pongo.Model.TiposPrenda.Accesorios</node>
-    <node x="0.0" y="1526.0">utn.frba.dds.que_me_pongo.Model.TipoCliente</node>
-    <node x="974.8373491704374" y="1044.0">utn.frba.dds.que_me_pongo.Model.Evento</node>
-    <node x="839.4232843137254" y="764.0">utn.frba.dds.que_me_pongo.Model.Atuendo</node>
-    <node x="91.31501696832584" y="1861.0">utn.frba.dds.que_me_pongo.Model.Cliente</node>
-    <node x="515.0248491704374" y="0.0">utn.frba.dds.que_me_pongo.Model.Prenda</node>
-    <node x="909.5873491704374" y="1346.0">utn.frba.dds.que_me_pongo.Model.ClimaService</node>
-    <node x="480.9248491704375" y="1449.0">utn.frba.dds.que_me_pongo.Model.Guardarropa</node>
-    <node x="922.8373491704374" y="1581.5">utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO</node>
-    <node x="1223.8373491704374" y="1570.5">utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS</node>
-    <node x="624.0248491704374" y="616.5">utn.frba.dds.que_me_pongo.Model.TiposPrenda.Calzado</node>
-    <node x="1094.4232843137254" y="786.0">utn.frba.dds.que_me_pongo.Model.Ubicacion</node>
-    <node x="259.0" y="616.5">utn.frba.dds.que_me_pongo.Model.TiposPrenda.Inferior</node>
+    <node x="0.0" y="0.0">utn.frba.dds.que_me_pongo.Model.Evento</node>
+    <node x="0.0" y="864.0">utn.frba.dds.que_me_pongo.Model.Atuendo</node>
+    <node x="928.0" y="0.0">utn.frba.dds.que_me_pongo.Model.Guardarropa</node>
+    <node x="0.0" y="1354.0">utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS</node>
+    <node x="352.0" y="864.0">utn.frba.dds.que_me_pongo.Model.TipoCliente</node>
+    <node x="262.0" y="0.0">utn.frba.dds.que_me_pongo.Model.Cliente</node>
+    <node x="611.0" y="0.0">utn.frba.dds.que_me_pongo.Model.Prenda</node>
+    <node x="384.0" y="1354.0">utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO</node>
+    <node x="714.0" y="864.0">utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper</node>
   </nodes>
   <notes />
-  <edges>
-    <edge source="utn.frba.dds.que_me_pongo.Model.TiposPrenda.Inferior" target="utn.frba.dds.que_me_pongo.Model.Prenda">
-      <point x="36.25" y="-26.5" />
-      <point x="367.75" y="512.0" />
-      <point x="552.9094645550528" y="512.0" />
-      <point x="-60.61538461538464" y="236.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.Guardarropa" target="utn.frba.dds.que_me_pongo.Model.Atuendo">
-      <point x="0.0" y="-181.0" />
-      <point x="675.4248491704375" y="1429.0" />
-      <point x="719.5248491704374" y="1429.0" />
-      <point x="719.5248491704374" y="1024.0" />
-      <point x="868.7982843137254" y="1024.0" />
-      <point x="-88.125" y="115.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.TiposPrenda.Calzado" target="utn.frba.dds.que_me_pongo.Model.Prenda">
-      <point x="-36.25" y="-26.5" />
-      <point x="660.2748491704374" y="552.0" />
-      <point x="628.6786953242836" y="552.0" />
-      <point x="15.153846153846132" y="236.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.Guardarropa" target="utn.frba.dds.que_me_pongo.Model.Prenda">
-      <point x="-77.80000000000007" y="-181.0" />
-      <point x="597.6248491704374" y="1429.0" />
-      <point x="580.5" y="1429.0" />
-      <point x="580.5" y="552.0" />
-      <point x="613.5248491704374" y="552.0" />
-      <point x="0.0" y="236.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.Guardarropa" target="utn.frba.dds.que_me_pongo.Model.ClimaService">
-      <point x="155.60000000000002" y="-181.0" />
-      <point x="831.0248491704375" y="1429.0" />
-      <point x="942.5873491704374" y="1429.0" />
-      <point x="-66.0" y="26.5" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO" target="utn.frba.dds.que_me_pongo.Model.ClimaService">
-      <point x="-70.25" y="-48.5" />
-      <point x="993.0873491704374" y="1429.0" />
-      <point x="1008.5873491704374" y="1429.0" />
-      <point x="0.0" y="26.5" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.TiposPrenda.Superior" target="utn.frba.dds.que_me_pongo.Model.Prenda">
-      <point x="-57.25" y="-71.0" />
-      <point x="846.2748491704374" y="532.0" />
-      <point x="658.9863876319758" y="532.0" />
-      <point x="45.46153846153845" y="236.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.Atuendo" target="utn.frba.dds.que_me_pongo.Model.Prenda">
-      <point x="88.125" y="-115.0" />
-      <point x="1045.0482843137254" y="739.0" />
-      <point x="1039.5248491704374" y="739.0" />
-      <point x="1039.5248491704374" y="502.0" />
-      <point x="704.4479260935143" y="502.0" />
-      <point x="90.9230769230769" y="236.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS" target="utn.frba.dds.que_me_pongo.Model.Evento">
-      <point x="73.0" y="-59.5" />
-      <point x="1442.8373491704374" y="1321.0" />
-      <point x="1129.7123491704374" y="1321.0" />
-      <point x="66.375" y="126.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.Cliente" target="utn.frba.dds.que_me_pongo.Model.Prenda">
-      <point x="23.83333333333337" y="-247.0" />
-      <point x="258.1483503016592" y="1841.0" />
-      <point x="248.5" y="1841.0" />
-      <point x="248.5" y="492.0" />
-      <point x="522.6017722473605" y="492.0" />
-      <point x="-90.9230769230769" y="236.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.Evento" target="utn.frba.dds.que_me_pongo.Model.Atuendo">
-      <point x="-70.79999999999995" y="-126.0" />
-      <point x="992.5373491704374" y="1024.0" />
-      <point x="927.5482843137254" y="1024.0" />
-      <point x="-29.375" y="115.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiDOS" target="utn.frba.dds.que_me_pongo.Model.ClimaService">
-      <point x="-73.0" y="-59.5" />
-      <point x="1296.8373491704374" y="1419.0" />
-      <point x="1074.5873491704374" y="1419.0" />
-      <point x="66.0" y="26.5" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Controller.ClimaAPIs.ClimaApiUNO" target="utn.frba.dds.que_me_pongo.Model.Evento">
-      <point x="70.25" y="-48.5" />
-      <point x="1133.5873491704374" y="1429.0" />
-      <point x="1118.0873491704374" y="1429.0" />
-      <point x="1118.0873491704374" y="1321.0" />
-      <point x="1085.4623491704374" y="1321.0" />
-      <point x="22.125" y="126.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.ClimaService" target="utn.frba.dds.que_me_pongo.Model.Evento">
-      <point x="0.0" y="-26.5" />
-      <point x="1008.5873491704374" y="1321.0" />
-      <point x="1041.2123491704374" y="1321.0" />
-      <point x="-22.125" y="126.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.Atuendo" target="utn.frba.dds.que_me_pongo.Model.TiposPrenda.Superior">
-      <point x="-29.375" y="-115.0" />
-      <point x="927.5482843137254" y="739.0" />
-      <point x="960.7748491704374" y="739.0" />
-      <point x="57.25" y="71.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.Cliente" target="utn.frba.dds.que_me_pongo.Model.TipoCliente">
-      <point x="-23.833333333333258" y="-247.0" />
-      <point x="210.48168363499258" y="1841.0" />
-      <point x="198.33333333333326" y="1841.0" />
-      <point x="79.33333333333326" y="104.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.Cliente" target="utn.frba.dds.que_me_pongo.Model.Guardarropa">
-      <point x="119.16666666666674" y="-247.0" />
-      <point x="353.4816836349926" y="1841.0" />
-      <point x="772.6748491704375" y="1841.0" />
-      <point x="97.25" y="181.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.Evento" target="utn.frba.dds.que_me_pongo.Model.Ubicacion">
-      <point x="70.79999999999995" y="-126.0" />
-      <point x="1134.1373491704373" y="1024.0" />
-      <point x="1227.1732843137254" y="1024.0" />
-      <point x="44.25" y="93.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.Guardarropa" target="utn.frba.dds.que_me_pongo.Model.Evento">
-      <point x="77.79999999999995" y="-181.0" />
-      <point x="753.2248491704374" y="1429.0" />
-      <point x="794.1833993212671" y="1429.0" />
-      <point x="794.1833993212671" y="1321.0" />
-      <point x="996.9623491704374" y="1321.0" />
-      <point x="-66.375" y="126.0" />
-    </edge>
-    <edge source="utn.frba.dds.que_me_pongo.Model.TiposPrenda.Accesorios" target="utn.frba.dds.que_me_pongo.Model.Prenda">
-      <point x="-36.25" y="-26.5" />
-      <point x="461.25" y="532.0" />
-      <point x="583.2171568627451" y="532.0" />
-      <point x="-30.30769230769232" y="236.0" />
-    </edge>
-  </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="444.5" y="634.5" />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.6443976420272836" x="569.1767186263168" y="344.28116613421065" />
   <SelectedNodes>
-    <node>utn.frba.dds.que_me_pongo.Model.TiposPrenda.Superior</node>
+    <node>utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper</node>
   </SelectedNodes>
   <Categories>
     <Category>Fields</Category>

@@ -16,7 +16,6 @@ import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.PrendaGuardarroparepository;
 import utn.frba.dds.que_me_pongo.Utilities.Exceptions.GuardarropaLimitException;
-import utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Guardarropa.GetPrendasRequest;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Prenda.DeletePrendaRequest;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Prenda.NuevaPrendaRequest;
