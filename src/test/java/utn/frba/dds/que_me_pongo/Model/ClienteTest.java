@@ -144,13 +144,13 @@ public class ClienteTest {
     public void generarAtuendoParaEvento(){
         Cliente axel = new Cliente("jhIWEVhowqX6Nh2aD76TpB1hsPR2","axel@gmail.com","axel");
         axel.setTipoCliente(new TipoCliente().setTipoClienteGratuito());
-        Prenda prenda1 = new Prenda(1,"lana","Remera","rojo","","Superior",8.0,"Informal",1);
-        Prenda prenda2 = new Prenda(2,"jean","Pantalon","azul","","Inferior",8.0,"Formal",1);
-        Prenda prenda3 = new Prenda(3,"tela","Zapatillas","rojo","negro","Calzado",8.0,"Informal",1);
-        Prenda prenda4 = new Prenda(4,"tela","Zapatillas","rojo","azul","Calzado",8.0,"Informal",1);
-        Prenda prenda5 = new Prenda(5, "cuero","Campera","negro","","Superior",8.0,"Informal",3);
-        Prenda prenda6 = new Prenda(6,"","collar","plata","","Accesorio",0.0,"Formal",1);
-        Prenda prenda7 = new Prenda(7,"algodon","Remera","verde","negro","Superior",8.0,"Informal",1);
+        Prenda prenda1 = new Prenda(1,"lana","Remera","rojo","","Superior",70.0,"Informal",1);
+        Prenda prenda2 = new Prenda(2,"jean","Pantalon","azul","","Inferior",70.0,"Formal",1);
+        Prenda prenda3 = new Prenda(3,"tela","Zapatillas","rojo","negro","Calzado",70.0,"Informal",1);
+        Prenda prenda4 = new Prenda(4,"tela","Pantalon","rojo","azul","Inferior",70.0,"Informal",1);
+        Prenda prenda5 = new Prenda(5, "cuero","Campera","negro","","Superior",70.0,"Informal",3);
+        Prenda prenda6 = new Prenda(6,"","Collar","plata","","Accesorio",0.0,"Formal",1);
+        Prenda prenda7 = new Prenda(7,"algodon","Remera","verde","negro","Superior",70.0,"Informal",1);
         Guardarropa guardarropa = new Guardarropa("guardarropa");
         guardarropa.setId(1);
         guardarropa.addPrenda(prenda1);
@@ -162,6 +162,11 @@ public class ClienteTest {
         guardarropa.addPrenda(prenda7);
         axel.addGuardarropa(guardarropa);
         Evento evento = new Evento("0001","Cumpleaños",new Date(119,9,5,12,0,0),new Date(119,9,5,12,30,0),-34.598356,-58.419919,"Anual","Informal");
+        List<Atuendo> resultado = axel.generarAtuendoParaEvento(evento,guardarropa).stream().collect(Collectors.toList());
+
+        for(int i = 0; i< resultado.size();i++){
+            System.out.println(   resultado.get(i));
+        }
         System.out.println( axel.generarAtuendoParaEvento(evento,guardarropa) );
 
 
@@ -226,9 +231,9 @@ public class ClienteTest {
         Stream<Atuendo> streamAtuendo = PrendasCombiner.execute(listaPrendas);
         Evento evento = new Evento("0001","Cumpleaños",new Date(119,9,5,12,0,0),new Date(119,9,5,12,30,0),0.0,0.0,"Anual","Informal");
         System.out.println(ClimeHelper.getClimaParaEvento(evento));
-        //System.out.println(AtuendosFilter.execute(streamAtuendo,evento));
-        Set<Atuendo> atuendos = AtuendosFilter.execute(streamAtuendo,evento);
-        System.out.println(1);
+
+        List<Atuendo> resultado = AtuendosFilter.execute(streamAtuendo,evento).stream().collect(Collectors.toList());
+        System.out.println(resultado);
     }
 
 
