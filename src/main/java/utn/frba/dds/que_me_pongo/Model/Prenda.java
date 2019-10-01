@@ -47,6 +47,7 @@ public class Prenda {
       this.setAbrigo(indiceAbrigo);
       this.setFormalidad(formalidad);
       this.setIndiceSuperposicion(superposicion);
+      this.setTipoDePrenda(tipoDePrenda);
     }
 
     @Override
