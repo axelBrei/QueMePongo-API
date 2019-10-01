@@ -41,6 +41,7 @@ public class Prenda {
     public Prenda(int id, String tipoDeTela, String descripcion, String colorP, String colorS, String tipoDePrenda,Double indiceAbrigo,String formalidad,Integer superposicion) {
       this.setId(id);
       this.setTipoDeTela(tipoDeTela);
+      this.setTipoDePrenda(tipoDePrenda);
       this.setDescripcion(descripcion);
       this.setColorP(colorP);
       this.setColorS(colorS);

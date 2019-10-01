@@ -224,9 +224,11 @@ public class ClienteTest {
         listaPrendas.add(prenda6);
         listaPrendas.add(prenda7);
         Stream<Atuendo> streamAtuendo = PrendasCombiner.execute(listaPrendas);
-        Evento evento = new Evento("0001","Cumpleaños",new Date(119,9,5,12,0,0),new Date(119,9,5,12,30,0),-34.598356,-58.419919,"Anual","Informal");
+        Evento evento = new Evento("0001","Cumpleaños",new Date(119,9,5,12,0,0),new Date(119,9,5,12,30,0),0.0,0.0,"Anual","Informal");
         System.out.println(ClimeHelper.getClimaParaEvento(evento));
-        System.out.println(AtuendosFilter.execute(streamAtuendo,evento));
+        //System.out.println(AtuendosFilter.execute(streamAtuendo,evento));
+        Set<Atuendo> atuendos = AtuendosFilter.execute(streamAtuendo,evento);
+        System.out.println(1);
     }
 
 

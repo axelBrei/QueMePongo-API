@@ -25,6 +25,9 @@ public class ClimeHelper {
 
 
     public static Map<String, Double> getClimaParaEvento(Evento evento) {
+        if(evento.getLatitud()==0.0&&evento.getLongitud()==0.0){
+            return getDeltaAbrigo(24.0f);
+        }
        ClimaService climaService = new ClimaApiUNO();
        return getDeltaAbrigo(climaService.getTemperatura(evento));
     }
