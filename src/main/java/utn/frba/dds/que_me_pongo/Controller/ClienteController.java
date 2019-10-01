@@ -35,6 +35,7 @@ public class ClienteController {
     }
 
 
+
     @RequestMapping(value = "/borrar",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
     public ResponseEntity eliminarCliente(@RequestParam String id){

@@ -21,4 +21,28 @@ public class ReservarAtuendoRequest {
     public Integer getIdGuardarropa() {
         return idGuardarropa;
     }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public Atuendo getAtuendo() {
+        return atuendo;
+    }
+
+    public void setAtuendo(Atuendo atuendo) {
+        this.atuendo = atuendo;
+    }
+
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
 }

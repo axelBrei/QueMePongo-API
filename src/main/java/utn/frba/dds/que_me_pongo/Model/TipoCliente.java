@@ -43,15 +43,39 @@ public class TipoCliente {
     }
 
     public Boolean esGratuito(TipoCliente tipoCliente){
-        return tipoCliente.nombre.equals(new TipoCliente().setTipoClienteGratuito().nombre);
+        return tipoCliente.getNombre().equals(new TipoCliente().setTipoClienteGratuito().getNombre());
     }
 
     public Boolean esPremium(TipoCliente tipoCliente){
-        return tipoCliente.nombre.equals(new TipoCliente().setTipoClientePremium().nombre);
+        return tipoCliente.getNombre().equals(new TipoCliente().setTipoClientePremium().getNombre());
     }
 
     public boolean puedeAgregarPrenda(Guardarropa guardarropa){
-        return !this.nombre.equals("Gratuito") || guardarropa.getPrendas().size() < this.PrendasMax;
+        return !this.getNombre().equals("Gratuito") || guardarropa.getPrendas().size() < this.getPrendasMax();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Integer getPrendasMax() {
+        return PrendasMax;
+    }
+
+    public void setPrendasMax(Integer prendasMax) {
+        PrendasMax = prendasMax;
     }
 }
 

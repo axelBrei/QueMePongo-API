@@ -17,4 +17,20 @@ import lombok.experimental.FieldDefaults;
 public class AbmEvento {
     String uid;
     long idEvento;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public long getIdEvento() {
+        return idEvento;
+    }
+
+    public void setIdEvento(long idEvento) {
+        this.idEvento = idEvento;
+    }
 }

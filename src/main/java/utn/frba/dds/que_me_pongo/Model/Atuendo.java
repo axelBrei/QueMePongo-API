@@ -26,23 +26,24 @@ public class Atuendo {
     List<Prenda> prendas = new ArrayList<>();
 
     public Atuendo(List<Prenda> prendas) {
-        this.prendas = prendas;
+        this.setPrendas(prendas);
     }
 
     public Atuendo(Integer id, List<Prenda> prendas) {
-        this.prendas = prendas;
-        this.id = id;
+        this.setPrendas(prendas);
+        this.setId(id);
     }
 
+
     public void anadirPrenda(Prenda p){
-        prendas.add(p);
+        getPrendas().add(p);
     }
     public void anadirPrendas(List<Prenda> p){
-        prendas.addAll(p);
+        getPrendas().addAll(p);
     }
 
     public Boolean tieneAlgunaPrenda(List<Prenda> prendas){
-        return  this.prendas.stream().anyMatch(p-> prendas.stream().anyMatch(prenda -> prenda.getId().equals(p.getId())));
+        return  this.getPrendas().stream().anyMatch(p-> prendas.stream().anyMatch(prenda -> prenda.getId().equals(p.getId())));
     }
 
     public Boolean esSuficienteAbrigado(Float temperatura){
@@ -72,8 +73,31 @@ public class Atuendo {
 
 
     public void eliminarPrenda(Prenda p){
-        prendas.remove(p);
+        getPrendas().remove(p);
     }
 
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public float getCalificacion() {
+        return calificacion;
+    }
+
+    public void setCalificacion(float calificacion) {
+        this.calificacion = calificacion;
+    }
+
+    public List<Prenda> getPrendas() {
+        return prendas;
+    }
+
+    public void setPrendas(List<Prenda> prendas) {
+        this.prendas = prendas;
+    }
 }

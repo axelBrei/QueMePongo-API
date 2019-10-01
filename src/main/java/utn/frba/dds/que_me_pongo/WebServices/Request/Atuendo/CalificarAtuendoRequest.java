@@ -15,4 +15,28 @@ public class CalificarAtuendoRequest {
     private String uid;
     private Atuendo atuendo;
     private Integer calificacion;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public Atuendo getAtuendo() {
+        return atuendo;
+    }
+
+    public void setAtuendo(Atuendo atuendo) {
+        this.atuendo = atuendo;
+    }
+
+    public Integer getCalificacion() {
+        return calificacion;
+    }
+
+    public void setCalificacion(Integer calificacion) {
+        this.calificacion = calificacion;
+    }
 }

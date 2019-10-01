@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-import java.util.*;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
@@ -38,30 +36,70 @@ public class Guardarropa{
     Set<Atuendo> atuendos = new HashSet<>();
 
     public Guardarropa(String descripcion) {
-        this.descripcion = descripcion;
+        this.setDescripcion(descripcion);
     }
 
     public Guardarropa(int id, String descripcion, String uidDueno) {
-        this.id = id;
-        this.descripcion = descripcion;
-        this.uidDueno = uidDueno;
+        this.setId(id);
+        this.setDescripcion(descripcion);
+        this.setUidDueno(uidDueno);
     }
 
-    public void addAtuendo(Atuendo atuendo){this.atuendos.add(atuendo);}
+    public void addAtuendo(Atuendo atuendo){
+        this.getAtuendos().add(atuendo);}
 
     public void aniadirPrendas(List<Prenda> prendas) {
-        this.prendas.addAll(prendas);
+        this.getPrendas().addAll(prendas);
     }
     public void addPrenda(Prenda prenda){
-        prendas.add(prenda);
+        getPrendas().add(prenda);
     }
 
     public  boolean  deletePrenda(Prenda prenda){
-       return prendas.remove(prenda);
+       return getPrendas().remove(prenda);
     }
 
     public boolean deletePrenda(int idPrenda){
-        return this.prendas.removeIf( p -> p.getId().equals(idPrenda));
+        return this.getPrendas().removeIf(p -> p.getId().equals(idPrenda));
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getUidDueno() {
+        return uidDueno;
+    }
+
+    public void setUidDueno(String uidDueno) {
+        this.uidDueno = uidDueno;
+    }
+
+    public Set<Prenda> getPrendas() {
+        return prendas;
+    }
+
+    public void setPrendas(Set<Prenda> prendas) {
+        this.prendas = prendas;
+    }
+
+    public Set<Atuendo> getAtuendos() {
+        return atuendos;
+    }
+
+    public void setAtuendos(Set<Atuendo> atuendos) {
+        this.atuendos = atuendos;
+    }
 }

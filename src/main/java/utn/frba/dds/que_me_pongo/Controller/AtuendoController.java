@@ -17,8 +17,8 @@ import utn.frba.dds.que_me_pongo.Repository.AtuendoGuardarropaRepository;
 import utn.frba.dds.que_me_pongo.Repository.AtuendoRepository;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.PrendaReservadaRespository;
-import utn.frba.dds.que_me_pongo.Utilities.RecomendationGenerator.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Utilities.Helpers.DateHelper;
+import utn.frba.dds.que_me_pongo.Utilities.RecomendationGenerator.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarAtuendoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.CalificarAtuendoRequest;
 
@@ -72,6 +72,15 @@ public class AtuendoController {
         Set<Atuendo> atuendoSet = AtuendosRecomendationHelper.execute(body.getUid(), body.getIdGuardarropa(), body.getEvento() , clientesRepository, prendaReservadaRespository);
         return new ResponseEntity(atuendoSet.toArray(), HttpStatus.OK);
     }
+    //TODO: metodo getAtuendo para test y diagrama de secuencia
+    public Set<Atuendo> getAtuendo(Guardarropa guardarropa,Evento evento){
+
+        Set<Atuendo> atuendoSet = AtuendosRecomendationHelper.execute(guardarropa, evento);
+        return atuendoSet;
+    }
+
+
+
 
     @RequestMapping(value = "guardados", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity atuendosGuardados(@RequestBody ReservarAtuendoRequest body) {

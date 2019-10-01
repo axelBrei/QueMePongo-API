@@ -31,6 +31,17 @@ public class AtuendosRecomendationHelper {
         return atuendos;
     }
 
+    public static Set<Atuendo> execute(Guardarropa guardarropa,Evento evento){
+
+        List<Prenda> prendas = new ArrayList<Prenda>(  );
+        prendas = guardarropa.getPrendas().stream().collect(Collectors.toList());
+        Stream<Atuendo> atuendoStream = PrendasCombiner.execute(prendas);
+
+        Set<Atuendo> atuendos = AtuendosFilter.execute(atuendoStream,evento);
+
+        return atuendos;
+    }
+
 
 
 
