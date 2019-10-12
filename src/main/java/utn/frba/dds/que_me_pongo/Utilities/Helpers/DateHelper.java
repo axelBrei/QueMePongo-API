@@ -13,4 +13,11 @@ public class DateHelper {
         return new Date(millOriginal);
 //        return dateFormat.format(new Date(millOriginal));
     }
+    public static Date sumarMinutosAFecha(Date fechaOriginal, int minutosASumar) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long millOriginal = fechaOriginal.getTime();
+        millOriginal += minutosASumar* 60 * 1000;
+        return new Date(millOriginal);
+//        return dateFormat.format(new Date(millOriginal));
+    }
 }

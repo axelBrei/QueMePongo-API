@@ -15,5 +15,5 @@ import utn.frba.dds.que_me_pongo.Model.GuardarropaCompartido;
 public interface ClienteGuardarropaRepository {
     Guardarropa addGuardarropaToCliente(Cliente c, Guardarropa g);
     boolean removeGuardarropaDelCliente(Cliente c, int id);
-    List<GuardarropaCompartido> getGuardarropsCompartidosDelCliente(String uid);
+    List<GuardarropaCompartido> getGuardarropsCompartidosDelCliente(String uid, Integer idGuardarropa);
 }

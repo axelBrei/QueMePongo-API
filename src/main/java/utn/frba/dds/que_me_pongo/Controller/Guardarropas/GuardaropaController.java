@@ -93,8 +93,8 @@ public class GuardaropaController {
     }
 
     @RequestMapping( value = "getCompartidos", method = RequestMethod.GET)
-    public ResponseEntity getGuardarropasCompartidos(@RequestParam String uid) {
-        List<GuardarropaCompartido> guardarropasCompartidos = clienteGuardarropaRepository.getGuardarropsCompartidosDelCliente(uid);
+    public ResponseEntity getGuardarropasCompartidos(@RequestParam String uid, @RequestParam(required = false) Integer idGuardarropa) {
+        List<GuardarropaCompartido> guardarropasCompartidos = clienteGuardarropaRepository.getGuardarropsCompartidosDelCliente(uid, idGuardarropa);
         return new ResponseEntity(guardarropasCompartidos, HttpStatus.OK);
     }
 }

@@ -22,6 +22,7 @@ import utn.frba.dds.que_me_pongo.WebServices.Responses.Notificacion.FirebaseNoti
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,9 +42,14 @@ public class EventoController {
     public ResponseEntity agregarEvento(@RequestBody AgregarEventoRequest body){
         Cliente cliente = clientesRepository.findClienteByUid( body.getUid());
         Evento evento = body.getEvento();
-        cliente.getEventos().add(evento);
+        Evento nuevo  = eventosRespository.save(evento);
+        cliente.getEventos().add(nuevo);
         clientesRepository.save(cliente);
-        return new ResponseEntity(HttpStatus.OK);
+        HashMap<String, Object> resp = new HashMap<>();
+        resp.put("message", "Se ha añadido la evento con exito");
+        resp.put("idEvento", nuevo.getId());
+
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
     @Modifying
@@ -59,8 +65,7 @@ public class EventoController {
         evento = EventControllerHelper.clonarEventorepetitivo(evento);
         cliente.getEventos().removeIf(e -> e.getId() == body.getIdEvento());
         clientesRepository.save(cliente);
-        cliente.getEventos().add(evento);
-        clientesRepository.save(cliente);
+
         return new ResponseEntity(HttpStatus.OK);
     }
 

@@ -64,8 +64,11 @@ public class AtuendoController {
         AtuendosRecomendationHelper helper = new AtuendosRecomendationHelper();
         if(body.getEvento() == null){
             Evento evento = new Evento();
-            evento.setDesde(new Date());
+            evento.setDesde(DateHelper.sumarMinutosAFecha(new Date(), 5));
             evento.setHasta(DateHelper.sumarDiasAFecha(new Date(), 1));
+            evento.setFormalidad("Informal");
+            evento.setLatitud(12.123);
+            evento.setLongitud(24.123);
              body.setEvento(evento);
         }
         Set<Atuendo> atuendoSet = helper.generarAtuendos(body.getUid(), body.getIdGuardarropa(), body.getEvento() , clientesRepository, prendaReservadaRespository);

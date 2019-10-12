@@ -36,10 +36,11 @@ public class AtuendosRecomendationHelper {
         ReservaHelper rh = new ReservaHelper();
         List<Prenda> prendasLibres = rh.prendasDisponibles(guardarropa.getPrendas().stream().collect(Collectors.toList()), evento,prList);
 
-        if(evento.getFormalidad() != null)
-            prendasLibres.removeIf(p-> filtrarPorFormalidad(p,evento.getFormalidad()));
+
+        prendasLibres.removeIf(p-> filtrarPorFormalidad(p,evento.getFormalidad()));
 
         Map<String, Double> climasEvento = ClimeHelper.getClimaParaEvento(evento);
+
 
         Generator.subset(prendasLibres)
                 .simple()
@@ -52,6 +53,7 @@ public class AtuendosRecomendationHelper {
                 ))
                 .forEach( at -> atuendos.add(at));
         return atuendos;
+
     }
 
     private Predicate<? super Atuendo> filtroPorTamano(){

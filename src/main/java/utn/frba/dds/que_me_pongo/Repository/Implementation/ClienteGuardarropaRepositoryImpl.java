@@ -1,6 +1,7 @@
 package utn.frba.dds.que_me_pongo.Repository.Implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -48,18 +49,25 @@ public class ClienteGuardarropaRepositoryImpl implements ClienteGuardarropaRepos
     }
 
     @Override
-    public List<GuardarropaCompartido> getGuardarropsCompartidosDelCliente(String uid) {
-        Query query = entityManager.createNativeQuery(
-                "SELECT DISTINCT clientes.uid, g.id, g.descripcion, clientes.name" +
+    public List<GuardarropaCompartido> getGuardarropsCompartidosDelCliente(String uid, @Nullable Integer idGuardarropa) {
+        String queryString =  "SELECT DISTINCT clientes.uid, g.id, g.descripcion, clientes.name" +
                 " FROM public.guardarropas as g" +
                 " JOIN public.clientes_guardarropas ON clientes_guardarropas.guardarropas_id = g.id" +
                 " JOIN public.clientes ON clientes.id = clientes_guardarropas.cliente_id" +
-                " WHERE not g.uid_dueno = clientes.uid AND g.uid_dueno = ?1"
-            ).setParameter(1, uid);
+                " WHERE not g.uid_dueno = clientes.uid AND g.uid_dueno = ?1";
+
+        if(idGuardarropa != null){
+            queryString += " AND g.id = ?2";
+        }
+        Query query = entityManager.createNativeQuery(queryString).setParameter(1, uid);
+        if(idGuardarropa != null){
+            query.setParameter(2, idGuardarropa);
+        }
 
         List<Object[]> guardarropas = query.getResultList();
         return guardarropas.stream().map( o ->
                 new GuardarropaCompartido((String) o[0], (Integer)o[1], (String)o[2], (String)o[3])
         ).collect(Collectors.toList());
     }
+
 }
