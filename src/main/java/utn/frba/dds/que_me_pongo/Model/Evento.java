@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
 @Entity
 @Table(name = "Eventos")
 @Getter
@@ -25,6 +24,7 @@ public class Evento {
     String nombre;
     Date desde;
     Date hasta;
+    String nombreUbicacion;
     Double latitud;
     Double longitud;
     String frecuencia;
