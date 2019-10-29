@@ -5,15 +5,15 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 
+@Data
 @Entity
 @Table(name = "Eventos")
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
-@Transactional
 public class Evento {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,6 +34,11 @@ public class Evento {
 
     @OneToOne(optional = true)
     Atuendo atuendo;
+
+    Integer id_guardarropa;
+
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = Atuendo.class)
+    Set<Atuendo> generados = new HashSet<>();
 
     @Override
     public boolean equals(Object obj) {

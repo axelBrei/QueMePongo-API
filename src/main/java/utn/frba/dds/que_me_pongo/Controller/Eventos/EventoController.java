@@ -9,12 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import utn.frba.dds.que_me_pongo.Model.Atuendo;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.EventosClienteRepository;
 import utn.frba.dds.que_me_pongo.Repository.EventosRespository;
+import utn.frba.dds.que_me_pongo.Repository.PrendaReservadaRespository;
 import utn.frba.dds.que_me_pongo.Utilities.Exceptions.EventoNotFoundException;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Utilities.Helpers.DateHelper;
 import utn.frba.dds.que_me_pongo.WebServices.Request.AgregarEventoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Evento.AbmEvento;
@@ -36,6 +39,9 @@ public class EventoController {
     EventosRespository eventosRespository;
     @Autowired
     EventosClienteRepository eventosClienteRepository;
+    @Autowired
+    PrendaReservadaRespository prendaReservadaRespository;
+    AtuendosRecomendationHelper helper;
 
     @Transactional
     @RequestMapping(value = "agregar", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -97,11 +103,19 @@ public class EventoController {
         Date incial = new Date ( ahora.getTime() - (3*60*60*1000));
         Date dentroDeCincoM = new Date (ahora.getTime() + (5*60*1000)  - (3*60*60*1000));
         Set<Evento> eventos = eventosRespository.findAllByDesdeBetween(incial,dentroDeCincoM);
+        helper = new AtuendosRecomendationHelper();
 
         eventos.forEach(evento ->{
                 if(!evento.getNotificado() && evento.getAtuendo() == null){
                     Cliente cliente = eventosClienteRepository.clienteDelEvento(evento.getId());
                     //GENERAR LOS ATUENDOS Y ENVIAR
+                    Set<Atuendo> atuendoSet = helper.generarAtuendos(cliente.getUid(), evento.getId_guardarropa(), evento , clientesRepository, prendaReservadaRespository);
+                    /*TEMPORAL */
+                    evento.setGenerados(atuendoSet);
+                    evento.setNotificado(true);
+                    eventosRespository.save(evento);
+                    /*end*/
+                    /*ACA EL PROBLEMA ES QUE NO HACE EL GETSUCCESS ENTONCES QUEDA GENERANDO TODO EL TIEMPO por eso lo puse arriba  */
                     FirebaseNotificationrResponse response = EventControllerHelper.sendFirebaseNotification(cliente.getFirebaseToken(), evento.getId());
                     if(response.getSuccess() == 1){
                         // SALIO TDO BIEN
@@ -110,6 +124,7 @@ public class EventoController {
                             evento = EventControllerHelper.clonarEventorepetitivo(evento);
                         }else {
                             evento.setNotificado(true);
+
                         }
 
                         eventosRespository.save(evento);

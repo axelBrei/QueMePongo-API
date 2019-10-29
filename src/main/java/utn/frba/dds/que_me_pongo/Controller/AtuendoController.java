@@ -4,19 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import utn.frba.dds.que_me_pongo.Model.Atuendo;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
-import utn.frba.dds.que_me_pongo.Repository.AtuendoGuardarropaRepository;
-import utn.frba.dds.que_me_pongo.Repository.AtuendoRepository;
-import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
-import utn.frba.dds.que_me_pongo.Repository.PrendaReservadaRespository;
+import utn.frba.dds.que_me_pongo.Repository.*;
 import utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Utilities.Helpers.DateHelper;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarAtuendoRequest;
@@ -36,7 +30,8 @@ public class AtuendoController {
     private AtuendosRecomendationHelper atuendosHelper;
     @Autowired
     ClientesRepository clientesRepository;
-
+    @Autowired
+    EventosRespository eventosRespository;
     @Autowired
     AtuendoRepository atuendoRepository;
     @Autowired
@@ -95,6 +90,14 @@ public class AtuendoController {
         }
 
         return new ResponseEntity(atuendo, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "notificados",  method = RequestMethod.GET)
+    public ResponseEntity atuendosNotificados(@RequestParam Long idEvento){
+
+
+        Evento evento = eventosRespository.getOne(idEvento);
+        return new ResponseEntity(evento.getGenerados().toArray(), HttpStatus.OK);
     }
 
 

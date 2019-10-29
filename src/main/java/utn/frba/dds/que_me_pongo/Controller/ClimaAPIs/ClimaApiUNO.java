@@ -17,10 +17,11 @@ public class ClimaApiUNO implements ClimaService {
     @Override
     public float getTemperatura(Evento evento) throws NullPointerException  {
         Date now = new Date();
+        now.setTime(now.getTime()-3*60*60*1000);
         Date cincoDias = new Date();
         cincoDias.setTime(now.getTime() + 5*24*60*60*1000);
 
-        if(evento.getDesde().getTime()<now.getTime()){
+        if(evento.getDesde().getTime()<(now.getTime()-5*60*1000)){
             throw new NullPointerException("Fecha menor a la actual");
         }else if(evento.getDesde().getTime()>cincoDias.getTime()){
             throw new NullPointerException("Fecha más de 5 dias mayor a la actual");

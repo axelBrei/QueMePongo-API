@@ -47,7 +47,7 @@ public class Cliente  implements Serializable {
     @JsonProperty("nombre")
     String name;
 
-    @ManyToMany
+    @ManyToMany( cascade = CascadeType.ALL,fetch=FetchType.EAGER)
     Set<Guardarropa> guardarropas = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, targetEntity = Evento.class)
