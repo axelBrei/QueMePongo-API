@@ -4,28 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import utn.frba.dds.que_me_pongo.Model.Atuendo;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.Model.Guardarropa;
-import utn.frba.dds.que_me_pongo.Repository.AtuendoGuardarropaRepository;
-import utn.frba.dds.que_me_pongo.Repository.AtuendoRepository;
-import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
-import utn.frba.dds.que_me_pongo.Repository.PrendaReservadaRespository;
-import utn.frba.dds.que_me_pongo.Utilities.Helpers.AtuendosRecomendationHelper;
+import utn.frba.dds.que_me_pongo.Repository.*;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.RecomendacionDeAtuendos.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.Utilities.Helpers.DateHelper;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarAtuendoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Atuendo.CalificarAtuendoRequest;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -36,7 +28,8 @@ public class AtuendoController {
     private AtuendosRecomendationHelper atuendosHelper;
     @Autowired
     ClientesRepository clientesRepository;
-
+    @Autowired
+    EventosRespository eventosRespository;
     @Autowired
     AtuendoRepository atuendoRepository;
     @Autowired
@@ -64,8 +57,11 @@ public class AtuendoController {
         AtuendosRecomendationHelper helper = new AtuendosRecomendationHelper();
         if(body.getEvento() == null){
             Evento evento = new Evento();
-            evento.setDesde(new Date());
+            evento.setDesde(DateHelper.sumarMinutosAFecha(new Date(), 5));
             evento.setHasta(DateHelper.sumarDiasAFecha(new Date(), 1));
+            evento.setFormalidad("Informal");
+            evento.setLatitud(12.123);
+            evento.setLongitud(24.123);
              body.setEvento(evento);
         }
         Set<Atuendo> atuendoSet = helper.generarAtuendos(body.getUid(), body.getIdGuardarropa(), body.getEvento() , clientesRepository, prendaReservadaRespository);
@@ -92,6 +88,14 @@ public class AtuendoController {
         }
 
         return new ResponseEntity(atuendo, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "notificados",  method = RequestMethod.GET)
+    public ResponseEntity atuendosNotificados(@RequestParam Long idEvento){
+
+
+        Evento evento = eventosRespository.getOne(idEvento);
+        return new ResponseEntity(evento.getGenerados().toArray(), HttpStatus.OK);
     }
 
 

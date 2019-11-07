@@ -17,10 +17,11 @@ public class ClimaApiUNO implements ClimaService {
     @Override
     public float getTemperatura(Evento evento) throws NullPointerException  {
         Date now = new Date();
+        now.setTime(now.getTime()-3*60*60*1000);
         Date cincoDias = new Date();
         cincoDias.setTime(now.getTime() + 5*24*60*60*1000);
 
-        if(evento.getDesde().getTime()<now.getTime()){
+        if(evento.getDesde().getTime()<(now.getTime()-5*60*1000)){
             throw new NullPointerException("Fecha menor a la actual");
         }else if(evento.getDesde().getTime()>cincoDias.getTime()){
             throw new NullPointerException("Fecha más de 5 dias mayor a la actual");
@@ -34,8 +35,14 @@ public class ClimaApiUNO implements ClimaService {
         DecimalFormat decimalFormat = new DecimalFormat("#.00",symbol);
         ResponseWeather response = openWeather.getWeather(decimalFormat.format(evento.getLatitud()),
                 decimalFormat.format(evento.getLongitud()));
+        float t;
+        try {
+            t =  kelvinToC( getClimaDate(response,evento.getDesde()).getMain().getTemp());
+        }catch (NullPointerException e){
+            t=20;
+        }
 
-        return (float) kelvinToC( getClimaDate(response,evento.getDesde()).getMain().getTemp());
+        return t;
     }
 
     private float kelvinToC(float kelvin){

@@ -12,4 +12,6 @@ import java.util.Set;
 public interface EventosRespository extends JpaRepository<Evento, Long> {
     Set<Evento> findAllByDesdeBetween(Date incio, Date fin);
 
+
+    Evento getOne(Long idEvento);
 }

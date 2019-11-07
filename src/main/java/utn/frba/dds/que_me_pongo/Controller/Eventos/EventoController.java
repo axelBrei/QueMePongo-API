@@ -9,20 +9,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import utn.frba.dds.que_me_pongo.Model.Atuendo;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Evento;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.EventosClienteRepository;
 import utn.frba.dds.que_me_pongo.Repository.EventosRespository;
+import utn.frba.dds.que_me_pongo.Repository.PrendaReservadaRespository;
 import utn.frba.dds.que_me_pongo.Utilities.Exceptions.EventoNotFoundException;
-import utn.frba.dds.que_me_pongo.Utilities.Helpers.DateHelper;
+import utn.frba.dds.que_me_pongo.Utilities.Helpers.RecomendacionDeAtuendos.AtuendosRecomendationHelper;
 import utn.frba.dds.que_me_pongo.WebServices.Request.AgregarEventoRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Evento.AbmEvento;
 import utn.frba.dds.que_me_pongo.WebServices.Responses.Notificacion.FirebaseNotificationrResponse;
 
-import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 @RestController
@@ -35,6 +39,9 @@ public class EventoController {
     EventosRespository eventosRespository;
     @Autowired
     EventosClienteRepository eventosClienteRepository;
+    @Autowired
+    PrendaReservadaRespository prendaReservadaRespository;
+    AtuendosRecomendationHelper helper;
 
     @Transactional
     @RequestMapping(value = "agregar", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -42,8 +49,20 @@ public class EventoController {
         Cliente cliente = clientesRepository.findClienteByUid( body.getUid());
         Evento evento = body.getEvento();
         cliente.getEventos().add(evento);
-        clientesRepository.save(cliente);
-        return new ResponseEntity(HttpStatus.OK);
+        int index = cliente.getEventos().size() - 1;
+        cliente = clientesRepository.save(cliente);
+
+        evento = cliente.getEventos().get(index);
+
+        if(!evento.getFrecuencia().equals("Sin repetición")){
+            cliente = EventControllerHelper.getEventosFuturos(clientesRepository, cliente, evento);
+            cliente = clientesRepository.save(cliente);
+        }
+
+        HashMap<String, Object> resp = new HashMap<>();
+        resp.put("idEvento", evento.getId());
+        resp.put("message", "Se ha añadido con exito el evento");
+        return new ResponseEntity( resp,HttpStatus.OK);
     }
 
     @Modifying
@@ -59,8 +78,7 @@ public class EventoController {
         evento = EventControllerHelper.clonarEventorepetitivo(evento);
         cliente.getEventos().removeIf(e -> e.getId() == body.getIdEvento());
         clientesRepository.save(cliente);
-        cliente.getEventos().add(evento);
-        clientesRepository.save(cliente);
+
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -70,10 +88,10 @@ public class EventoController {
         Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
         cliente.getEventos()
                 .removeIf(
-                        e -> e.getId() == body.getIdEvento()
+                        e -> Long.parseLong(e.getUidEvento()) == body.getIdEvento() && e.getDesde().after(body.getDesde())
                 );
         clientesRepository.save(cliente);
-        eventosRespository.deleteById(body.getIdEvento());
+//        eventosRespository.deleteById(body.getIdEvento());
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -85,29 +103,41 @@ public class EventoController {
 
 
     // REVISA LOS USUARIOS QUE TIENEN EVENTOS EN LOS PROXIMOS A UNA HORA
-
     @Scheduled(fixedDelay = 5*1000)
     public void corroborarEventosCercanos(){
-        Date ahora = new Date();
-        Date incial = new Date ( ahora.getTime() - (3*60*60*1000));
-        Date dentroDeCincoM = new Date (ahora.getTime() + (5*60*1000)  - (3*60*60*1000));
-        Set<Evento> eventos = eventosRespository.findAllByDesdeBetween(incial,dentroDeCincoM);
+        Calendar now = Calendar.getInstance(new Locale("es_AR"));
+        now.setTime(new Date());
+        Calendar dentroDeCincoM = Calendar.getInstance(new Locale("es_AR"));
+        dentroDeCincoM.setTime(new Date());
+        dentroDeCincoM.add(Calendar.MINUTE, 5);
+        Set<Evento> eventos = eventosRespository.findAllByDesdeBetween(now.getTime(),dentroDeCincoM.getTime());
+        helper = new AtuendosRecomendationHelper();
 
         eventos.forEach(evento ->{
-                if(!evento.getNotificado() && evento.getAtuendo() == null){
+                if(evento.getGenerados().isEmpty()){
                     Cliente cliente = eventosClienteRepository.clienteDelEvento(evento.getId());
-                    //GENERAR LOS ATUENDOS Y ENVIAR
-                    FirebaseNotificationrResponse response = EventControllerHelper.sendFirebaseNotification(cliente.getFirebaseToken(), evento.getId());
-                    if(response.getSuccess() == 1){
-                        // SALIO TDO BIEN
-                        if(!evento.getFrecuencia().isEmpty()){
-                            eventosRespository.deleteById(evento.getId());
-                            evento = EventControllerHelper.clonarEventorepetitivo(evento);
-                        }else {
-                            evento.setNotificado(true);
-                        }
 
-                        eventosRespository.save(evento);
+                    int eventIndex = cliente.getEventos().indexOf(evento);
+
+                    if(evento.getNotificado() == null){
+                        cliente = EventControllerHelper.borrarEventosAPartirDeUnaSemana(cliente);
+                        cliente = EventControllerHelper.getEventosFuturos(clientesRepository, cliente, evento);
+                        evento.setNotificado(false);
+                    }
+                    if(!evento.getNotificado()){
+                        //GENERAR LOS ATUENDOS Y ENVIAR
+                        Set<Atuendo> atuendoSet = helper.generarAtuendos(cliente.getUid(), evento.getId_guardarropa(), evento , clientesRepository, prendaReservadaRespository);
+                        if(!atuendoSet.isEmpty()){
+                            evento.setGenerados(atuendoSet);
+                            FirebaseNotificationrResponse response = EventControllerHelper.sendFirebaseNotification(cliente.getFirebaseToken(), evento.getId());
+                            if(response.getSuccess() == 1){
+                                // SALIO TDO BIEN
+                                evento.setNotificado(true);
+                            }
+                            eventosRespository.save(evento);
+                            cliente.getEventos().add(eventIndex, evento);
+                            Cliente c = clientesRepository.save(cliente);
+                        }
                     }
                 }
             }
