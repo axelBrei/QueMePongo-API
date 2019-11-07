@@ -114,7 +114,7 @@ public class EventoController {
         helper = new AtuendosRecomendationHelper();
 
         eventos.forEach(evento ->{
-                if(evento.getGenerados().isEmpty()){
+                if(evento.getGenerados().isEmpty() || evento.getGenerados()==null){
                     Cliente cliente = eventosClienteRepository.clienteDelEvento(evento.getId());
 
                     int eventIndex = cliente.getEventos().indexOf(evento);
@@ -124,11 +124,15 @@ public class EventoController {
                         cliente = EventControllerHelper.getEventosFuturos(clientesRepository, cliente, evento);
                         evento.setNotificado(false);
                     }
+                    if(evento.getGenerados().isEmpty() || evento.getGenerados()==null) {
+                        Set<Atuendo> atuendoSet = helper.generarAtuendos(cliente.getUid(), (int) evento.getId_guardarropa(), evento, clientesRepository, prendaReservadaRespository);
+                        evento.setGenerados(atuendoSet);
+                        eventosRespository.save(evento);
+                        clientesRepository.save(cliente);
+                    }
                     if(!evento.getNotificado()){
                         //GENERAR LOS ATUENDOS Y ENVIAR
-                        Set<Atuendo> atuendoSet = helper.generarAtuendos(cliente.getUid(), evento.getId_guardarropa(), evento , clientesRepository, prendaReservadaRespository);
-                        if(!atuendoSet.isEmpty()){
-                            evento.setGenerados(atuendoSet);
+                        if(!evento.getGenerados().isEmpty()){
                             FirebaseNotificationrResponse response = EventControllerHelper.sendFirebaseNotification(cliente.getFirebaseToken(), evento.getId());
                             if(response.getSuccess() == 1){
                                 // SALIO TDO BIEN

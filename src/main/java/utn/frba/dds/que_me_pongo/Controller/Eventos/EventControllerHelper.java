@@ -56,7 +56,7 @@ public class EventControllerHelper {
     }
     public static Cliente getEventosFuturos(ClientesRepository repository,Cliente c, Evento e){
         e.setUidEvento(String.valueOf(e.getId()));
-        int numRepeticiones = 1;
+        int numRepeticiones = 0;
         int intervaloRepeticion = convertirRepeticionANumeroDeDias(e.getFrecuencia());
         switch (intervaloRepeticion){
             case 1: {
@@ -107,6 +107,7 @@ public class EventControllerHelper {
         evento.setGenerados(original.getGenerados());
         evento.setLatitud(original.getLatitud());
         evento.setLongitud(original.getLongitud());
+        evento.setId_guardarropa(original.getId_guardarropa());
         evento.setDesde(DateHelper.sumarDiasAFecha(original.getDesde(), intervalo));
         evento.setHasta(DateHelper.sumarDiasAFecha(original.getHasta(), intervalo));
         return evento;
