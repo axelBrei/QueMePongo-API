@@ -7,7 +7,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import utn.frba.dds.que_me_pongo.Model.Evento;
@@ -47,6 +51,39 @@ public class EventControllerHelper {
             case "anual": return 365;
             default: return null;
         }
+    }
+    public static List<Evento> getEventosFuturos(Evento e){
+        e.setUidEvento(String.valueOf(e.getId()));
+        List<Evento> aux = new ArrayList<>();
+        int numRepeticiones = 1;
+        switch (convertirRepeticionANumeroDeDias(e.getFrecuencia())){
+            case 1: {
+                numRepeticiones = 30;
+                break;
+            }
+            case 7: {
+                numRepeticiones = 8;
+                break;
+            }
+            case 30: {
+                numRepeticiones = 12;
+                break;
+            }
+            case 365: {
+                numRepeticiones = 4;
+            }
+        }
+        for(int i = 0; i < numRepeticiones; i++){
+            aux.add(e);
+            if(i == numRepeticiones -1){
+                e.setNotificado(null);
+            }
+        }
+        return aux;
+    }
+
+    public static boolean hayQueCrearNuevosEventos(Evento evento){
+        return evento.getNotificado() == null;
     }
 
     public static Evento clonarEventorepetitivo(Evento original) {
