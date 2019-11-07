@@ -18,6 +18,7 @@ import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarA
 import utn.frba.dds.que_me_pongo.WebServices.Request.DeleteReservaRequest;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -54,13 +55,14 @@ public class ReservaController {
                 evento,prendaReservadaRespository.prendasReservadasList()))
 
         evento.setAtuendo(atuendo);
-        Set<Atuendo> borrar =  evento.getGenerados();
-        evento.getGenerados().clear();
-        evento.getGenerados().add(atuendo);
+        cliente.getGuardarropa(evento.getId_guardarropa()).addAtuendo(atuendo);
+        Set<Atuendo> borrar = new HashSet<>(evento.getGenerados());
+        evento.getGenerados().removeIf(a->atuendo.getId()!=a.getId());
         eventosRespository.save(evento);
         borrar.removeIf(at->at.equals(atuendo));
         borrar.forEach(at -> atuendoRepository.delete(at));
         clientesRepository.save(cliente);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
