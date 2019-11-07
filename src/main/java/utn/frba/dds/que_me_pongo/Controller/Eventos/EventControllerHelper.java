@@ -14,7 +14,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Evento;
+import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Utilities.Helpers.DateHelper;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Notificaciones.FirebaseNotificationRequest;
 import utn.frba.dds.que_me_pongo.WebServices.Request.Notificaciones.NotificationBody;
@@ -49,14 +51,14 @@ public class EventControllerHelper {
             case "semanal": return 7;
             case "mensual": return 30;
             case "anual": return 365;
-            default: return null;
+            default: return 0;
         }
     }
-    public static List<Evento> getEventosFuturos(Evento e){
+    public static Cliente getEventosFuturos(ClientesRepository repository,Cliente c, Evento e){
         e.setUidEvento(String.valueOf(e.getId()));
-        List<Evento> aux = new ArrayList<>();
         int numRepeticiones = 1;
-        switch (convertirRepeticionANumeroDeDias(e.getFrecuencia())){
+        int intervaloRepeticion = convertirRepeticionANumeroDeDias(e.getFrecuencia());
+        switch (intervaloRepeticion){
             case 1: {
                 numRepeticiones = 30;
                 break;
@@ -73,13 +75,41 @@ public class EventControllerHelper {
                 numRepeticiones = 4;
             }
         }
-        for(int i = 0; i < numRepeticiones; i++){
-            aux.add(e);
-            if(i == numRepeticiones -1){
-                e.setNotificado(null);
+        try{
+            Evento evento = e.clone();
+            evento.setDesde(e.getDesde());
+            evento.setHasta(e.getHasta());
+            for(int i = 0; i < numRepeticiones; i++){
+                Evento ev = clonarYAumentarFecha(evento, intervaloRepeticion);
+                if(i == numRepeticiones -1){
+                    ev.setNotificado(null);
+                }
+                evento.setDesde(ev.getDesde());
+                evento.setHasta(ev.getHasta());
+                c.getEventos().add(ev);
             }
+            return c;
+        }catch (CloneNotSupportedException ex){
+            ex.printStackTrace();
         }
-        return aux;
+        return c;
+    }
+
+
+    private static Evento clonarYAumentarFecha(Evento original, int intervalo){
+        Evento evento = new Evento();
+        evento.setId(null);
+        evento.setFrecuencia(original.getFrecuencia());
+        evento.setUidEvento(original.getUidEvento());
+        evento.setAtuendo(original.getAtuendo());
+        evento.setNombre(original.getNombre());
+        evento.setFormalidad(original.getFormalidad());
+        evento.setGenerados(original.getGenerados());
+        evento.setLatitud(original.getLatitud());
+        evento.setLongitud(original.getLongitud());
+        evento.setDesde(DateHelper.sumarDiasAFecha(original.getDesde(), intervalo));
+        evento.setHasta(DateHelper.sumarDiasAFecha(original.getHasta(), intervalo));
+        return evento;
     }
 
     public static boolean hayQueCrearNuevosEventos(Evento evento){
@@ -101,5 +131,15 @@ public class EventControllerHelper {
         original.setAtuendo(null);
         original.setNotificado(false);
         return original;
+    }
+
+
+    public static Cliente borrarEventosAPartirDeUnaSemana(Cliente cliente){
+        List<Evento> eventoList = cliente.getEventos();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.WEEK_OF_MONTH, - 1);
+        Date semanaAntes = calendar.getTime();
+        eventoList.removeIf( evento -> evento.getDesde().before(semanaAntes));
+        return cliente;
     }
 }

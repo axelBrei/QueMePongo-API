@@ -1,5 +1,7 @@
 package utn.frba.dds.que_me_pongo.WebServices.Request.Evento;
 
+import java.util.Date;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,4 +19,5 @@ import lombok.experimental.FieldDefaults;
 public class AbmEvento {
     String uid;
     long idEvento;
+    Date desde;
 }

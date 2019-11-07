@@ -14,10 +14,10 @@ import java.util.*;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
-public class Evento {
+public class Evento implements Cloneable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+    Long id;
 
     // Por si google genera un id para el evento
     String uidEvento;
@@ -43,9 +43,15 @@ public class Evento {
     @Override
     public boolean equals(Object obj) {
         Evento evento = (Evento) obj;
-        return this.id == evento.getId();
+        return evento.getId().equals(this.id);
     }
 
     public boolean tieneReserva(){return atuendo!=null;}
 
+
+    @Override
+    public Evento clone() throws CloneNotSupportedException {
+        return (Evento) super.clone();
+    }
 }
+

@@ -50,7 +50,6 @@ public class ReservaController {
                 .orElseThrow(() -> new NoSePuedoReservarException(HttpStatus.NOT_FOUND));
 
         Atuendo atuendo = atuendoRepository.getAtuendoById(body.getAtuendo().getId());
-        System.out.println(body.getAtuendo().getId());
         reservaHelper.sePuedeReservarAtuendo(atuendo,
                 evento,prendaReservadaRespository.prendasReservadasList());
 

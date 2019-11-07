@@ -50,7 +50,7 @@ public class Cliente  implements Serializable {
     @ManyToMany( cascade = CascadeType.ALL,fetch=FetchType.EAGER)
     Set<Guardarropa> guardarropas = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = Evento.class)
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, targetEntity = Evento.class)
     List<Evento> eventos;
 
 

@@ -1,4 +1,4 @@
-package utn.frba.dds.que_me_pongo.Utilities.Helpers;
+package utn.frba.dds.que_me_pongo.Utilities.Helpers.RecomendacionDeAtuendos;
 
 import org.paukov.combinatorics3.Generator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 @Service
 public class AtuendosRecomendationHelper {
 
-    private static final Set<String> tipos = new HashSet<>(Arrays.asList("Superior", "Inferior", "Calzado", "Accesorio"));
-    private List<Prenda> getPrendasDisponibles(Guardarropa guardarropa, Evento evento, PrendaReservadaRespository pr){
-        List<PrendasReservadas> prList = pr.prendasReservadasList();
-        ReservaHelper rh = new ReservaHelper();
-        List<Prenda> prendasLibres = rh.prendasDisponibles(guardarropa.getPrendas().stream().collect(Collectors.toList()), evento,prList);
-        prendasLibres.removeIf(p-> filtrarPorFormalidad(p,evento.getFormalidad()));
-        return prendasLibres;
-    }
+//    private static final Set<String> tipos = new HashSet<>(Arrays.asList("Superior", "Inferior", "Calzado", "Accesorio"));
+//    private List<Prenda> getPrendasDisponibles(Guardarropa guardarropa, Evento evento, PrendaReservadaRespository pr){
+//        List<PrendasReservadas> prList = pr.prendasReservadasList();
+//        ReservaHelper rh = new ReservaHelper();
+//        List<Prenda> prendasLibres = rh.prendasDisponibles(guardarropa.getPrendas().stream().collect(Collectors.toList()), evento,prList);
+//        prendasLibres.removeIf(p-> filtrarPorFormalidad(p,evento.getFormalidad()));
+//        return prendasLibres;
+//    }
 
 //    Filtrar prendas
     public Set<Atuendo> generarAtuendos(String uid, int idGuardarropa,Evento evento,  ClientesRepository clientesRepository, PrendaReservadaRespository pr){
@@ -36,18 +36,16 @@ public class AtuendosRecomendationHelper {
         ReservaHelper rh = new ReservaHelper();
         List<Prenda> prendasLibres = rh.prendasDisponibles(guardarropa.getPrendas().stream().collect(Collectors.toList()), evento,prList);
 
-
-        prendasLibres.removeIf(p-> filtrarPorFormalidad(p,evento.getFormalidad()));
+        prendasLibres = FiltroFormalidad.filtrarPorFormalidad(prendasLibres, evento);
 
         Map<String, Double> climasEvento = ClimeHelper.getClimaParaEvento(evento);
-
 
         Generator.subset(prendasLibres)
                 .simple()
                 .stream()
                 .map( prendas -> new Atuendo(prendas))
-                .filter(filtroPorTamano())
-                .filter(filtrarPorAbrigo(
+                .filter(FiltroTamaño.filtroPorTamano())
+                .filter(FiltroAbrigo.filtrarPorAbrigo(
                         climasEvento.get(ClimeHelper.MAX_ABRIGO),
                         climasEvento.get(ClimeHelper.MIN_ABRIGO)
                 ))
@@ -56,47 +54,4 @@ public class AtuendosRecomendationHelper {
 
     }
 
-    private Predicate<? super Atuendo> filtroPorTamano(){
-        return atuendo -> {
-            if(atuendo.getPrendas().size() < 3)
-                return false;
-
-            Map<String, List<Prenda>> prendasSeparadas = atuendo.getPrendas().stream().collect(Collectors.groupingBy(Prenda::getTipoDePrenda));
-            for (List<Prenda> pr: prendasSeparadas.values()) {
-                if(pr.size() > 3)
-                    return false;
-            }
-            if(isComposicionAuendoCorrecta(prendasSeparadas)){
-                return noSuperposicion(prendasSeparadas);
-            }
-            return false;
-        };
-    }
-
-    private Boolean isComposicionAuendoCorrecta(Map<String, List<Prenda>> map){
-        return map.containsKey("Superior") &&
-                map.containsKey("Inferior") &&
-                map.containsKey("Calzado");
-    }
-
-    private Boolean noSuperposicion(Map<String, List<Prenda>> map){
-        for (List<Prenda> p: map.values()) {
-            Map<Integer, List<Prenda>> prendaMaped =  p.stream().collect(Collectors.groupingBy(Prenda::getIndiceSuperposicion));
-            Long cantidad = prendaMaped.values().stream().filter(list -> list.size() > 1).count();
-            if(cantidad > 0)
-                return false;
-        }
-        return true;
-    }
-
-    private Predicate<? super Atuendo> filtrarPorAbrigo(Double max, Double min){
-        return atuendo -> {
-            Double sumatoria =  atuendo.getPrendas().stream().mapToDouble(Prenda::getAbrigo).sum();
-            return sumatoria >= min && sumatoria <= max;
-        };
-    }
-
-    private Boolean filtrarPorFormalidad(Prenda prenda,String formalidad){
-        return ! (Boolean) prenda.getFormalidad().equals(formalidad);
-    }
 }

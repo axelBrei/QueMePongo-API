@@ -9,5 +9,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DeleteReservaRequest {
     String uid;
-    Integer idEvento;
+    Long idEvento;
 }
