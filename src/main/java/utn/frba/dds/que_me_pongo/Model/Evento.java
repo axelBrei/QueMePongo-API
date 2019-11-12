@@ -37,7 +37,7 @@ public class Evento implements Cloneable{
 
     Integer id_guardarropa;
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = Atuendo.class)
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, targetEntity = Atuendo.class)
     Set<Atuendo> generados = new HashSet<>();
 
     @Override

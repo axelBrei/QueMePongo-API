@@ -18,6 +18,7 @@ import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarA
 import utn.frba.dds.que_me_pongo.WebServices.Request.DeleteReservaRequest;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -38,23 +39,30 @@ public class ReservaController {
     /*
         Para reservar un autendo debe existir el evneto selccionado, el cual se elgie en la app, y encaso de no existir se crea desde la app
      */
-    @RequestMapping(value = "reservarAtuendo", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity reservarAtuendo(@RequestBody ReservarAtuendoRequest body) throws IOException {
+    @RequestMapping(value = "reservarAtuendo", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public ResponseEntity reservarAtuendo(@RequestParam String uid,@RequestParam Long idEvento,@RequestParam Long idAtuendo) throws IOException {
         ReservaHelper reservaHelper = new ReservaHelper();
-        Cliente cliente = clientesRepository.findClienteByUid(body.getUid());
+        Cliente cliente = clientesRepository.findClienteByUid(uid);
         Evento evento = cliente
                 .getEventos()
                 .stream()
-                .filter(e -> e.getId() == body.getEvento().getId())
+                .filter(e -> e.getId().equals(idEvento))
                 .findFirst()
                 .orElseThrow(() -> new NoSePuedoReservarException(HttpStatus.NOT_FOUND));
 
-        Atuendo atuendo = atuendoRepository.getAtuendoById(body.getAtuendo().getId());
-        reservaHelper.sePuedeReservarAtuendo(atuendo,
-                evento,prendaReservadaRespository.prendasReservadasList());
+        Atuendo atuendo = atuendoRepository.getAtuendoById(idAtuendo);
+        if(reservaHelper.sePuedeReservarAtuendo(atuendo,
+                evento,prendaReservadaRespository.prendasReservadasList()))
 
-        evento.setAtuendo(body.getAtuendo());
+        evento.setAtuendo(atuendo);
+        cliente.getGuardarropa(evento.getId_guardarropa()).addAtuendo(atuendo);
+        Set<Atuendo> borrar = new HashSet<>(evento.getGenerados());
+        evento.getGenerados().removeIf(a->atuendo.getId()!=a.getId());
+        eventosRespository.save(evento);
+        borrar.removeIf(at->at.equals(atuendo));
+        borrar.forEach(at -> atuendoRepository.delete(at));
         clientesRepository.save(cliente);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

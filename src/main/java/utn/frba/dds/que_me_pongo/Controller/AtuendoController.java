@@ -92,11 +92,10 @@ public class AtuendoController {
 
     @RequestMapping(value = "notificados",  method = RequestMethod.GET)
     public ResponseEntity atuendosNotificados(@RequestParam Long idEvento){
-
-
         Evento evento = eventosRespository.getOne(idEvento);
         return new ResponseEntity(evento.getGenerados().toArray(), HttpStatus.OK);
     }
+
 
 
 }
