@@ -25,9 +25,11 @@ import utn.frba.dds.que_me_pongo.WebServices.Responses.Notificacion.FirebaseNoti
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/evento")
@@ -101,6 +103,29 @@ public class EventoController {
         return new ResponseEntity(cliente.getEventos(), HttpStatus.OK);
     }
 
+    // BORRA LOS ATUENDOS GENERADOS Y SELECCIONADO DE LOS EVENTOS PASADOS
+    @Scheduled(fixedDelay = 5*1000)
+    public void borrarPrendasDeEventosPasados(){
+        Calendar calendar = Calendar.getInstance(new Locale("es_AR"));
+        Date now = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        Date oneDayBack = calendar.getTime();
+        Set<Evento> eventoList = eventosRespository.findAllByHastaBetween(oneDayBack, now);
+        if(!eventoList.isEmpty()){
+            eventoList = eventoList.stream()
+                    .filter( e -> e.getGenerados().size() > 0 || e.getAtuendo() != null)
+                    .map( evento -> {
+                        evento.setAtuendo(null);
+                        evento.setGenerados(new HashSet<>());
+                        return evento;
+                    })
+                    .collect(Collectors.toSet());
+            if(eventoList.size() > 0){
+                eventosRespository.saveAll(eventoList);
+            }
+        }
+    }
+
 
     // REVISA LOS USUARIOS QUE TIENEN EVENTOS EN LOS PROXIMOS A UNA HORA
     @Scheduled(fixedDelay = 5*1000)
@@ -130,18 +155,16 @@ public class EventoController {
                         eventosRespository.save(evento);
                         clientesRepository.save(cliente);
                     }
-                    if(!evento.getNotificado()){
+                    if(!evento.getNotificado() && !evento.getGenerados().isEmpty()){
                         //GENERAR LOS ATUENDOS Y ENVIAR
-                        if(!evento.getGenerados().isEmpty()){
-                            FirebaseNotificationrResponse response = EventControllerHelper.sendFirebaseNotification(cliente.getFirebaseToken(), evento.getId());
-                            if(response.getSuccess() == 1){
-                                // SALIO TDO BIEN
-                                evento.setNotificado(true);
-                            }
-                            eventosRespository.save(evento);
-                            cliente.getEventos().add(eventIndex, evento);
-                            Cliente c = clientesRepository.save(cliente);
+                        FirebaseNotificationrResponse response = EventControllerHelper.sendFirebaseNotification(cliente.getFirebaseToken(), evento.getId());
+                        if(response.getSuccess() == 1){
+                            // SALIO TDO BIEN
+                            evento.setNotificado(true);
                         }
+                        eventosRespository.save(evento);
+                        cliente.getEventos().add(eventIndex, evento);
+                        Cliente c = clientesRepository.save(cliente);
                     }
                 }
             }

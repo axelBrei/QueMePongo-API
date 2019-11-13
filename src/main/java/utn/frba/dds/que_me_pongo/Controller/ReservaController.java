@@ -52,7 +52,7 @@ public class ReservaController {
 
         Atuendo atuendo = atuendoRepository.getAtuendoById(idAtuendo);
         if(reservaHelper.sePuedeReservarAtuendo(atuendo,
-                evento,prendaReservadaRespository.prendasReservadasList()))
+                evento,prendaReservadaRespository.prendasOcupadas(evento.getDesde(),evento.getHasta(),evento.getId_guardarropa())))
 
         evento.setAtuendo(atuendo);
         cliente.getGuardarropa(evento.getId_guardarropa()).addAtuendo(atuendo);
