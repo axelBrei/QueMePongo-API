@@ -36,6 +36,7 @@ public class Prenda {
     String formalidad = "";
     // Ej. Superior-4, Inferior
     String tipoDePrenda = "";
+    String fotoURL = "";
     Integer indiceSuperposicion;
 
     @Override
