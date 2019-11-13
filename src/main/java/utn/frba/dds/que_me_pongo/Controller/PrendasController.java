@@ -18,6 +18,7 @@ import utn.frba.dds.que_me_pongo.Model.Guardarropa;
 import utn.frba.dds.que_me_pongo.Model.Prenda;
 import utn.frba.dds.que_me_pongo.Repository.ClientesRepository;
 import utn.frba.dds.que_me_pongo.Repository.PrendaGuardarroparepository;
+import utn.frba.dds.que_me_pongo.Repository.PrendasRepository;
 import utn.frba.dds.que_me_pongo.Utilities.Exceptions.GuardarropaLimitException;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Guardarropa.GetPrendasRequest;
 import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Prenda.DeletePrendaRequest;
@@ -46,6 +47,8 @@ public class PrendasController {
     String fileBasePath = "src/main/resources/fotos/";
     @Autowired
     ClientesRepository clientesRepository;
+    @Autowired
+    PrendasRepository prendasRepository;
     @Autowired
     PrendaGuardarroparepository prendaGuardarroparepository;
 
@@ -99,6 +102,12 @@ public class PrendasController {
                 .path("/prendas/fotos/")
                 .path(fileName)
                 .toUriString();
+        Integer id = Integer.parseInt(fileName.substring(0,fileName.length()-4));
+
+        Prenda prenda = prendasRepository.findPrendaById(id);
+        prenda.setFotoURL(fileDownloadUri);
+        prendasRepository.save(prenda);
+
 
         return ResponseEntity.ok(fileDownloadUri);
     }
