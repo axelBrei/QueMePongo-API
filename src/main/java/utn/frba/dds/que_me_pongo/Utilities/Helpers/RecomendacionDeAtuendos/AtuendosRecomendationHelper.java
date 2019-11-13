@@ -32,9 +32,10 @@ public class AtuendosRecomendationHelper {
     public Set<Atuendo> generarAtuendos(String uid, int idGuardarropa,Evento evento,  ClientesRepository clientesRepository, PrendaReservadaRespository pr){
         Set<Atuendo> atuendos = new HashSet<>();
         Guardarropa guardarropa = clientesRepository.findClienteByUid(uid).getGuardarropa(idGuardarropa);
-        List<PrendasReservadas> prList = pr.prendasReservadasList();
+        List<PrendasReservadas> prendasOcupadas = pr.prendasOcupadas(evento.getDesde(),evento.getHasta(),guardarropa.getId());
         ReservaHelper rh = new ReservaHelper();
-        List<Prenda> prendasLibres = rh.prendasDisponibles(guardarropa.getPrendas().stream().collect(Collectors.toList()), evento,prList);
+        //List<Prenda> prendasLibres = rh.prendasDisponibles(guardarropa.getPrendas().stream().collect(Collectors.toList()), evento,prList);
+        List<Prenda> prendasLibres = rh.getLibres(guardarropa.getPrendas().stream().collect(Collectors.toList()),prendasOcupadas);
 
         prendasLibres = FiltroFormalidad.filtrarPorFormalidad(prendasLibres, evento);
 
