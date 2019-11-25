@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import utn.frba.dds.que_me_pongo.Helpers.PrendasReservadas;
 import utn.frba.dds.que_me_pongo.Helpers.ReservaHelper;
 import utn.frba.dds.que_me_pongo.Model.Atuendo;
 import utn.frba.dds.que_me_pongo.Model.Cliente;
@@ -18,6 +20,7 @@ import utn.frba.dds.que_me_pongo.Utilities.WebServices.Request.Atuendo.ReservarA
 import utn.frba.dds.que_me_pongo.WebServices.Request.DeleteReservaRequest;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,19 +54,26 @@ public class ReservaController {
                 .orElseThrow(() -> new NoSePuedoReservarException(HttpStatus.NOT_FOUND));
 
         Atuendo atuendo = atuendoRepository.getAtuendoById(idAtuendo);
-        if(reservaHelper.sePuedeReservarAtuendo(atuendo,
-                evento,prendaReservadaRespository.prendasOcupadas(evento.getDesde(),evento.getHasta(),evento.getId_guardarropa())))
+        List<PrendasReservadas> reservadas = prendaReservadaRespository.prendasOcupadas(evento.getDesde(),evento.getHasta(),evento.getId_guardarropa());
+        if(reservaHelper.sePuedeReservarAtuendo(atuendo, evento, reservadas)){
+            evento.setAtuendo(atuendo);
+            cliente.getGuardarropa(evento.getId_guardarropa()).addAtuendo(atuendo);
+            Set<Atuendo> borrar = new HashSet<>(evento.getGenerados());
+            evento.getGenerados().removeIf(a->atuendo.getId()!=a.getId());
+            eventosRespository.save(evento);
+            borrar.removeIf(at->at.equals(atuendo));
+            borrar.forEach(at -> atuendoRepository.delete(at));
+            clientesRepository.save(cliente);
 
-        evento.setAtuendo(atuendo);
-        cliente.getGuardarropa(evento.getId_guardarropa()).addAtuendo(atuendo);
-        Set<Atuendo> borrar = new HashSet<>(evento.getGenerados());
-        evento.getGenerados().removeIf(a->atuendo.getId()!=a.getId());
-        eventosRespository.save(evento);
-        borrar.removeIf(at->at.equals(atuendo));
-        borrar.forEach(at -> atuendoRepository.delete(at));
-        clientesRepository.save(cliente);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            evento.setNotificado(false);
+            evento.setGenerados(new HashSet<>());
+            eventosRespository.save(evento);
+            HashMap<String, Object> resp = new HashMap<>();
+            resp.put("message", "No se ha podido reservar el atuendo porque la prenda ya estaba reservada");
+            return new ResponseEntity(resp, HttpStatus.BAD_REQUEST);
+        }
     }
 
 

@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import utn.frba.dds.que_me_pongo.Helpers.PrendasReservadas;
+import utn.frba.dds.que_me_pongo.Utilities.Exceptions.NoSePuedoReservarException;
 
 @NoArgsConstructor
 public class ReservaHelper {
@@ -29,16 +30,15 @@ public class ReservaHelper {
 
     }
 
-    public  Boolean sePuedeReservarAtuendo(Atuendo a, Evento e, List<PrendasReservadas> reservadas){
-        System.out.println(reservadas.toString());
-        if(!a.getPrendas().stream().noneMatch(p-> estaReservada(p,reservadas)))
-            throw new ResponseStatusException(HttpStatus.OK,"No se puede reservar atuendo");
-
+    public  Boolean sePuedeReservarAtuendo(Atuendo a, Evento e, List<PrendasReservadas> reservadas) throws NoSePuedoReservarException{
+        if (a.getPrendas().stream().anyMatch(p -> estaReservada(p, reservadas))) {
+            return false;
+        }
         return true;
     }
 
     private Boolean estaReservada(Prenda p ,List<PrendasReservadas> prendasReservadas){
-        return prendasReservadas.stream().anyMatch(r ->  r.getPrendas_id().equals(p.getId().longValue()));
+        return prendasReservadas.stream().anyMatch(pr ->  pr.getPrendas_id().equals( p.getId().longValue() ));
     }
 
 

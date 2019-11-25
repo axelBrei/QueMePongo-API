@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,6 +16,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 
 import utn.frba.dds.que_me_pongo.Model.Cliente;
 import utn.frba.dds.que_me_pongo.Model.Evento;
@@ -27,13 +31,19 @@ import utn.frba.dds.que_me_pongo.WebServices.Responses.Notificacion.FirebaseNoti
 public class EventControllerHelper {
 
 
-    public static FirebaseNotificationrResponse sendFirebaseNotification(String userToken, long idEvento){
+    public static FirebaseNotificationrResponse sendFirebaseNotification(String userToken, long idEvento, @NonNull String bodyS, @Nullable String title){
         try{
-            FirebaseNotificationRequest request = new FirebaseNotificationRequest(userToken, new NotificationBody(), new NotificationData(idEvento));
+            NotificationBody body = new NotificationBody();
+            body.setBody(bodyS);
+            if(title != null){
+                body.setTitle(title);
+            }
+            FirebaseNotificationRequest request = new FirebaseNotificationRequest(userToken, body, new NotificationData(idEvento));
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));;
             headers.set("Authorization", "key=AIzaSyB6jzT_JA4kv_iCCTGiz8PSR723N4VRKHg");
+            headers.set("Content-Type", "application/json");
 
             HttpEntity<FirebaseNotificationRequest> entity = new HttpEntity<>(request, headers);
             return restTemplate.postForObject("https://fcm.googleapis.com/fcm/send",entity, FirebaseNotificationrResponse.class);

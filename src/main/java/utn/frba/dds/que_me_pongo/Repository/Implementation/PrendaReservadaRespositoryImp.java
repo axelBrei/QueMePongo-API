@@ -42,7 +42,7 @@ public class PrendaReservadaRespositoryImp implements PrendaReservadaRespository
                         "JOIN public.atuendos_prendas as at ON at.atuendo_id = eventos.atuendo_id "+
                         "JOIN public.prendas as e ON e.id = at.prendas_id "+
                         " JOIN public.guardarropas_prendas as pp ON at.prendas_id = pp.prendas_id "+
-                        "WHERE guardarropa_id = 163 AND "+
+                        "WHERE guardarropa_id = " + guardarropa +" AND "+
                         "(eventos.desde <  '"+desde.toString()+"' AND eventos.hasta > '"+desde.toString()+"' ) "+
                         " OR (eventos.desde< '"+hasta.toString()+"' AND eventos.hasta > '"+hasta.toString()+"') "+
                         " OR (eventos.desde > '"+desde.toString()+"' AND eventos.hasta < '"+hasta.toString()+"')"

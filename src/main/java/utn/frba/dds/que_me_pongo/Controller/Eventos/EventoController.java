@@ -104,27 +104,27 @@ public class EventoController {
     }
 
     // BORRA LOS ATUENDOS GENERADOS Y SELECCIONADO DE LOS EVENTOS PASADOS
-    @Scheduled(fixedDelay = 5*1000)
-    public void borrarPrendasDeEventosPasados(){
-        Calendar calendar = Calendar.getInstance(new Locale("es_AR"));
-        Date now = calendar.getTime();
-        calendar.add(Calendar.DAY_OF_MONTH, -1);
-        Date oneDayBack = calendar.getTime();
-        Set<Evento> eventoList = eventosRespository.findAllByHastaBetween(oneDayBack, now);
-        if(!eventoList.isEmpty()){
-            eventoList = eventoList.stream()
-                    .filter( e -> e.getGenerados().size() > 0 || e.getAtuendo() != null)
-                    .map( evento -> {
-                        evento.setAtuendo(null);
-                        evento.setGenerados(new HashSet<>());
-                        return evento;
-                    })
-                    .collect(Collectors.toSet());
-            if(eventoList.size() > 0){
-                eventosRespository.saveAll(eventoList);
-            }
-        }
-    }
+//    @Scheduled(fixedDelay = 5*1000)
+//    public void borrarPrendasDeEventosPasados(){
+//        Calendar calendar = Calendar.getInstance(new Locale("es_AR"));
+//        Date now = calendar.getTime();
+//        calendar.add(Calendar.DAY_OF_MONTH, -1);
+//        Date oneDayBack = calendar.getTime();
+//        Set<Evento> eventoList = eventosRespository.findAllByHastaBetween(oneDayBack, now);
+//        if(!eventoList.isEmpty()){
+//            eventoList = eventoList.stream()
+//                    .filter( e -> e.getGenerados().size() > 0 || e.getAtuendo() != null)
+//                    .map( evento -> {
+//                        evento.setAtuendo(null);
+//                        evento.setGenerados(new HashSet<>());
+//                        return evento;
+//                    })
+//                    .collect(Collectors.toSet());
+//            if(eventoList.size() > 0){
+//                eventosRespository.saveAll(eventoList);
+//            }
+//        }
+//    }
 
 
     // REVISA LOS USUARIOS QUE TIENEN EVENTOS EN LOS PROXIMOS A UNA HORA
@@ -152,12 +152,17 @@ public class EventoController {
                     if(evento.getGenerados().isEmpty() || evento.getGenerados()==null) {
                         Set<Atuendo> atuendoSet = helper.generarAtuendos(cliente.getUid(), (int) evento.getId_guardarropa(), evento, clientesRepository, prendaReservadaRespository);
                         evento.setGenerados(atuendoSet);
-                        eventosRespository.save(evento);
+
+                        if(!evento.getNotificado() && atuendoSet.size() == 0) {
+                            sendEventoNoTieneGenerados(cliente, evento);
+                            evento.setNotificado(true);
+                        }
+                        eventosRespository.saveAndFlush(evento);
                         clientesRepository.save(cliente);
                     }
-                    if(!evento.getNotificado() && !evento.getGenerados().isEmpty()){
+                    if((!evento.getNotificado() && !evento.getGenerados().isEmpty())){
                         //GENERAR LOS ATUENDOS Y ENVIAR
-                        FirebaseNotificationrResponse response = EventControllerHelper.sendFirebaseNotification(cliente.getFirebaseToken(), evento.getId());
+                        FirebaseNotificationrResponse response = EventControllerHelper.sendFirebaseNotification(cliente.getFirebaseToken(), evento.getId(), "Ya estan listos tus atuendos!", null);
                         if(response.getSuccess() == 1){
                             // SALIO TDO BIEN
                             evento.setNotificado(true);
@@ -169,6 +174,13 @@ public class EventoController {
                 }
             }
         );
+    }
+
+    private void sendEventoNoTieneGenerados(Cliente cliente, Evento evento){
+        EventControllerHelper.sendFirebaseNotification(cliente.getFirebaseToken(), evento.getId(),
+                "No hemos podido generar prendas para el evento: " + evento.getNombre(),
+                null
+                );
     }
 
 }
